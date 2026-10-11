@@ -1,3 +1,11 @@
+# Adrenaline Entertainment — Kan
+
+Adrenaline Entertainment's fork of [Kan](https://github.com/kanbn/kan) for internal projects, events, and production tasks. Intended address: `https://kan.adrenaent.com`.
+
+Cloudflare Containers configuration is in [`deploy/cloudflare`](deploy/cloudflare/README.md). Container startup is disabled by default. Containers requires Workers Paid and can incur usage charges; this configuration does **not** guarantee zero extra Cloudflare cost. No automatic Cloudflare deployment is configured.
+
+Original copyright and AGPLv3 terms are preserved. Upstream features and documentation follow below.
+
 ![github-background](https://github.com/user-attachments/assets/f728f52e-bf67-4357-9ba2-c24c437488e3)
 
 <div align="center">

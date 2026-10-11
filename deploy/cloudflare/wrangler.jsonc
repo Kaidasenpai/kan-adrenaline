@@ -1,0 +1,34 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "adrenaline-kan",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-11",
+  "account_id": "63b73ae749959921a3007679aca62f7d",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "kan.adrenaent.com", "custom_domain": true }],
+  "observability": { "enabled": false },
+  "containers": [
+    {
+      "class_name": "KanContainer",
+      "image": "../../apps/web/Dockerfile",
+      "image_build_context": "../..",
+      "instance_type": "basic",
+      "max_instances": 1,
+    },
+  ],
+  "durable_objects": {
+    "bindings": [{ "name": "KAN", "class_name": "KanContainer" }],
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["KanContainer"] }],
+  "vars": {
+    "ENABLE_CONTAINER_START": "false",
+    "SOURCE_URL": "https://github.com/Kaidasenpai/kan-adrenaline",
+    "NEXT_PUBLIC_BASE_URL": "https://kan.adrenaent.com",
+    "NEXT_PUBLIC_ALLOW_CREDENTIALS": "true",
+    "NEXT_PUBLIC_DISABLE_SIGN_UP": "true",
+    "BETTER_AUTH_TRUSTED_ORIGINS": "https://kan.adrenaent.com",
+    "EMAIL_FROM": "Adrenaline Entertainment <kan@adrenaent.com>",
+    "LOG_LEVEL": "warn",
+  },
+}

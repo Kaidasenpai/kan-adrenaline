@@ -1,0 +1,3 @@
+# Local test values only. Copy to .dev.vars; never commit live secrets.
+POSTGRES_URL=postgresql://kan:local-test-password@localhost:5432/kan
+BETTER_AUTH_SECRET=local-test-only-change-before-production-32-chars
