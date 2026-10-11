@@ -13,7 +13,7 @@ export default function AuthBrandShell({ children }: { children: ReactNode }) {
       <aside className="relative hidden min-h-dvh flex-col justify-between border-r border-light-400 px-[clamp(3rem,6vw,6rem)] py-14 dark:border-dark-400 lg:flex">
         <BrandLogo size="lg" />
         <div className="my-14">
-          <h2 className="max-w-[530px] text-[clamp(2.75rem,4.2vw,4.2rem)] font-semibold leading-[1.08] tracking-[-0.055em]">{t`The work behind the show.`}</h2>
+          <h2 className="max-w-[530px] text-balance text-[clamp(2.75rem,4.2vw,4.2rem)] font-semibold leading-[1.08] tracking-[-0.055em]">{t`The work behind the show.`}</h2>
           <p className="mt-6 max-w-[450px] text-lg leading-relaxed text-light-950 dark:text-dark-950">{t`Projects, events, and production at Adrenaline Entertainment.`}</p>
           <div
             aria-hidden="true"
