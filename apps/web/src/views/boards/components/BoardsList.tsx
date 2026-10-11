@@ -202,7 +202,7 @@ export function BoardsList({
                   {visibleLists.map((list, listIndex) => (
                     <li
                       key={list.publicId}
-                      className={`min-w-0 flex-1 flex-col rounded-md bg-light-200 px-3 py-4 dark:bg-dark-300 ${listIndex > 2 ? "hidden xl:flex" : "flex"}`}
+                      className={`min-w-0 flex-1 flex-col rounded-md bg-light-200 px-2 py-4 dark:bg-dark-300 sm:px-3 ${listIndex > 2 ? "hidden xl:flex" : "flex"}`}
                     >
                       <span className="break-words text-xs font-semibold leading-relaxed text-light-1000 dark:text-dark-1000">
                         {list.name}
