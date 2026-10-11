@@ -3,12 +3,15 @@ import { useRouter } from "next/router";
 import { Button } from "@headlessui/react";
 import { t } from "@lingui/core/macro";
 import { env } from "next-runtime-env";
-import { useTheme } from "next-themes";
 import { useEffect, useMemo, useState } from "react";
 import { HiBolt } from "react-icons/hi2";
 import {
+  TbLayoutKanban,
   TbLayoutSidebarLeftCollapse,
   TbLayoutSidebarLeftExpand,
+  TbSettings,
+  TbTemplate,
+  TbUsers,
 } from "react-icons/tb";
 import { twMerge } from "tailwind-merge";
 
@@ -16,14 +19,7 @@ import type { Subscription } from "@kan/shared/utils";
 import { hasActiveSubscription } from "@kan/shared/utils";
 
 import type { KeyboardShortcut } from "~/providers/keyboard-shortcuts";
-import boardsIconDark from "~/assets/boards-dark.json";
-import boardsIconLight from "~/assets/boards-light.json";
-import membersIconDark from "~/assets/members-dark.json";
-import membersIconLight from "~/assets/members-light.json";
-import settingsIconDark from "~/assets/settings-dark.json";
-import settingsIconLight from "~/assets/settings-light.json";
-import templatesIconDark from "~/assets/templates-dark.json";
-import templatesIconLight from "~/assets/templates-light.json";
+import { BrandLogo } from "~/components/BrandLogo";
 import ButtonComponent from "~/components/Button";
 import ReactiveButton from "~/components/ReactiveButton";
 import UserMenu from "~/components/UserMenu";
@@ -81,23 +77,19 @@ export default function SideNavigation({
 
   const { pathname } = router;
 
-  const { resolvedTheme } = useTheme();
-
   const isCloudEnv = env("NEXT_PUBLIC_KAN_ENV") === "cloud";
-
-  const isDarkMode = resolvedTheme === "dark";
 
   const navigation: {
     name: string;
     href: string;
-    icon: object;
+    icon: React.ReactNode;
     keyboardShortcut: KeyboardShortcut;
   }[] = useMemo(
     () => [
       {
         name: t`Boards`,
         href: "/boards",
-        icon: isDarkMode ? boardsIconDark : boardsIconLight,
+        icon: <TbLayoutKanban size={20} aria-hidden="true" />,
         keyboardShortcut: {
           type: "SEQUENCE",
           strokes: [{ key: "G" }, { key: "B" }],
@@ -109,7 +101,7 @@ export default function SideNavigation({
       {
         name: t`Templates`,
         href: "/templates",
-        icon: isDarkMode ? templatesIconDark : templatesIconLight,
+        icon: <TbTemplate size={20} aria-hidden="true" />,
         keyboardShortcut: {
           type: "SEQUENCE",
           strokes: [{ key: "G" }, { key: "T" }],
@@ -121,7 +113,7 @@ export default function SideNavigation({
       {
         name: t`Members`,
         href: "/members",
-        icon: isDarkMode ? membersIconDark : membersIconLight,
+        icon: <TbUsers size={20} aria-hidden="true" />,
         keyboardShortcut: {
           type: "SEQUENCE",
           strokes: [{ key: "G" }, { key: "M" }],
@@ -133,7 +125,7 @@ export default function SideNavigation({
       {
         name: t`Settings`,
         href: "/settings",
-        icon: isDarkMode ? settingsIconDark : settingsIconLight,
+        icon: <TbSettings size={20} aria-hidden="true" />,
         keyboardShortcut: {
           type: "SEQUENCE",
           strokes: [{ key: "G" }, { key: "S" }],
@@ -143,7 +135,7 @@ export default function SideNavigation({
         },
       },
     ],
-    [isDarkMode],
+    [router],
   );
 
   const toggleCollapse = () => {
@@ -154,23 +146,29 @@ export default function SideNavigation({
     <>
       <nav
         className={twMerge(
-          "flex h-full w-64 flex-col justify-between border-r border-light-300 bg-light-100 p-3 dark:border-dark-300 dark:bg-dark-100 md:border-r-0 md:py-0 md:pl-0",
-          isCollapsed && "md:w-auto",
+          "flex h-full w-[244px] flex-col justify-between border-r border-light-400 bg-light-100 px-4 pb-5 pt-7 dark:border-dark-400 dark:bg-dark-100",
+          isCollapsed && "md:w-[72px] md:px-3",
         )}
       >
-        <div>
-          <div className="hidden h-[45px] items-center justify-between pb-3 md:flex">
-            {!isCollapsed && (
-              <Link href="/" className="block">
-                <h1 className="pl-2 text-[16px] font-bold tracking-tight text-neutral-900 dark:text-dark-1000">
-                  Adrenaline Tasks
-                </h1>
-              </Link>
+        <div className="min-h-0 flex-1 overflow-y-auto pb-6">
+          <div
+            className={twMerge(
+              "mb-8 flex items-center justify-between gap-1 md:flex",
+              isCollapsed && "md:flex-col",
             )}
+          >
+            <Link
+              href="/boards"
+              onClick={onCloseSideNav}
+              className="focus-visible:outline-brand-accent dark:focus-visible:outline-brand-lime rounded pl-1 focus-visible:outline focus-visible:outline-2"
+            >
+              <BrandLogo size="sm" compact={isCollapsed} />
+            </Link>
             <Button
               onClick={toggleCollapse}
+              aria-label={isCollapsed ? t`Expand sidebar` : t`Collapse sidebar`}
               className={twMerge(
-                "flex h-8 items-center justify-center rounded-md hover:bg-light-200 dark:hover:bg-dark-200",
+                "focus-visible:outline-brand-accent dark:focus-visible:outline-brand-lime hidden h-8 items-center justify-center rounded-md hover:bg-light-200 focus-visible:outline focus-visible:outline-2 dark:hover:bg-dark-200 md:flex",
                 isCollapsed ? "w-full" : "w-8",
               )}
             >
@@ -187,17 +185,21 @@ export default function SideNavigation({
               )}
             </Button>
           </div>
-          <div className="mx-1 mb-4 hidden w-auto border-b border-light-300 dark:border-dark-400 md:block" />
-
           <WorkspaceMenu isCollapsed={isCollapsed} />
-          <ul role="list" className="space-y-1">
-            {navigation.map((item) => (
+          <ul role="list" className="mt-4 space-y-1">
+            {navigation.map((item, index) => (
               <li key={item.name}>
+                {index === 2 && (
+                  <div
+                    aria-hidden="true"
+                    className="my-6 border-t border-light-400 dark:border-dark-400"
+                  />
+                )}
                 <ReactiveButton
                   href={item.href}
                   current={pathname.includes(item.href)}
                   name={item.name}
-                  json={item.icon}
+                  icon={item.icon}
                   isCollapsed={isCollapsed}
                   onCloseSideNav={onCloseSideNav}
                   keyboardShortcut={item.keyboardShortcut}
@@ -207,7 +209,7 @@ export default function SideNavigation({
           </ul>
         </div>
 
-        <div className="space-y-2">
+        <div className="shrink-0 space-y-2 border-t border-light-400 pt-4 dark:border-dark-400">
           <UserMenu
             displayName={user.displayName ?? undefined}
             email={user.email ?? "Email not provided?"}

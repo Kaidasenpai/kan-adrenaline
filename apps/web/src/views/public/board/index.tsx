@@ -6,6 +6,7 @@ import { env } from "next-runtime-env";
 import { useEffect, useState } from "react";
 import { HiLink, HiOutlineLockClosed } from "react-icons/hi2";
 
+import { BrandLogo } from "~/components/BrandLogo";
 import Button from "~/components/Button";
 import Modal from "~/components/modal";
 import { PageHead } from "~/components/PageHead";
@@ -122,7 +123,7 @@ export default function PublicBoardView() {
   return (
     <>
       <PageHead
-        title={`${data?.name ?? t`Board`} | ${data?.workspace.name ?? t`Workspace`}`}
+        title={`${data?.name ?? t`Board`} | ${data?.workspace.name ?? t`Workspace`} | Adrenaline Tasks`}
       />
       <style jsx global>{`
         html {
@@ -239,29 +240,25 @@ export default function PublicBoardView() {
             )}
           </div>
         </div>
-        <div className="flex h-[54px] items-center justify-center">
-          <div className="absolute left-[1rem]">
+        <div className="flex h-[54px] shrink-0 items-center justify-between gap-3">
+          <div className="flex shrink-0 items-center">
             <ThemeToggle />
             <CopyBoardLink />
           </div>
 
-          {IS_CLOUD && (
-            <Link
-              className="text-lg font-bold tracking-tight text-neutral-900 dark:text-dark-1000"
-              href="/"
-            >
-              kan.bn
-            </Link>
-          )}
+          <Link href="/" className="mx-auto">
+            <BrandLogo size="sm" compact className="sm:hidden" />
+            <BrandLogo size="sm" className="hidden sm:inline-flex" />
+          </Link>
 
           {!IS_CLOUD && !HIDE_POWERED_BY && (
             <a
               href="https://kan.bn"
               target="_blank"
               rel="noreferrer noopener"
-              className="absolute right-[1rem] inline-flex items-center gap-[0.175rem] rounded-full border border-light-300 bg-light-50 px-3 py-1 text-[11px] font-medium text-light-950 shadow-sm transition-colors hover:bg-light-100 dark:border-dark-300 dark:bg-dark-50 dark:text-dark-900 dark:hover:bg-dark-100"
+              className="inline-flex shrink-0 items-center gap-[0.175rem] rounded-full border border-light-300 bg-light-50 px-3 py-1 text-[11px] font-medium text-light-950 shadow-sm transition-colors hover:bg-light-100 dark:border-dark-300 dark:bg-dark-50 dark:text-dark-900 dark:hover:bg-dark-100"
             >
-              <span>{`Powered by`}</span>
+              <span>{t`Powered by`}</span>
               <span className="font-semibold">kan.bn</span>
             </a>
           )}

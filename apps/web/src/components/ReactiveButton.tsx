@@ -1,75 +1,66 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
-import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 import type { KeyboardShortcut } from "~/providers/keyboard-shortcuts";
-import LottieIcon from "~/components/LottieIcon";
 import { useIsMobile } from "~/hooks/useMediaQuery";
 import { useKeyboardShortcut } from "~/providers/keyboard-shortcuts";
 
-const Button: React.FC<{
-  href: string;
-  current: boolean;
-  name: string;
-  json: object;
-  isCollapsed?: boolean;
-  onCloseSideNav?: () => void;
-  keyboardShortcut: KeyboardShortcut;
-}> = ({
+export default function ReactiveButton({
   href,
   current,
   name,
-  json,
+  icon,
   isCollapsed = false,
   keyboardShortcut,
   onCloseSideNav,
-}) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const [index, setIndex] = useState(0);
+}: {
+  href: string;
+  current: boolean;
+  name: string;
+  icon: ReactNode;
+  isCollapsed?: boolean;
+  onCloseSideNav?: () => void;
+  keyboardShortcut: KeyboardShortcut;
+}) {
   const isMobile = useIsMobile();
-  const { keys: shortcutKeys } = useKeyboardShortcut(keyboardShortcut);
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-    setIndex((index) => index + 1);
-  };
-
-  const handleClick = () => {
-    if (onCloseSideNav && isMobile) {
-      onCloseSideNav();
-    }
-  };
-
+  const { keys } = useKeyboardShortcut(keyboardShortcut);
   return (
     <Link
       href={href}
-      onMouseEnter={handleMouseEnter}
-      onClick={handleClick}
-      className={twMerge(
-        "group flex h-[34px] items-center rounded-md p-1.5 text-sm font-normal leading-6 hover:bg-light-200 hover:text-light-1000 dark:hover:bg-dark-200 dark:hover:text-dark-1000",
-        isCollapsed ? "md:justify-center" : "justify-between",
-        current
-          ? "bg-light-200 text-light-1000 dark:bg-dark-200 dark:text-dark-1000"
-          : "text-neutral-600 dark:bg-dark-100 dark:text-dark-900",
-      )}
+      aria-current={current ? "page" : undefined}
       title={isCollapsed ? name : undefined}
+      onClick={() => {
+        if (isMobile) onCloseSideNav?.();
+      }}
+      className={twMerge(
+        "focus-visible:ring-brand-accent dark:focus-visible:ring-brand-lime group relative flex h-11 items-center justify-between rounded-md px-3 text-sm font-medium text-light-950 outline-none transition-colors duration-150 focus-visible:ring-2 dark:text-dark-950",
+        current
+          ? "bg-brand-lime/15 dark:bg-brand-lime/10 text-light-1000 dark:text-dark-1000"
+          : "hover:bg-light-200 hover:text-light-1000 dark:hover:bg-dark-200 dark:hover:text-dark-1000",
+        isCollapsed && "md:justify-center md:px-0",
+      )}
     >
-      <div
+      {current && (
+        <span
+          aria-hidden="true"
+          className="bg-brand-accent dark:bg-brand-lime absolute -left-1 top-3 h-5 w-[3px] rounded-full"
+        />
+      )}
+      <span
         className={twMerge(
-          "flex items-center",
-          isCollapsed
-            ? "justify-start gap-x-3 md:justify-center md:gap-x-0"
-            : "gap-x-3",
+          "flex items-center gap-3",
+          isCollapsed && "md:gap-0",
         )}
       >
-        <LottieIcon index={index} json={json} isPlaying={isHovered} />
+        {icon}
         <span className={twMerge(isCollapsed && "md:hidden")}>{name}</span>
-      </div>
+      </span>
       {!isCollapsed && (
-        <div className="hidden md:group-hover:inline-flex">{shortcutKeys}</div>
+        <span className="hidden text-xs text-light-950 group-hover:inline-flex group-focus-visible:inline-flex dark:text-dark-950">
+          {keys}
+        </span>
       )}
     </Link>
   );
-};
-
-export default Button;
+}

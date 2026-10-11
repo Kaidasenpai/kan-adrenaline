@@ -10,6 +10,7 @@ import {
 export const boardListItemSchema = z.object({
   publicId: z.string(),
   name: z.string(),
+  visibility: z.enum(["public", "private"]),
   favorite: z.boolean(),
   lists: z.array(
     z.object({

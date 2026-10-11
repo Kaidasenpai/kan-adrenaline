@@ -5,6 +5,7 @@ import type {
   DragStartEvent,
   UniqueIdentifier,
 } from "@dnd-kit/core";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/router";
 import {
@@ -44,7 +45,6 @@ import { LabelForm } from "~/components/LabelForm";
 import Modal from "~/components/modal";
 import { NewWorkspaceForm } from "~/components/NewWorkspaceForm";
 import { PageHead } from "~/components/PageHead";
-import PatternedBackground from "~/components/PatternedBackground";
 import { Tooltip } from "~/components/Tooltip";
 import { EditYouTubeModal } from "~/components/YouTubeEmbed/EditYouTubeModal";
 import { useDragToScroll } from "~/hooks/useDragToScroll";
@@ -856,48 +856,58 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
   return (
     <>
       <PageHead
-        title={`${boardData?.name ?? (isTemplate ? t`Template` : t`Board`)} | ${workspace.name ?? t`Workspace`}`}
+        title={`${boardData?.name ?? (isTemplate ? t`Template` : t`Board`)} | ${workspace.name ?? t`Workspace`} | Adrenaline Tasks`}
       />
-      <div className="relative flex h-full flex-col">
-        <PatternedBackground />
-        <div className="z-10 flex w-full flex-col justify-between p-6 md:flex-row md:p-8">
-          {isLoading && !boardData && (
-            <div className="flex space-x-2">
-              <div className="h-[2.3rem] w-[150px] animate-pulse rounded-[5px] bg-light-200 dark:bg-dark-100" />
-            </div>
-          )}
-          {boardData && (
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="order-2 focus-visible:outline-none md:order-1"
+      <div className="relative flex h-full min-h-0 flex-col bg-light-100 dark:bg-dark-50">
+        <header className="relative z-10 w-full shrink-0 border-b border-light-300 bg-light-50 px-5 pb-4 pt-6 dark:border-dark-300 dark:bg-dark-50 md:px-8 md:pt-8">
+          <div className="mb-3 flex items-center gap-2 text-xs text-light-800 dark:text-dark-800">
+            <Link
+              href={isTemplate ? "/templates" : "/boards"}
+              className="truncate hover:text-light-1000 dark:hover:text-dark-1000"
             >
-              <input
-                id="name"
-                type="text"
-                aria-label={t`Board name`}
-                {...register("name")}
-                onBlur={canEditBoard ? handleSubmit(onSubmit) : undefined}
-                readOnly={!canEditBoard}
-                className="block border-0 bg-transparent p-0 py-0 font-bold leading-[2.3rem] tracking-tight text-neutral-900 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed dark:text-dark-1000 sm:text-[1.2rem]"
-              />
-            </form>
-          )}
-          {!boardData && !isLoading && (
-            <p className="order-2 block p-0 py-0 font-bold leading-[2.3rem] tracking-tight text-neutral-900 dark:text-dark-1000 sm:text-[1.2rem] md:order-1">
-              {t`${isTemplate ? "Template" : "Board"} not found`}
-            </p>
-          )}
-          <div className="order-1 mb-4 flex items-center justify-end space-x-1.5 sm:space-x-2 md:order-2 md:mb-0">
-            {isTemplate && (
-              <div className="inline-flex cursor-default items-center justify-center whitespace-nowrap rounded-md border-[1px] border-light-300 bg-light-50 px-3 py-2 text-sm font-semibold text-light-950 shadow-sm dark:border-dark-300 dark:bg-dark-50 dark:text-dark-950">
-                <span className="mr-2">
-                  <HiOutlineRectangleStack />
-                </span>
-                {t`Template`}
+              {workspace.name}
+            </Link>
+            <span aria-hidden="true">/</span>
+            <span>{isTemplate ? t`Templates` : t`Boards`}</span>
+          </div>
+          <div className="flex min-w-0 items-center justify-between gap-3">
+            {isLoading && !boardData && (
+              <div className="min-w-0 flex-1">
+                <div className="h-10 w-[180px] animate-pulse rounded-md bg-light-200 dark:bg-dark-100" />
               </div>
             )}
-            {!isTemplate && (
-              <>
+            {boardData && (
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="min-w-0 flex-1 focus-visible:outline-none"
+              >
+                <h1 className="sr-only">{boardData.name}</h1>
+                <input
+                  id="name"
+                  type="text"
+                  aria-label={t`Board name`}
+                  {...register("name")}
+                  onBlur={canEditBoard ? handleSubmit(onSubmit) : undefined}
+                  readOnly={!canEditBoard}
+                  className="focus:ring-brand-accent dark:focus:ring-brand-lime block w-full max-w-2xl rounded border-0 bg-transparent p-0 text-3xl font-bold leading-tight tracking-[-0.045em] text-neutral-900 focus:ring-2 focus-visible:outline-none disabled:cursor-not-allowed dark:text-dark-1000 md:text-[36px]"
+                />
+              </form>
+            )}
+            {!boardData && !isLoading && (
+              <p className="min-w-0 flex-1 text-2xl font-bold tracking-tight text-neutral-900 dark:text-dark-1000">
+                {t`${isTemplate ? "Template" : "Board"} not found`}
+              </p>
+            )}
+            <div className="flex shrink-0 items-center gap-2">
+              {isTemplate && (
+                <div className="inline-flex cursor-default items-center justify-center whitespace-nowrap rounded-md bg-light-200 px-2.5 py-1.5 text-xs font-semibold text-light-950 dark:bg-dark-200 dark:text-dark-950">
+                  <span className="mr-2">
+                    <HiOutlineRectangleStack />
+                  </span>
+                  {t`Template`}
+                </div>
+              )}
+              {!isTemplate && (
                 <VisibilityButton
                   visibility={boardData?.visibility ?? "private"}
                   boardPublicId={boardId ?? ""}
@@ -906,21 +916,37 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
                   isLoading={!boardData}
                   isAdmin={workspace.role === "admin"}
                 />
-                {boardData && (
-                  <>
-                    <ViewToggle view={view} onChange={handleViewChange} />
-                    <Filters
-                      labels={boardData.labels}
-                      members={boardData.workspace.members.filter(
-                        (member) => member.user !== null,
-                      )}
-                      lists={boardData.allLists}
-                      isLoading={!boardData}
-                    />
-                  </>
-                )}
-              </>
-            )}
+              )}
+              <BoardDropdown
+                isTemplate={!!isTemplate}
+                isLoading={!boardData}
+                boardPublicId={boardId ?? ""}
+                isArchived={boardData?.isArchived ?? false}
+                isFavorite={boardData?.favorite}
+                boardName={boardData?.name}
+              />
+            </div>
+          </div>
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+            <div className="flex min-w-0 flex-wrap items-center gap-3">
+              {!isTemplate && boardData && (
+                <>
+                  <ViewToggle view={view} onChange={handleViewChange} />
+                  <span
+                    className="h-6 w-px bg-light-300 dark:bg-dark-300"
+                    aria-hidden="true"
+                  />
+                  <Filters
+                    labels={boardData.labels}
+                    members={boardData.workspace.members.filter(
+                      (member) => member.user !== null,
+                    )}
+                    lists={boardData.allLists}
+                    isLoading={!boardData}
+                  />
+                </>
+              )}
+            </div>
             <Tooltip
               content={
                 !canCreateList
@@ -929,6 +955,7 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
               }
             >
               <Button
+                aria-label={t`New list`}
                 onClick={() => {
                   if (boardId && canCreateList) openNewListForm(boardId);
                 }}
@@ -936,20 +963,12 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
               >
                 <span className="flex items-center gap-2">
                   <HiOutlinePlusSmall className="h-5 w-5" aria-hidden="true" />
-                  <span className="hidden sm:inline">{t`New list`}</span>
+                  <span>{t`New list`}</span>
                 </span>
               </Button>
             </Tooltip>
-            <BoardDropdown
-              isTemplate={!!isTemplate}
-              isLoading={!boardData}
-              boardPublicId={boardId ?? ""}
-              isArchived={boardData?.isArchived ?? false}
-              isFavorite={boardData?.favorite}
-              boardName={boardData?.name}
-            />
           </div>
-        </div>
+        </header>
 
         {view === "calendar" ? (
           boardData && (
@@ -972,13 +991,13 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
           <div
             ref={scrollRef}
             onMouseDown={onMouseDown}
-            className={`scrollbar-w-none scrollbar-track-rounded-[4px] scrollbar-thumb-rounded-[4px] scrollbar-h-[8px] z-0 flex-1 snap-x snap-mandatory scroll-pl-[10px] overflow-y-hidden overflow-x-scroll overscroll-contain scrollbar scrollbar-track-light-200 scrollbar-thumb-light-400 dark:scrollbar-track-dark-100 dark:scrollbar-thumb-dark-300 md:snap-none`}
+            className={`scrollbar-w-none scrollbar-track-rounded-[4px] scrollbar-thumb-rounded-[4px] scrollbar-h-[8px] z-0 min-h-0 flex-1 snap-x snap-mandatory scroll-pl-5 overflow-y-hidden overflow-x-scroll overscroll-contain pb-6 pt-5 scrollbar scrollbar-track-light-200 scrollbar-thumb-light-400 dark:scrollbar-track-dark-100 dark:scrollbar-thumb-dark-300 md:snap-none md:scroll-pl-8`}
           >
             {isLoading ? (
-              <div className="ml-[2rem] flex">
-                <div className="0 mr-5 h-[500px] w-[18rem] animate-pulse rounded-md bg-light-200 dark:bg-dark-100" />
-                <div className="0 mr-5 h-[275px] w-[18rem] animate-pulse rounded-md bg-light-200 dark:bg-dark-100" />
-                <div className="0 mr-5 h-[375px] w-[18rem] animate-pulse rounded-md bg-light-200 dark:bg-dark-100" />
+              <div className="ml-5 flex md:ml-8">
+                <div className="mr-4 h-[360px] w-[19rem] animate-pulse rounded-xl bg-light-200 dark:bg-dark-100" />
+                <div className="mr-4 h-[360px] w-[19rem] animate-pulse rounded-xl bg-light-200 dark:bg-dark-100" />
+                <div className="mr-4 h-[360px] w-[19rem] animate-pulse rounded-xl bg-light-200 dark:bg-dark-100" />
               </div>
             ) : boardData ? (
               <>
@@ -1026,12 +1045,15 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
                       items={listIds}
                       strategy={horizontalListSortingStrategy}
                     >
-                      <div className="flex w-max">
-                        <div className="min-w-[10px] md:min-w-[2rem]" />
+                      <div className="flex h-full min-h-0 w-max items-start">
+                        <div className="min-w-5 md:min-w-8" />
                         {lists.map((list) => (
                           <List
                             key={`list.${list.publicId}`}
                             list={list}
+                            cardCount={
+                              (cardsByList[list.publicId] ?? list.cards).length
+                            }
                             setSelectedPublicListId={(publicListId) => {
                               setNewCardInitialDueDate(null);
                               setSelectedPublicListId(publicListId);
@@ -1058,7 +1080,7 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
                             />
                           </List>
                         ))}
-                        <div className="min-w-[calc(100vw-18rem)] md:min-w-[0.75rem]" />
+                        <div className="min-w-[calc(100vw-19rem)] md:min-w-8" />
                       </div>
                     </SortableContext>
                     <DragOverlay dropAnimation={activeCard ? undefined : null}>

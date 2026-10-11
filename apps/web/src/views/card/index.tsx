@@ -120,9 +120,10 @@ export function CardRightPanel({ isTemplate }: { isTemplate?: boolean }) {
     }) ?? [];
 
   return (
-    <div className="h-full w-[360px] border-l-[1px] border-light-300 bg-light-50 p-8 text-light-900 dark:border-dark-300 dark:bg-dark-50 dark:text-dark-900">
-      <div className="mb-4 flex w-full flex-row pt-[18px]">
-        <p className="my-2 mb-2 w-[100px] text-sm font-medium">{t`List`}</p>
+    <aside className="h-full w-full overflow-y-auto border-l border-light-300 bg-light-100 px-6 py-8 text-light-900 dark:border-dark-300 dark:bg-dark-100 md:w-[280px] xl:w-[300px]">
+      <h2 className="mb-7 text-sm font-bold text-light-1000 dark:text-dark-1000">{t`Details`}</h2>
+      <div className="mb-6 flex w-full flex-col items-start gap-2">
+        <p className="text-xs font-semibold text-light-800 dark:text-dark-800">{t`List`}</p>
         <ListSelector
           cardPublicId={cardId ?? ""}
           lists={formattedLists}
@@ -130,8 +131,8 @@ export function CardRightPanel({ isTemplate }: { isTemplate?: boolean }) {
           disabled={!canEdit}
         />
       </div>
-      <div className="mb-4 flex w-full flex-row">
-        <p className="my-2 mb-2 w-[100px] text-sm font-medium">{t`Labels`}</p>
+      <div className="mb-6 flex w-full flex-col items-start gap-2">
+        <p className="text-xs font-semibold text-light-800 dark:text-dark-800">{t`Labels`}</p>
         <LabelSelector
           cardPublicId={cardId ?? ""}
           labels={formattedLabels}
@@ -140,8 +141,8 @@ export function CardRightPanel({ isTemplate }: { isTemplate?: boolean }) {
         />
       </div>
       {!isTemplate && (
-        <div className="mb-4 flex w-full flex-row">
-          <p className="my-2 mb-2 w-[100px] text-sm font-medium">{t`Members`}</p>
+        <div className="mb-6 flex w-full flex-col items-start gap-2">
+          <p className="text-xs font-semibold text-light-800 dark:text-dark-800">{t`Members`}</p>
           <MemberSelector
             cardPublicId={cardId ?? ""}
             members={formattedMembers}
@@ -150,8 +151,8 @@ export function CardRightPanel({ isTemplate }: { isTemplate?: boolean }) {
           />
         </div>
       )}
-      <div className="mb-4 flex w-full flex-row">
-        <p className="my-2 mb-2 w-[100px] text-sm font-medium">{t`Due date`}</p>
+      <div className="mb-6 flex w-full flex-col items-start gap-2">
+        <p className="text-xs font-semibold text-light-800 dark:text-dark-800">{t`Due date`}</p>
         <DueDateSelector
           cardPublicId={cardId ?? ""}
           dueDate={card?.dueDate}
@@ -159,7 +160,7 @@ export function CardRightPanel({ isTemplate }: { isTemplate?: boolean }) {
           disabled={!canEdit}
         />
       </div>
-    </div>
+    </aside>
   );
 }
 
@@ -323,11 +324,11 @@ export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
   return (
     <>
       <PageHead
-        title={t`${card?.title ?? t`Card`} | ${board?.name ?? t`Board`}`}
+        title={`${card?.title ?? t`Card`} | ${board?.name ?? t`Board`} | Adrenaline Tasks`}
       />
-      <div className="flex h-full flex-1 flex-col overflow-hidden">
+      <div className="flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-white dark:bg-dark-50">
         {/* Full-width top strip with board link and dropdown */}
-        <div className="flex w-full items-center justify-between border-b-[1px] border-light-300 bg-light-50 px-8 py-2 dark:border-dark-300 dark:bg-dark-50">
+        <div className="flex w-full shrink-0 items-center justify-between gap-3 border-b border-light-300 bg-white px-5 py-4 dark:border-dark-300 dark:bg-dark-50 md:px-8">
           {!card && isLoading && (
             <div className="flex space-x-2">
               <div className="h-[1.5rem] w-[150px] animate-pulse rounded-[5px] bg-light-300 dark:bg-dark-300" />
@@ -335,16 +336,19 @@ export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
           )}
           {card && (
             <>
-              <div className="flex items-center gap-1">
+              <div className="flex min-w-0 items-center gap-2 overflow-hidden">
                 <Link
-                  className="whitespace-nowrapleading-[1.5rem] text-sm font-bold text-light-900 dark:text-dark-950"
+                  className="hidden truncate text-xs font-medium text-light-800 hover:text-light-1000 dark:text-dark-800 dark:hover:text-dark-1000 lg:block"
                   href={`${isTemplate ? "/templates" : "/boards"}`}
                 >
                   {workspace.name}
                 </Link>
-                <IoChevronForwardSharp className="h-[10px] w-[10px] text-light-900 dark:text-dark-900" />
+                <IoChevronForwardSharp
+                  className="hidden h-2.5 w-2.5 shrink-0 text-light-700 dark:text-dark-700 lg:block"
+                  aria-hidden="true"
+                />
                 <Link
-                  className="whitespace-nowrap text-sm font-bold leading-[1.5rem] text-light-900 dark:text-dark-950"
+                  className="truncate text-xs font-semibold text-light-900 hover:text-light-1000 dark:text-dark-950 dark:hover:text-dark-1000"
                   href={boardReturnUrl}
                 >
                   {board?.name}
@@ -352,14 +356,17 @@ export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
                 {card.cardNumber != null &&
                   card.list.board.workspace.cardPrefix && (
                     <>
-                      <IoChevronForwardSharp className="h-[10px] w-[10px] text-light-900 dark:text-dark-900" />
-                      <span className="whitespace-nowrap text-sm font-bold leading-[1.5rem] text-light-700 dark:text-dark-800">
+                      <IoChevronForwardSharp
+                        className="h-2.5 w-2.5 shrink-0 text-light-700 dark:text-dark-700"
+                        aria-hidden="true"
+                      />
+                      <span className="shrink-0 text-[11px] font-medium tabular-nums text-light-800 dark:text-dark-800">
                         {card.list.board.workspace.cardPrefix}-{card.cardNumber}
                       </span>
                     </>
                   )}
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex shrink-0 items-center gap-2">
                 <Dropdown
                   cardPublicId={cardId}
                   isTemplate={isTemplate}
@@ -376,7 +383,7 @@ export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
                 />
                 <Link
                   href={boardReturnUrl}
-                  className="flex h-7 w-7 items-center justify-center rounded-[5px] text-light-900 hover:bg-light-200 dark:text-dark-900 dark:hover:bg-dark-200"
+                  className="focus-visible:outline-brand-accent dark:focus-visible:outline-brand-lime flex h-10 w-10 items-center justify-center rounded-md text-light-900 hover:bg-light-200 focus-visible:outline focus-visible:outline-2 dark:text-dark-900 dark:hover:bg-dark-200"
                   aria-label={t`Close`}
                 >
                   <HiXMark className="h-4 w-4" />
@@ -391,27 +398,26 @@ export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
           )}
         </div>
         <div className="scrollbar-thumb-rounded-[4px] scrollbar-track-rounded-[4px] w-full flex-1 overflow-y-auto scrollbar scrollbar-track-light-200 scrollbar-thumb-light-400 hover:scrollbar-thumb-light-400 dark:scrollbar-track-dark-100 dark:scrollbar-thumb-dark-300 dark:hover:scrollbar-thumb-dark-300">
-          <div className="p-auto mx-auto flex h-full w-full max-w-[800px] flex-col">
-            <div className="p-6 md:p-8">
-              <div className="mb-8 md:mt-4">
+          <div className="mx-auto flex min-h-full w-full max-w-[880px] flex-col">
+            <div className="px-5 pb-12 pt-7 md:px-8 md:pt-9 xl:px-10">
+              <div className="mb-9">
                 {!card && isLoading && (
                   <div className="flex space-x-2">
                     <div className="h-[2.3rem] w-[300px] animate-pulse rounded-[5px] bg-light-300 dark:bg-dark-300" />
                   </div>
                 )}
                 {card && (
-                  <form
-                    onSubmit={handleSubmit(onSubmit)}
-                    className="w-full space-y-6"
-                  >
+                  <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+                    <h1 className="sr-only">{card.title}</h1>
                     <div>
                       <textarea
                         id="title"
+                        aria-label={t`Card title`}
                         {...register("title")}
                         onBlur={canEdit ? handleSubmit(onSubmit) : undefined}
                         rows={1}
                         disabled={!canEdit}
-                        className={`block w-full resize-none overflow-hidden border-0 bg-transparent p-0 py-0 font-bold leading-relaxed text-neutral-900 focus:ring-0 dark:text-dark-1000 sm:text-[1.2rem] ${!canEdit ? "cursor-default" : ""}`}
+                        className={`focus:ring-brand-accent dark:focus:ring-brand-lime block w-full resize-none overflow-hidden rounded border-0 bg-transparent p-0 text-[26px] font-bold leading-[1.35] tracking-[-0.04em] text-neutral-900 focus:ring-2 dark:text-dark-1000 md:text-[32px] ${!canEdit ? "cursor-default" : ""}`}
                         onInput={(e) => {
                           const target = e.target as HTMLTextAreaElement;
                           target.style.height = "auto";
@@ -429,12 +435,19 @@ export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
               </div>
               {card && (
                 <>
-                  <div className="mb-10 flex w-full max-w-2xl flex-col justify-between">
+                  <section
+                    className="mb-9 flex w-full flex-col"
+                    aria-labelledby="card-description-heading"
+                  >
+                    <h2
+                      id="card-description-heading"
+                      className="mb-3 text-sm font-bold text-light-1000 dark:text-dark-1000"
+                    >{t`Description`}</h2>
                     <form
                       onSubmit={handleSubmit(onSubmit)}
                       className="w-full space-y-6"
                     >
-                      <div className="mt-2">
+                      <div className="focus-within:ring-brand-accent dark:focus-within:ring-brand-lime min-h-24 rounded-lg border border-light-300 bg-light-50 px-4 py-3 text-sm leading-7 focus-within:ring-2 dark:border-dark-300 dark:bg-dark-100">
                         <Editor
                           content={card.description}
                           onChange={
@@ -450,7 +463,10 @@ export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
                         />
                       </div>
                     </form>
-                  </div>
+                  </section>
+                  {card.checklists.length > 0 && (
+                    <h2 className="mb-4 text-sm font-bold text-light-1000 dark:text-dark-1000">{t`Checklists`}</h2>
+                  )}
                   <Checklists
                     checklists={card.checklists}
                     cardPublicId={cardId}
@@ -461,23 +477,36 @@ export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
                   {!isTemplate && (
                     <>
                       {card?.attachments.length > 0 && (
-                        <div className="mt-6">
+                        <section
+                          className="mb-8 mt-6"
+                          aria-labelledby="card-attachments-heading"
+                        >
+                          <h2
+                            id="card-attachments-heading"
+                            className="mb-4 text-sm font-bold text-light-1000 dark:text-dark-1000"
+                          >{t`Attachments`}</h2>
                           <AttachmentThumbnails
                             attachments={card.attachments}
                             cardPublicId={cardId ?? ""}
                             isReadOnly={!canEdit}
                           />
-                        </div>
+                        </section>
                       )}
                       {canEdit && (
-                        <div className="mt-6">
+                        <div className="mb-6 mt-4 rounded-lg border border-light-300 bg-light-100 px-2 py-1 dark:border-dark-300 dark:bg-dark-100">
                           <AttachmentUpload cardPublicId={cardId} />
                         </div>
                       )}
                     </>
                   )}
-                  <div className="border-t-[1px] border-light-300 pt-12 dark:border-dark-300">
-                    <h2 className="text-md pb-4 font-medium text-light-1000 dark:text-dark-1000">
+                  <section
+                    className="border-t border-light-300 pt-8 dark:border-dark-300"
+                    aria-labelledby="card-activity-heading"
+                  >
+                    <h2
+                      id="card-activity-heading"
+                      className="pb-5 text-sm font-bold text-light-1000 dark:text-dark-1000"
+                    >
                       {t`Activity`}
                     </h2>
                     <div>
@@ -495,7 +524,7 @@ export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
                         />
                       </div>
                     )}
-                  </div>
+                  </section>
                 </>
               )}
             </div>

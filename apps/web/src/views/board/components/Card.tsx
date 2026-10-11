@@ -1,3 +1,4 @@
+import { t } from "@lingui/core/macro";
 import { format, isBefore, isSameYear, startOfDay } from "date-fns";
 import { HiOutlinePaperClip } from "react-icons/hi";
 import {
@@ -68,46 +69,53 @@ const Card = ({
   const hasDueDate = !!dueDate;
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-md border border-light-200 bg-light-50 px-3 py-2 text-sm text-neutral-900 dark:border-dark-200 dark:bg-dark-200 dark:text-dark-1000 dark:hover:bg-dark-300">
+    <div className="flex min-h-[76px] flex-col overflow-hidden rounded-lg border border-light-300 bg-white px-4 py-3.5 text-sm text-neutral-900 hover:border-light-500 dark:border-dark-300 dark:bg-dark-200 dark:text-dark-1000 dark:hover:border-dark-500">
       {ticketNumber && (
-        <span className="mb-1 text-xs text-light-700 dark:text-dark-800">
+        <span className="mb-1.5 text-[10px] font-medium tabular-nums tracking-[0.04em] text-light-800 dark:text-dark-800">
           {ticketNumber}
         </span>
       )}
-      <span className="break-words">{title}</span>
-      {labels.length ||
-      members.length ||
+      <span className="break-words font-semibold leading-6">{title}</span>
+      {labels.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {labels.map((label) => (
+            <Badge
+              key={`${label.name}-${label.colourCode ?? ""}`}
+              value={label.name}
+              iconLeft={<LabelIcon colourCode={label.colourCode} />}
+            />
+          ))}
+        </div>
+      )}
+      {members.length ||
       checklists.length > 0 ||
       hasDescription ||
       comments.length > 0 ||
       hasDueDate ||
       hasAttachments ? (
-        <div className="mt-2 flex flex-col justify-end">
-          <div className="space-x-0.5">
-            {labels.map((label) => (
-              <Badge
-                value={label.name}
-                iconLeft={<LabelIcon colourCode={label.colourCode} />}
-              />
-            ))}
-          </div>
-          <div className="mt-2 flex items-center justify-between gap-1">
-            <div className="flex items-center gap-2">
+        <div className="mt-3 flex flex-col justify-end border-t border-light-200 pt-2.5 dark:border-dark-300">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex flex-wrap items-center gap-2.5">
               {hasDescription && (
                 <div className="flex items-center gap-1 text-light-700 dark:text-dark-800">
-                  <HiBars3BottomLeft className="h-4 w-4" />
+                  <HiBars3BottomLeft
+                    className="h-3.5 w-3.5"
+                    aria-hidden="true"
+                  />
+                  <span className="sr-only">{t`Description`}</span>
                 </div>
               )}
-              {hasDueDate && dueDate && (
+              {dueDate && (
                 <div
                   className={twMerge(
-                    "flex items-center gap-1",
+                    "flex items-center gap-1 rounded px-1.5 py-0.5",
                     isOverdue
-                      ? "text-red-600 dark:text-red-400"
-                      : "text-light-800 dark:text-dark-800",
+                      ? "bg-red-50 text-red-700 dark:bg-red-500/10 dark:text-red-400"
+                      : "bg-light-200 text-light-800 dark:bg-dark-300 dark:text-dark-900",
                   )}
                 >
-                  <HiOutlineClock className="h-4 w-4" />
+                  <HiOutlineClock className="h-3.5 w-3.5" aria-hidden="true" />
+                  <span className="sr-only">{t`Due date`}</span>
                   <span className="text-[11px]">
                     {format(dueDate, showYear ? "do MMM yyyy" : "do MMM", {
                       locale: dateLocale,
@@ -117,37 +125,52 @@ const Card = ({
               )}
               {comments.length > 0 && (
                 <div className="flex items-center gap-1 text-light-700 dark:text-dark-800">
-                  <HiChatBubbleLeft className="h-4 w-4" />
+                  <HiChatBubbleLeft
+                    className="h-3.5 w-3.5"
+                    aria-hidden="true"
+                  />
+                  <span className="text-[11px] tabular-nums">
+                    {comments.length}
+                  </span>
+                  <span className="sr-only">{t`Comments`}</span>
                 </div>
               )}
               {hasAttachments && (
                 <div className="flex items-center gap-1 text-light-700 dark:text-dark-800">
-                  <HiOutlinePaperClip className="h-4 w-4" />
+                  <HiOutlinePaperClip
+                    className="h-3.5 w-3.5"
+                    aria-hidden="true"
+                  />
+                  <span className="text-[11px] tabular-nums">
+                    {attachments.length}
+                  </span>
+                  <span className="sr-only">{t`Attachments`}</span>
                 </div>
               )}
             </div>
-            <div className="flex items-center justify-end gap-1">
+            <div className="ml-auto flex items-center justify-end gap-2">
               {checklists.length > 0 && (
-                <div className="flex items-center gap-1 rounded-full border-[1px] border-light-300 px-2 py-1 dark:border-dark-600">
+                <div className="flex items-center gap-1.5 rounded-md bg-light-200 px-1.5 py-1 dark:bg-dark-300">
                   <CircularProgress
                     progress={progress || 2}
                     size="sm"
                     className="flex-shrink-0"
                   />
-                  <span className="text-[10px] text-light-900 dark:text-dark-950">
+                  <span className="text-[11px] tabular-nums text-light-900 dark:text-dark-950">
                     {completedItems}/{totalItems}
                   </span>
                 </div>
               )}
               {members.length > 0 && (
                 <div className="isolate flex justify-end -space-x-1 overflow-hidden">
-                  {members.map(({ user, email }) => {
+                  {members.map(({ publicId, user, email }) => {
                     const avatarUrl = user?.image
                       ? getAvatarUrl(user.image)
                       : undefined;
 
                     return (
                       <Avatar
+                        key={publicId}
                         name={user?.name ?? ""}
                         email={user?.email ?? email}
                         imageUrl={avatarUrl}

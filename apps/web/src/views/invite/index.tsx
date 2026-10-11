@@ -1,10 +1,10 @@
 import { useRouter } from "next/router";
 import { t } from "@lingui/core/macro";
-import { env } from "next-runtime-env";
 import { useEffect, useState } from "react";
 
 import { authClient } from "@kan/auth/client";
 
+import { BrandLogo } from "~/components/BrandLogo";
 import Button from "~/components/Button";
 import LoadingSpinner from "~/components/LoadingSpinner";
 import { PageHead } from "~/components/PageHead";
@@ -18,8 +18,6 @@ export default function InvitePage() {
   const [error, setError] = useState<string | null>(null);
   const { data: session, isPending: isSessionLoading } =
     authClient.useSession();
-
-  const isCloudEnv = env("NEXT_PUBLIC_KAN_ENV") === "cloud";
 
   const inviteCode = Array.isArray(code) ? code[0] : code;
 
@@ -87,9 +85,10 @@ export default function InvitePage() {
   ) {
     return (
       <>
-        <PageHead title={t`Join workspace`} />
+        <PageHead title={t`Join workspace | Adrenaline Tasks`} />
         <PatternedBackground />
-        <div className="flex min-h-screen items-center justify-center">
+        <div className="relative z-10 flex min-h-dvh flex-col items-center justify-center gap-8">
+          <BrandLogo size="lg" />
           <LoadingSpinner size="lg" />
         </div>
       </>
@@ -99,7 +98,7 @@ export default function InvitePage() {
   const PageWrapper = ({ children }: { children: React.ReactNode }) => {
     return (
       <>
-        <PageHead title={t`Join workspace | kan.bn`} />
+        <PageHead title={t`Join workspace | Adrenaline Tasks`} />
         {children}
       </>
     );
@@ -111,6 +110,9 @@ export default function InvitePage() {
         <div className="relative flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
           <PatternedBackground />
           <div className="z-10 w-full max-w-md space-y-8">
+            <div className="flex justify-center">
+              <BrandLogo size="lg" />
+            </div>
             <div>
               <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-light-1000 dark:text-dark-1000">
                 {t`Invalid invitation`}
@@ -135,15 +137,16 @@ export default function InvitePage() {
       <div className="relative flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
         <PatternedBackground />
         <div className="z-10 w-full max-w-[400px] space-y-8">
+          <div className="flex justify-center">
+            <BrandLogo size="lg" />
+          </div>
           <div>
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-light-1000 dark:text-dark-1000">
               {t`Join workspace`}
             </h2>
             {!error ? (
               <p className="mt-4 text-center text-sm text-light-900 dark:text-dark-800">
-                {isCloudEnv
-                  ? t`You've been invited to join a workspace on kan.bn.`
-                  : t`You've been invited to join a workspace.`}
+                {t`You've been invited to join a workspace on Adrenaline Tasks.`}
               </p>
             ) : (
               <p className="mt-4 text-center text-sm text-red-500">{error}</p>

@@ -26,57 +26,66 @@ const Button = ({
   fullWidth,
   openInNewTab,
   iconOnly,
+  className,
+  disabled,
   ...props
 }: ButtonProps) => {
+  const isDisabled = Boolean(isLoading) || Boolean(disabled);
   const classes = twMerge(
-    "inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-2 text-sm font-semibold text-light-50 shadow-sm focus-visible:outline-none",
-    size === "xs" && "text-xs px-2 py-1",
-    size === "sm" && "text-xs",
-    size === "lg" && "py-[0.65rem]",
+    "inline-flex min-h-11 items-center justify-center gap-2 whitespace-nowrap rounded-lg px-4 py-2.5 text-sm font-semibold shadow-sm transition-[background-color,color,border-color,box-shadow] duration-150 ease-interface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-light-50 dark:focus-visible:ring-brand-lime dark:focus-visible:ring-offset-dark-50",
+    size === "xs" && "min-h-8 px-2.5 py-1 text-xs",
+    size === "sm" && "min-h-10 px-3 py-2",
+    size === "lg" && "min-h-12 px-5 py-3",
     fullWidth && "w-full",
     iconOnly && "p-0",
     iconOnly &&
       (size === "xs"
-        ? "h-6 w-6"
+        ? "h-8 w-8"
         : size === "sm"
-          ? "h-8 w-8"
+          ? "h-10 w-10"
           : size === "lg"
-            ? "h-10 w-10"
-            : "h-9 w-9"),
+            ? "h-12 w-12"
+            : "h-11 w-11"),
     variant === "primary" &&
-      "bg-light-1000 dark:bg-dark-1000 dark:text-dark-50",
+      "bg-brand-lime text-brand-ink hover:bg-brand-hover active:bg-brand-muted",
     variant === "secondary" &&
-      "border-[1px] border-light-600 bg-light-50 text-light-1000 dark:border-dark-600 dark:bg-dark-300 dark:text-dark-1000",
+      "border border-light-300 bg-white text-light-1000 hover:border-light-600 hover:bg-light-100 active:bg-light-200 dark:border-dark-400 dark:bg-dark-100 dark:text-dark-1000 dark:hover:border-dark-600 dark:hover:bg-dark-200 dark:active:bg-dark-300",
     variant === "danger" &&
-      "dark:text-red-1000 border-[1px] border-red-600 bg-red-500 dark:border-red-600 dark:bg-red-500",
+      "border border-red-700 bg-red-600 text-white hover:bg-red-700 active:bg-red-800 dark:border-red-500 dark:bg-red-600 dark:text-white dark:hover:bg-red-700",
     variant === "ghost" &&
-      "bg-none text-light-1000 shadow-none hover:bg-light-300 dark:text-dark-1000 dark:hover:bg-dark-200",
-    props.disabled && "opacity-60",
+      "bg-transparent text-light-950 shadow-none hover:bg-light-200 active:bg-light-300 dark:text-dark-950 dark:hover:bg-dark-200 dark:active:bg-dark-300",
+    isDisabled && "pointer-events-none cursor-not-allowed opacity-50",
+    className,
   );
 
   const content = (
-    <span className="relative flex items-center justify-center">
+    <span
+      className={twMerge(
+        "relative flex items-center justify-center",
+        fullWidth && "w-full",
+      )}
+    >
       {isLoading && (
-        <span className="absolute">
+        <span className="absolute" aria-hidden="true">
           <LoadingSpinner size={size === "xs" ? "sm" : size} />
         </span>
       )}
       {iconOnly ? (
-        <div
+        <span
           className={twMerge(
             "flex items-center",
-            isLoading ? "invisible" : "visible",
+            isLoading ? "opacity-0" : "opacity-100",
           )}
         >
           {iconLeft ?? iconRight}
-        </div>
+        </span>
       ) : (
-        <div
+        <span
           className={twMerge(
             fullWidth
               ? "grid w-full grid-cols-[auto_1fr_auto] items-center gap-x-2"
               : "flex items-center",
-            isLoading ? "invisible" : "visible",
+            isLoading ? "opacity-0" : "opacity-100",
           )}
         >
           {fullWidth && !iconLeft && iconRight && (
@@ -110,19 +119,26 @@ const Button = ({
           {fullWidth && !iconRight && iconLeft && (
             <span className="col-start-3 opacity-0">{iconLeft}</span>
           )}
-        </div>
+        </span>
       )}
     </span>
   );
 
   if (href) {
+    const linkProps = props as React.AnchorHTMLAttributes<HTMLAnchorElement>;
     return (
       <Link
+        {...linkProps}
         href={href}
         className={classes}
         target={openInNewTab ? "_blank" : undefined}
         rel={openInNewTab ? "noopener noreferrer" : undefined}
-        {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+        aria-disabled={isDisabled || undefined}
+        aria-busy={isLoading ? true : undefined}
+        tabIndex={isDisabled ? -1 : linkProps.tabIndex}
+        onClick={
+          isDisabled ? (event) => event.preventDefault() : linkProps.onClick
+        }
       >
         {content}
       </Link>
@@ -131,12 +147,10 @@ const Button = ({
 
   return (
     <button
-      className={classes}
-      // `??` here would silently ignore `disabled` whenever `isLoading` is
-      // explicitly `false`
-      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-      disabled={isLoading || props.disabled}
       {...props}
+      className={classes}
+      disabled={isDisabled}
+      aria-busy={isLoading ? true : undefined}
     >
       {content}
     </button>

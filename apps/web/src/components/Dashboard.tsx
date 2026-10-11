@@ -18,6 +18,7 @@ import { usePopup } from "~/providers/popup";
 import { useWorkspace, WorkspaceProvider } from "~/providers/workspace";
 import { api } from "~/utils/api";
 import { ChangePasswordFormConfirmation } from "~/views/settings/components/ChangePasswordConfirmation";
+import { BrandLogo } from "./BrandLogo";
 import Button from "./Button";
 import Modal from "./modal";
 import SideNavigation from "./SideNavigation";
@@ -92,6 +93,7 @@ export default function Dashboard({
     if (sideNavButtonRef.current?.contains(event.target as Node)) {
       return;
     }
+    if ((event.target as HTMLElement).closest("[data-sidebar-menu]")) return;
     if (isSideNavOpen) {
       setIsSideNavOpen(false);
     }
@@ -173,19 +175,21 @@ export default function Dashboard({
     <>
       <style jsx global>{`
         html {
-          height: 100vh;
+          height: 100dvh;
           overflow: hidden;
           min-width: 320px;
-          background-color: ${!isDarkMode ? "hsl(0deg 0% 97.3%)" : "#1c1c1c"};
+          background-color: ${!isDarkMode ? "#F5F5F2" : "#151713"};
         }
       `}</style>
-      <div className="relative flex h-screen flex-col bg-light-50 dark:bg-dark-50 md:bg-light-100 md:p-3 md:dark:bg-dark-100">
+      <div className="relative flex h-dvh flex-col bg-light-50 dark:bg-dark-50">
         {/* Mobile Header */}
-        <div className="flex h-12 items-center justify-between border-b border-light-300 bg-light-50 px-3 dark:border-dark-300 dark:bg-dark-50 md:hidden">
+        <div className="relative flex h-[64px] shrink-0 items-center justify-between border-b border-light-400 bg-light-100 px-3 dark:border-dark-400 dark:bg-dark-100 md:hidden">
           <button
             ref={sideNavButtonRef}
             onClick={toggleSideNav}
-            className="rounded p-1.5 transition-all hover:bg-light-200 dark:hover:bg-dark-100"
+            aria-label={isSideNavOpen ? t`Collapse sidebar` : t`Expand sidebar`}
+            aria-expanded={isSideNavOpen}
+            className="focus-visible:outline-brand-accent dark:focus-visible:outline-brand-lime flex h-11 w-11 items-center justify-center rounded hover:bg-light-200 focus-visible:outline focus-visible:outline-2 dark:hover:bg-dark-100"
           >
             {isSideNavOpen ? (
               <TbLayoutSidebarLeftCollapse
@@ -200,11 +204,17 @@ export default function Dashboard({
             )}
           </button>
 
+          <div className="pointer-events-none absolute left-1/2 -translate-x-1/2">
+            <BrandLogo size="sm" />
+          </div>
+
           {hasRightPanel && (
             <button
               ref={rightPanelButtonRef}
               onClick={toggleRightPanel}
-              className="rounded p-1.5 transition-all hover:bg-light-200 dark:hover:bg-dark-100"
+              aria-label={isRightPanelOpen ? t`Close panel` : t`Open panel`}
+              aria-expanded={isRightPanelOpen}
+              className="focus-visible:outline-brand-accent dark:focus-visible:outline-brand-lime flex h-11 w-11 items-center justify-center rounded hover:bg-light-200 focus-visible:outline focus-visible:outline-2 dark:hover:bg-dark-100"
             >
               {isRightPanelOpen ? (
                 <TbLayoutSidebarRightCollapse
@@ -221,10 +231,10 @@ export default function Dashboard({
           )}
         </div>
 
-        <div className="flex h-[calc(100dvh-4.5rem)] min-h-0 w-full md:h-[calc(100dvh-1.5rem)]">
+        <div className="flex min-h-0 w-full flex-1">
           <div
             ref={sideNavRef}
-            className={`fixed top-12 z-40 h-[calc(100dvh-3rem)] w-[calc(100vw-1.5rem)] transform transition-transform duration-300 ease-in-out md:relative md:top-0 md:h-full md:w-auto md:translate-x-0 ${isSideNavOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"} `}
+            className={`fixed top-[64px] z-40 h-[calc(100dvh-64px)] w-[244px] shrink-0 transform transition-transform duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] md:relative md:top-0 md:h-full md:w-auto md:translate-x-0 ${isSideNavOpen ? "translate-x-0" : "invisible -translate-x-full md:visible md:translate-x-0"} `}
           >
             <SideNavigation
               user={{
@@ -237,16 +247,18 @@ export default function Dashboard({
             />
           </div>
 
-          <div className="relative h-full min-h-0 w-full overflow-hidden md:rounded-lg md:border md:border-light-300 md:bg-light-50 md:dark:border-dark-300 md:dark:bg-dark-50">
+          <div className="relative h-full min-h-0 min-w-0 flex-1 overflow-hidden bg-light-50 dark:bg-dark-50">
             <div className="relative flex h-full min-h-0 w-full overflow-hidden">
-              <div className="h-full w-full overflow-y-auto">{children}</div>
+              <main className="h-full w-full overflow-y-auto">{children}</main>
 
               {/* Mobile Right Panel */}
               {hasRightPanel && rightPanel && (
                 <div
                   ref={rightPanelRef}
-                  className={`fixed right-0 top-12 z-40 h-[calc(100dvh-3rem)] w-80 transform border-l border-light-300 bg-light-200 transition-transform duration-300 ease-in-out dark:border-dark-300 dark:bg-dark-100 md:hidden ${
-                    isRightPanelOpen ? "translate-x-0" : "translate-x-full"
+                  className={`fixed right-0 top-[64px] z-40 h-[calc(100dvh-64px)] w-80 max-w-full transform border-l border-light-300 bg-light-200 transition-transform duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] dark:border-dark-300 dark:bg-dark-100 md:hidden ${
+                    isRightPanelOpen
+                      ? "translate-x-0"
+                      : "invisible translate-x-full"
                   }`}
                 >
                   <div className="h-full">{rightPanel}</div>

@@ -131,14 +131,14 @@ export default function MembersPage() {
     };
 
     return (
-      <tr className="rounded-b-lg">
+      <tr className="group rounded-b-lg hover:bg-light-100/70 dark:hover:bg-dark-200/50">
         <td
           className={twMerge(
-            "w-full sm:w-[65%]",
+            "w-[58%] sm:w-[60%]",
             isLastRow ? "rounded-bl-lg" : "",
           )}
         >
-          <div className="flex items-center p-2 sm:p-4">
+          <div className="flex items-center gap-3 px-4 py-5 sm:px-6">
             <div className="flex-shrink-0">
               {showSkeleton ? (
                 <div className="h-8 w-8 animate-pulse rounded-full bg-light-200 dark:bg-dark-200 sm:h-9 sm:w-9" />
@@ -150,19 +150,18 @@ export default function MembersPage() {
                 />
               )}
             </div>
-            <div className="ml-2 min-w-0 flex-1">
+            <div className="min-w-0 flex-1">
               <div>
                 <div className="flex items-center">
                   <p
                     className={twMerge(
-                      "mr-2 truncate text-xs font-medium text-neutral-900 dark:text-dark-1000 sm:text-sm",
+                      "truncate text-sm font-semibold leading-6 text-neutral-900 dark:text-dark-1000",
                       showSkeleton &&
                         "md mb-2 h-3 w-[125px] animate-pulse rounded-sm bg-light-200 dark:bg-dark-200",
-                      showPendingIcon &&
-                        "italic text-neutral-500 dark:text-dark-900",
+                      showPendingIcon && "text-light-800 dark:text-dark-900",
                     )}
                   >
-                    {memberName}
+                    {memberName ?? (showPendingIcon ? t`Pending` : t`Member`)}
                   </p>
                 </div>
                 {(workspace.role === "admin" ||
@@ -170,7 +169,7 @@ export default function MembersPage() {
                   showSkeleton) && (
                   <p
                     className={twMerge(
-                      "truncate text-xs text-dark-900 sm:text-sm",
+                      "mt-0.5 truncate text-xs leading-5 text-light-800 dark:text-dark-800",
                       showSkeleton &&
                         "h-3 w-[175px] animate-pulse rounded-sm bg-light-200 dark:bg-dark-200",
                     )}
@@ -184,24 +183,31 @@ export default function MembersPage() {
         </td>
         <td
           className={twMerge(
-            "w-auto min-w-[120px] overflow-visible sm:w-[35%] sm:min-w-[150px]",
+            "w-[42%] overflow-visible sm:w-[40%]",
             isLastRow && "rounded-br-lg",
           )}
         >
-          <div className="flex w-full items-center justify-between px-2 sm:px-3">
-            <div className="flex items-center gap-2">
+          <div className="flex w-full items-center justify-between gap-2 px-3 sm:px-6">
+            <div className="flex flex-col items-start gap-1.5 sm:flex-row sm:items-center sm:gap-2">
               {showSkeleton ? (
                 <span
                   className={twMerge(
-                    "inline-flex items-center rounded-md bg-emerald-500/10 px-1.5 py-0.5 text-[10px] font-medium text-emerald-400 ring-1 ring-inset ring-emerald-500/20 sm:text-[11px]",
+                    "inline-flex items-center rounded-md px-2 py-1 text-xs font-medium",
                     "h-5 w-[50px] animate-pulse bg-light-200 ring-0 dark:bg-dark-200",
                   )}
                 />
               ) : (
-                <div className="relative inline-flex items-center">
-                  <span className="inline-flex items-center gap-1 rounded-md bg-emerald-500/10 px-1.5 py-0.5 text-[10px] font-medium text-emerald-400 ring-1 ring-inset ring-emerald-500/20 sm:text-[11px]">
-                    {memberRole &&
-                      memberRole.charAt(0).toUpperCase() + memberRole.slice(1)}
+                <div className="focus-within:ring-brand-accent dark:focus-within:ring-brand-lime relative inline-flex items-center rounded-md focus-within:ring-2">
+                  <span className="inline-flex min-h-8 items-center gap-1.5 rounded-md border border-light-300 bg-light-100 px-2.5 py-1 text-xs font-medium text-light-950 dark:border-dark-400 dark:bg-dark-200 dark:text-dark-950">
+                    {memberRole === "admin"
+                      ? t`Admin`
+                      : memberRole === "member"
+                        ? t`Member`
+                        : memberRole === "guest"
+                          ? t`Guest`
+                          : memberRole &&
+                            memberRole.charAt(0).toUpperCase() +
+                              memberRole.slice(1)}
                     {canEditMember && session?.user.id !== memberId && (
                       <HiChevronDown className="h-3 w-3" />
                     )}
@@ -209,6 +215,7 @@ export default function MembersPage() {
 
                   {canEditMember && session?.user.id !== memberId && (
                     <select
+                      aria-label={t`Role`}
                       value={memberRole}
                       onChange={(e) =>
                         handleRoleChange(
@@ -225,15 +232,39 @@ export default function MembersPage() {
                   )}
                 </div>
               )}
-              {(memberStatus === "invited" || memberStatus === "paused") && (
-                <span className="inline-flex items-center rounded-md bg-gray-500/10 px-1.5 py-0.5 text-[10px] font-medium text-gray-400 ring-1 ring-inset ring-gray-500/20 sm:text-[11px]">
-                  {memberStatus === "invited" ? t`Pending` : t`Paused`}
+              {!showSkeleton && (
+                <span
+                  className={twMerge(
+                    "inline-flex items-center gap-1.5 whitespace-nowrap text-[11px] font-medium",
+                    memberStatus === "active"
+                      ? "text-brand-accent dark:text-brand-lime"
+                      : memberStatus === "invited"
+                        ? "text-amber-700 dark:text-amber-300"
+                        : "text-light-800 dark:text-dark-800",
+                  )}
+                >
+                  <span
+                    className={twMerge(
+                      "h-1.5 w-1.5 rounded-full",
+                      memberStatus === "active"
+                        ? "bg-brand-lime"
+                        : memberStatus === "invited"
+                          ? "bg-amber-500"
+                          : "bg-light-600 dark:bg-dark-600",
+                    )}
+                    aria-hidden="true"
+                  />
+                  {memberStatus === "active"
+                    ? t`Active`
+                    : memberStatus === "invited"
+                      ? t`Pending`
+                      : t`Paused`}
                 </span>
               )}
             </div>
             <div
               className={twMerge(
-                "relative",
+                "relative shrink-0",
                 (workspace.role !== "admin" || showSkeleton) && "hidden",
               )}
             >
@@ -276,13 +307,26 @@ export default function MembersPage() {
 
   return (
     <>
-      <PageHead title={t`Members | ${workspace.name ?? t`Workspace`}`} />
-      <div className="m-auto h-full max-w-[1100px] p-6 px-5 md:px-28 md:py-12">
-        <div className="mb-8 flex w-full justify-between">
-          <div className="flex items-center gap-3">
-            <h1 className="font-bold tracking-tight text-neutral-900 dark:text-dark-1000 sm:text-[1.2rem]">
-              {t`Members`}
-            </h1>
+      <PageHead
+        title={`${t`Members`} | ${workspace.name} | Adrenaline Tasks`}
+      />
+      <div className="mx-auto min-h-full w-full max-w-[1280px] px-5 pb-12 pt-7 md:px-10 md:pt-10 xl:px-12">
+        <p className="mb-3 text-xs font-medium text-light-800 dark:text-dark-800">
+          {workspace.name}
+        </p>
+        <div className="mb-8 flex w-full flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
+          <div>
+            <div className="flex items-center gap-3">
+              <h1 className="text-[32px] font-bold leading-tight tracking-[-0.045em] text-neutral-900 dark:text-dark-1000 md:text-[40px]">
+                {t`Members`}
+              </h1>
+              {!isLoading && (
+                <span className="rounded-md bg-light-200 px-2.5 py-1 text-xs font-semibold tabular-nums text-light-800 dark:bg-dark-200 dark:text-dark-900">
+                  {data?.members.length ?? 0}
+                </span>
+              )}
+            </div>
+            <p className="mt-2 max-w-xl text-sm leading-6 text-light-800 dark:text-dark-800">{t`Manage your team and workspace access.`}</p>
           </div>
           <div className="flex items-center gap-3">
             {env("NEXT_PUBLIC_KAN_ENV") === "cloud" && !!data && (
@@ -328,33 +372,34 @@ export default function MembersPage() {
               iconLeft={<HiOutlinePlusSmall className="h-4 w-4" />}
               disabled={workspace.role !== "admin"}
             >
-              {t`Invite`}
+              {t`Invite member`}
             </Button>
           </div>
         </div>
 
-        <div className="mt-8 flow-root">
-          <div className="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full overflow-x-auto px-4 py-2 pb-16 align-middle sm:px-6 lg:px-8">
-              <div className="h-full shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-                <table className="min-w-full divide-y divide-light-600 overflow-visible dark:divide-dark-600">
-                  <thead className="rounded-t-lg bg-light-300 dark:bg-dark-200">
+        <div className="flow-root">
+          <div className="w-full">
+            <div className="w-full overflow-x-auto pb-16 align-middle">
+              <div className="rounded-xl border border-light-300 bg-white dark:border-dark-300 dark:bg-dark-100">
+                <table className="w-full min-w-[320px] table-fixed divide-y divide-light-300 overflow-visible dark:divide-dark-300">
+                  <caption className="sr-only">{t`Workspace members`}</caption>
+                  <thead className="rounded-t-xl bg-light-100 dark:bg-dark-200">
                     <tr>
                       <th
                         scope="col"
-                        className="w-full rounded-tl-lg py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-light-900 dark:text-dark-900 sm:w-[65%] sm:pl-6"
+                        className="w-[58%] rounded-tl-xl py-4 pl-4 pr-3 text-left text-xs font-semibold text-light-800 dark:text-dark-800 sm:w-[60%] sm:pl-6"
                       >
                         {t`User`}
                       </th>
                       <th
                         scope="col"
-                        className="w-auto whitespace-nowrap rounded-tr-lg px-3 py-3.5 text-left text-sm font-semibold text-light-900 dark:text-dark-900 sm:w-[35%]"
+                        className="w-[42%] whitespace-nowrap rounded-tr-xl px-3 py-4 text-left text-xs font-semibold text-light-800 dark:text-dark-800 sm:w-[40%] sm:px-6"
                       >
                         {t`Role`}
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-light-600 overflow-visible bg-light-50 dark:divide-dark-600 dark:bg-dark-100">
+                  <tbody className="divide-y divide-light-300 overflow-visible bg-white dark:divide-dark-300 dark:bg-dark-100">
                     {!isLoading &&
                       data?.members.map((member, index) => {
                         const isPendingInvite = member.status === "invited";

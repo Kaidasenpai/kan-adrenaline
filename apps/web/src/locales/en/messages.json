@@ -13291,5 +13291,721 @@
       41
     ]
   ]
-}
+},
+  "pMykEw": {
+    "translation": "404 - Page Not Found | Adrenaline Tasks",
+    "message": "404 - Page Not Found | Adrenaline Tasks",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/404.tsx",
+        12
+      ]
+    ]
+  },
+  "kXHm1k": {
+    "translation": "Adrenaline Tasks feedback",
+    "message": "Adrenaline Tasks feedback",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/FeedbackModal.tsx",
+        62
+      ]
+    ]
+  },
+  "mO95sp": {
+    "translation": "Close panel",
+    "message": "Close panel",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Dashboard.tsx",
+        214
+      ]
+    ]
+  },
+  "mkMLq4": {
+    "translation": "Collapse sidebar",
+    "message": "Collapse sidebar",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Dashboard.tsx",
+        189
+      ],
+      [
+        "src/components/SideNavigation.tsx",
+        177
+      ]
+    ]
+  },
+  "tugdy6": {
+    "translation": "Expand sidebar",
+    "message": "Expand sidebar",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Dashboard.tsx",
+        189
+      ],
+      [
+        "src/components/SideNavigation.tsx",
+        177
+      ]
+    ]
+  },
+  "/ONqAc": {
+    "translation": "Join workspace | Adrenaline Tasks",
+    "message": "Join workspace | Adrenaline Tasks",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/invite/index.tsx",
+        88
+      ],
+      [
+        "src/views/invite/index.tsx",
+        101
+      ]
+    ]
+  },
+  "nhMLCJ": {
+    "translation": "Open panel",
+    "message": "Open panel",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Dashboard.tsx",
+        214
+      ]
+    ]
+  },
+  "g2UNkE": {
+    "translation": "Powered by",
+    "message": "Powered by",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/public/board/index.tsx",
+        260
+      ]
+    ]
+  },
+  "w6qPWt": {
+    "translation": "Production",
+    "message": "Production",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/AuthBrandShell.tsx",
+        22
+      ]
+    ]
+  },
+  "+0B+ue": {
+    "translation": "Projects",
+    "message": "Projects",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/AuthBrandShell.tsx",
+        18
+      ]
+    ]
+  },
+  "iYlPsv": {
+    "translation": "Projects, events, and production at Adrenaline Entertainment.",
+    "message": "Projects, events, and production at Adrenaline Entertainment.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/PageHead.tsx",
+        12
+      ]
+    ]
+  },
+  "Q3LOVJ": {
+    "translation": "Report an issue",
+    "message": "Report an issue",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/FeedbackModal.tsx",
+        106
+      ]
+    ]
+  },
+  "dL6d4j": {
+    "translation": "Upstream documentation",
+    "message": "Upstream documentation",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/FeedbackModal.tsx",
+        115
+      ],
+      [
+        "src/components/UserMenu.tsx",
+        213
+      ]
+    ]
+  },
+  "z6kfQ+": {
+    "translation": "You've been invited to join a workspace on Adrenaline Tasks.",
+    "message": "You've been invited to join a workspace on Adrenaline Tasks.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/invite/index.tsx",
+        149
+      ]
+    ]
+  },
+  "PI1RcN": {
+    "translation": "{count} more columns",
+    "message": "{count} more columns",
+    "placeholders": {
+      "count": [
+        "count"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        70
+      ]
+    ]
+  },
+  "RuXuwk": {
+    "translation": "+{0} more",
+    "message": "+{0} more",
+    "placeholders": {
+      "0": [
+        "board.labels.length - 3"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        247
+      ]
+    ]
+  },
+  "RGQQPB": {
+    "translation": "1 more column",
+    "message": "1 more column",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        70
+      ]
+    ]
+  },
+  "D50nTB": {
+    "translation": "Active boards",
+    "message": "Active boards",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/index.tsx",
+        150
+      ]
+    ]
+  },
+  "ycd4j7": {
+    "translation": "Archived boards",
+    "message": "Archived boards",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/index.tsx",
+        149
+      ]
+    ]
+  },
+  "w/Sphq": {
+    "translation": "Attachments",
+    "message": "Attachments",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/Card.tsx",
+        147
+      ],
+      [
+        "src/views/card/index.tsx",
+        489
+      ]
+    ]
+  },
+  "t8L2y0": {
+    "translation": "Board status",
+    "message": "Board status",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/index.tsx",
+        121
+      ]
+    ]
+  },
+  "+NYYc6": {
+    "translation": "Board workflow",
+    "message": "Board workflow",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        199
+      ]
+    ]
+  },
+  "jcDU50": {
+    "translation": "Choose a section",
+    "message": "Choose a section",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/SettingsLayout.tsx",
+        123
+      ]
+    ]
+  },
+  "Nu4oKW": {
+    "translation": "Description",
+    "message": "Description",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/Card.tsx",
+        105
+      ],
+      [
+        "src/views/board/components/NewCardForm.tsx",
+        452
+      ],
+      [
+        "src/views/card/index.tsx",
+        447
+      ]
+    ]
+  },
+  "URmyfc": {
+    "translation": "Details",
+    "message": "Details",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/card/index.tsx",
+        124
+      ]
+    ]
+  },
+  "r4rBj2": {
+    "translation": "Drop cards here",
+    "message": "Drop cards here",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/CardList.tsx",
+        99
+      ]
+    ]
+  },
+  "YQqv2e": {
+    "translation": "Get started by creating a new board",
+    "message": "Get started by creating a new board",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        138
+      ]
+    ]
+  },
+  "ZD7u2I": {
+    "translation": "Get started by creating a new template",
+    "message": "Get started by creating a new template",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        137
+      ]
+    ]
+  },
+  "Pw01g0": {
+    "translation": "Hide password",
+    "message": "Hide password",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Input.tsx",
+        102
+      ]
+    ]
+  },
+  "GA5TFo": {
+    "translation": "Invite-only workspace",
+    "message": "Invite-only workspace",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/auth/login/index.tsx",
+        59
+      ]
+    ]
+  },
+  "VgkCaI": {
+    "translation": "Loading boards",
+    "message": "Loading boards",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        76
+      ]
+    ]
+  },
+  "+Apw5Q": {
+    "translation": "Manage your account and workspace.",
+    "message": "Manage your account and workspace.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/SettingsLayout.tsx",
+        100
+      ]
+    ]
+  },
+  "HsRSay": {
+    "translation": "Manage your team and workspace access.",
+    "message": "Manage your team and workspace access.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/members/index.tsx",
+        329
+      ]
+    ]
+  },
+  "zDw80P": {
+    "translation": "New board",
+    "message": "New board",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        150
+      ],
+      [
+        "src/views/boards/index.tsx",
+        89
+      ]
+    ]
+  },
+  "DhLN1b": {
+    "translation": "No boards",
+    "message": "No boards",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        131
+      ]
+    ]
+  },
+  "YxR4sM": {
+    "translation": "No cards yet",
+    "message": "No cards yet",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/CardList.tsx",
+        99
+      ]
+    ]
+  },
+  "m8ktm+": {
+    "translation": "No columns yet",
+    "message": "No columns yet",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        219
+      ]
+    ]
+  },
+  "kTNh5S": {
+    "translation": "No templates",
+    "message": "No templates",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        130
+      ]
+    ]
+  },
+  "HWAICJ": {
+    "translation": "Open {0}",
+    "message": "Open {0}",
+    "placeholders": {
+      "0": [
+        "board.name"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        174
+      ]
+    ]
+  },
+  "3v3Zdr": {
+    "translation": "Place card at bottom",
+    "message": "Place card at bottom",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/NewCardForm.tsx",
+        633
+      ],
+      [
+        "src/views/board/components/NewCardForm.tsx",
+        638
+      ]
+    ]
+  },
+  "2prhpC": {
+    "translation": "Place card at top",
+    "message": "Place card at top",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/NewCardForm.tsx",
+        632
+      ],
+      [
+        "src/views/board/components/NewCardForm.tsx",
+        637
+      ]
+    ]
+  },
+  "JEtdmQ": {
+    "translation": "Projects, events, and production in one workspace.",
+    "message": "Projects, events, and production in one workspace.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/index.tsx",
+        63
+      ]
+    ]
+  },
+  "UkrtYN": {
+    "translation": "Reusable workflows for your next project.",
+    "message": "Reusable workflows for your next project.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/index.tsx",
+        62
+      ]
+    ]
+  },
+  "+Ni3Gv": {
+    "translation": "Send magic link",
+    "message": "Send magic link",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/AuthForm.tsx",
+        473
+      ]
+    ]
+  },
+  "KNbXtB": {
+    "translation": "Settings navigation",
+    "message": "Settings navigation",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/SettingsLayout.tsx",
+        114
+      ],
+      [
+        "src/components/SettingsLayout.tsx",
+        153
+      ]
+    ]
+  },
+  "7C+Jn5": {
+    "translation": "Show password",
+    "message": "Show password",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Input.tsx",
+        102
+      ]
+    ]
+  },
+  "ZalzZ1": {
+    "translation": "Sign in to your workspace.",
+    "message": "Sign in to your workspace.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/auth/login/index.tsx",
+        40
+      ]
+    ]
+  },
+  "e+RpCP": {
+    "translation": "Sign up",
+    "message": "Sign up",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/AuthForm.tsx",
+        471
+      ]
+    ]
+  },
+  "yNR1Vx": {
+    "translation": "Switch to dark theme",
+    "message": "Switch to dark theme",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ThemeToggle.tsx",
+        18
+      ]
+    ]
+  },
+  "e0IFR+": {
+    "translation": "Switch to light theme",
+    "message": "Switch to light theme",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ThemeToggle.tsx",
+        19
+      ]
+    ]
+  },
+  "jZP+id": {
+    "translation": "The work behind the show.",
+    "message": "The work behind the show.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/AuthBrandShell.tsx",
+        16
+      ]
+    ]
+  },
+  "PRQRqX": {
+    "translation": "This workspace is invite-only. Ask your team for an invitation.",
+    "message": "This workspace is invite-only. Ask your team for an invitation.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/auth/signup/index.tsx",
+        43
+      ]
+    ]
+  },
+  "KDw4GX": {
+    "translation": "Try again",
+    "message": "Try again",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        113
+      ]
+    ]
+  },
+  "70BKDS": {
+    "translation": "Unable to load boards",
+    "message": "Unable to load boards",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        107
+      ]
+    ]
+  },
+  "l0bftS": {
+    "translation": "Unable to update favorite",
+    "message": "Unable to update favorite",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        40
+      ]
+    ]
+  }
 }

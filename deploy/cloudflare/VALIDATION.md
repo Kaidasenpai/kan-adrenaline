@@ -37,3 +37,14 @@ Adapted from upstream commit `d0809f05422bcc3f1acb98804d44671207e7ed9d`.
 Owner account setup is complete. Invited users' complete browser signup has not been simulated with real credentials; invitation authorization has unit and PostgreSQL transaction coverage. Email sending and external object storage remain unconfigured; use the existing shared workspace invitation link to onboard teammates. Password recovery requires a new administrator-issued private setup/reset link while email is disabled.
 
 This deployment's Free quotas can interrupt service. No paid plan was enabled. This configuration cannot cap charges from unrelated resources or future manual plan changes.
+
+## Workspace redesign — 11 October 2026
+
+- Replaced the rejected square/check branding with an exact extension of the original offset-square symbol and custom stacked wordmark, plus a Tasks descriptor. No proprietary fonts extracted.
+- Rebuilt the workspace navigation, sign-in/setup shell, boards overview, working boards/cards/forms, task detail, members, settings layout, and shared controls with a consistent warm neutral/lime system and Plus Jakarta Sans. Light and dark themes share the same hierarchy.
+- Board tiles display actual visibility and workflow stages. The list query includes visibility and excludes soft-deleted lists/labels; no database migration or fabricated dashboard data.
+- 145 API tests pass. Application type checks pass all 21 tasks excluding the inherited documentation-package failure. Required root lint/typecheck were rerun and remain limited by the inherited issues documented above. Scoped redesigned shared/navigation/auth controls pass ESLint with only the inherited Next font rule disabled for that command.
+- All 41 new interface messages and 15 existing Adrenaline auth/setup/source messages have translations in all 10 configured compiled catalogs. Existing nonempty translations and metadata preserved.
+- Independent code review found and resolved menu keyboard highlights, portalled mobile-menu outside clicks, short-screen sidebar reachability, weak secondary text/focus contrast, and focusable offscreen mobile panels. Reduced-motion preferences preserved.
+- No hosting, database plan, paid bindings, or external asset services added.
+- OpenNext production build succeeds. Local Workerd sign-in rendered and inspected at 1440 × 900 and 375 px CSS widths; light/dark variants are readable and document scrollWidth equals clientWidth. Password inputs/reveal/submit, theme control, closed-registration notice, original-wordmark masks, and visible source offer verified.

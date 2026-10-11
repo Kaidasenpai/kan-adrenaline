@@ -3,6 +3,7 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { t } from "@lingui/core/macro";
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import type { ListBodyDragData } from "../dnd/types";
@@ -35,26 +36,34 @@ export default function CardList({
   const [minHeightPx, setMinHeightPx] = useState(0);
 
   useLayoutEffect(() => {
-    if (freezeHeight) {
-      const measured = containerRef.current?.getBoundingClientRect().height;
-      if (measured != null) {
-        setMinHeightPx(Math.round(measured));
-      }
-    } else if (containerRef.current && contentRef.current) {
-      const maxHeight = parseFloat(
-        getComputedStyle(containerRef.current).maxHeight,
-      );
-      const natural = Math.min(
-        contentRef.current.scrollHeight,
-        Number.isNaN(maxHeight) ? Infinity : maxHeight,
-      );
-      setMinHeightPx(Math.round(natural));
-    } else {
+    const container = containerRef.current;
+    const column = container?.parentElement;
+    if (!freezeHeight || !container || !column) {
       setMinHeightPx(0);
+      return;
     }
+
+    const updateFrozenHeight = () => {
+      const bodyRect = container.getBoundingClientRect();
+      const columnRect = column.getBoundingClientRect();
+      const columnStyle = getComputedStyle(column);
+      const bottomInset =
+        parseFloat(columnStyle.paddingBottom) +
+        parseFloat(columnStyle.borderBottomWidth);
+      const availableHeight = Math.max(
+        0,
+        columnRect.bottom - bodyRect.top - bottomInset,
+      );
+      setMinHeightPx(Math.round(Math.min(bodyRect.height, availableHeight)));
+    };
+
+    updateFrozenHeight();
+    const observer = new ResizeObserver(updateFrozenHeight);
+    observer.observe(column);
+    return () => observer.disconnect();
   }, [freezeHeight, cards]);
 
-  const { setNodeRef } = useDroppable({
+  const { setNodeRef, isOver } = useDroppable({
     id: getListBodyId(listPublicId),
     data: { type: "LIST_BODY", listPublicId } satisfies ListBodyDragData,
     disabled: isPlaceholderPublicId(listPublicId),
@@ -78,9 +87,9 @@ export default function CardList({
           setMinHeightPx(0);
         }
       }}
-      className="scrollbar-track-rounded-[4px] scrollbar-thumb-rounded-[4px] scrollbar-w-[8px] z-10 max-h-[calc(100dvh-225px)] min-h-[2rem] overflow-y-auto overflow-x-hidden pb-[calc(0.75rem+env(safe-area-inset-bottom))] pr-1 scrollbar dark:scrollbar-track-dark-100 dark:scrollbar-thumb-dark-600"
+      className={`scrollbar-track-rounded-[4px] scrollbar-thumb-rounded-[4px] scrollbar-w-[8px] z-10 min-h-0 shrink overflow-y-auto overflow-x-hidden pb-[calc(0.75rem+env(safe-area-inset-bottom))] pr-1 scrollbar dark:scrollbar-track-dark-100 dark:scrollbar-thumb-dark-600 ${isOver && canEditCard ? "ring-brand-accent dark:ring-brand-lime rounded-lg ring-2 ring-inset" : ""}`}
     >
-      <div ref={contentRef}>
+      <div ref={contentRef} className="px-0.5">
         <SortableContext items={cardIds} strategy={verticalListSortingStrategy}>
           {cards.map((card) => (
             <SortableCard
@@ -93,6 +102,11 @@ export default function CardList({
               onContextMenu={onContextMenu}
             />
           ))}
+          {cards.length === 0 && (
+            <div className="flex min-h-32 items-center justify-center rounded-lg border border-dashed border-light-400 px-5 py-8 text-center text-xs leading-5 text-light-800 dark:border-dark-400 dark:text-dark-800">
+              {canEditCard ? t`Drop cards here` : t`No cards yet`}
+            </div>
+          )}
         </SortableContext>
       </div>
     </div>

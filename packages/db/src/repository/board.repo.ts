@@ -50,6 +50,7 @@ export const getAllByWorkspaceId = async (
     columns: {
       publicId: true,
       name: true,
+      visibility: true,
     },
     with: {
       userFavorites: {
@@ -59,6 +60,7 @@ export const getAllByWorkspaceId = async (
         },
       },
       lists: {
+        where: isNull(lists.deletedAt),
         columns: {
           publicId: true,
           name: true,
@@ -67,6 +69,7 @@ export const getAllByWorkspaceId = async (
         orderBy: [asc(lists.index)],
       },
       labels: {
+        where: isNull(labels.deletedAt),
         columns: {
           publicId: true,
           name: true,

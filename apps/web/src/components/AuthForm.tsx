@@ -26,7 +26,7 @@ import {
   FaVk,
 } from "react-icons/fa";
 import { SiRoblox, SiZoom } from "react-icons/si";
-import { TbBrandKick } from "react-icons/tb";
+import { TbArrowRight, TbBrandKick } from "react-icons/tb";
 import { z } from "zod";
 
 import { authClient } from "@kan/auth/client";
@@ -342,7 +342,7 @@ export function Auth({
 
   return (
     <div className="space-y-6">
-      {socialProviders?.length !== 0 && (
+      {(socialProviders?.length ?? 0) > 0 && (
         <div className="space-y-2">
           {Object.entries(availableSocialProviders).map(([key, provider]) => {
             if (!socialProviders?.includes(key)) {
@@ -378,7 +378,7 @@ export function Auth({
         )}
       {(isCredentialsEnabled || isMagicLinkAvailable) && (
         <form onSubmit={handleSubmit(onSubmit)}>
-          {socialProviders?.length !== 0 && (
+          {(socialProviders?.length ?? 0) > 0 && (
             <div className="mb-[1.5rem] flex w-full items-center gap-4">
               <div className="h-[1px] w-full bg-light-600 dark:bg-dark-600" />
               <span className="text-sm text-light-900 dark:text-dark-900">
@@ -387,27 +387,42 @@ export function Auth({
               <div className="h-[1px] w-full bg-light-600 dark:bg-dark-600" />
             </div>
           )}
-          <div className="space-y-2">
+          <div className="space-y-5">
             {isSignUp && isCredentialsEnabled && (
               <div>
+                <label
+                  htmlFor="auth-name"
+                  className="mb-2 block text-sm font-medium"
+                >{t`Name`}</label>
                 <Input
+                  id="auth-name"
+                  autoComplete="name"
+                  className="min-h-11"
                   {...register("name", { required: true })}
                   placeholder={t`Enter your name`}
                 />
                 {errors.name && (
-                  <p className="mt-2 text-xs text-red-400">
+                  <p className="mt-2 text-sm text-red-600 dark:text-red-400">
                     {t`Please enter a valid name`}
                   </p>
                 )}
               </div>
             )}
             <div>
+              <label
+                htmlFor="auth-email"
+                className="mb-2 block text-sm font-medium"
+              >{t`Email`}</label>
               <Input
+                id="auth-email"
+                type="email"
+                autoComplete="email"
+                className="min-h-11"
                 {...register("email", { required: true })}
                 placeholder={t`Enter your email address`}
               />
               {errors.email && (
-                <p className="mt-2 text-xs text-red-400">
+                <p className="mt-2 text-sm text-red-600 dark:text-red-400">
                   {t`Please enter a valid email address`}
                 </p>
               )}
@@ -415,13 +430,20 @@ export function Auth({
 
             {isCredentialsEnabled && (
               <div>
+                <label
+                  htmlFor="auth-password"
+                  className="mb-2 block text-sm font-medium"
+                >{t`Password`}</label>
                 <Input
+                  id="auth-password"
                   type="password"
+                  autoComplete={isSignUp ? "new-password" : "current-password"}
+                  className="min-h-11"
                   {...register("password", { required: true })}
                   placeholder={t`Enter your password`}
                 />
                 {errors.password && (
-                  <p className="mt-2 text-xs text-red-400">
+                  <p className="mt-2 text-sm text-red-600 dark:text-red-400">
                     {errors.password.message ??
                       t`Please enter a valid password`}
                   </p>
@@ -429,7 +451,9 @@ export function Auth({
               </div>
             )}
             {loginError && (
-              <p className="mt-2 text-xs text-red-400">{loginError}</p>
+              <p className="mt-2 text-sm text-red-600 dark:text-red-400">
+                {loginError}
+              </p>
             )}
           </div>
           <div className="mt-[1.5rem] flex items-center gap-4">
@@ -437,16 +461,27 @@ export function Auth({
               isLoading={isLoginWithEmailPending}
               fullWidth
               size="lg"
-              variant="secondary"
+              variant="primary"
+              iconRight={
+                <TbArrowRight
+                  className="h-[18px] w-[18px]"
+                  aria-hidden="true"
+                />
+              }
             >
-              {isSignUp ? t`Sign up with ` : t`Continue with `}
-              {isMagicLinkMode ? t`magic link` : t`email`}
+              {isSignUp
+                ? t`Sign up`
+                : isMagicLinkMode
+                  ? t`Send magic link`
+                  : t`Sign in`}
             </Button>
           </div>
         </form>
       )}
       {!(isCredentialsEnabled || isMagicLinkAvailable) && loginError && (
-        <p className="mt-2 text-xs text-red-400">{loginError}</p>
+        <p className="mt-2 text-sm text-red-600 dark:text-red-400">
+          {loginError}
+        </p>
       )}
     </div>
   );

@@ -23,6 +23,7 @@ import { api } from "~/utils/api";
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   display: "swap",
+  variable: "--font-plus-jakarta-sans",
 });
 
 export const metadata = {
@@ -82,7 +83,7 @@ const MyApp: AppType = ({ Component, pageProps }: AppPropsWithLayout) => {
         />
       )}
       <script src="/__ENV.js" />
-      <main className="font-sans">
+      <div className={`${jakarta.variable} font-sans`}>
         <KeyboardShortcutProvider>
           <LinguiProviderWrapper>
             <FontSizeProvider>
@@ -106,7 +107,7 @@ const MyApp: AppType = ({ Component, pageProps }: AppPropsWithLayout) => {
             </FontSizeProvider>
           </LinguiProviderWrapper>
         </KeyboardShortcutProvider>
-      </main>
+      </div>
       <a
         href="https://github.com/Kaidasenpai/kan-adrenaline"
         className="fixed bottom-2 right-3 z-50 rounded bg-light-100 px-2 py-1 text-xs text-light-900 underline underline-offset-2 focus-visible:outline focus-visible:outline-2 dark:bg-dark-50 dark:text-dark-900"

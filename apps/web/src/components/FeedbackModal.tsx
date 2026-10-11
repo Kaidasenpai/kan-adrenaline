@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { t } from "@lingui/core/macro";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { HiXMark } from "react-icons/hi2";
 
+import { BrandLogo } from "~/components/BrandLogo";
 import Button from "~/components/Button";
 import Input from "~/components/Input";
 import { useModal } from "~/providers/modal";
@@ -26,7 +26,7 @@ export default function FeedbackModal() {
     });
 
   const createFeedback = api.feedback.create.useMutation({
-    onSuccess: async () => {
+    onSuccess: () => {
       reset();
       closeModal();
       showPopup({
@@ -35,7 +35,7 @@ export default function FeedbackModal() {
         icon: "success",
       });
     },
-    onError: async () => {
+    onError: () => {
       showPopup({
         header: t`Unable to send feedback`,
         message: t`Please try again later, or contact customer support.`,
@@ -55,11 +55,15 @@ export default function FeedbackModal() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="px-5 pt-5">
         <div className="flex w-full items-center justify-between pb-4">
-          <h2 className="text-sm font-bold text-neutral-900 dark:text-dark-1000">
-            {t`Feedback`}
-          </h2>
+          <div className="flex items-center gap-3">
+            <BrandLogo size="sm" compact />
+            <h2 className="text-sm font-bold text-neutral-900 dark:text-dark-1000">
+              {t`Adrenaline Tasks feedback`}
+            </h2>
+          </div>
           <button
             type="button"
+            aria-label={t`Close`}
             className="rounded p-1 hover:bg-light-200 focus:outline-none dark:hover:bg-dark-300"
             onClick={(e) => {
               e.preventDefault();
@@ -89,29 +93,31 @@ export default function FeedbackModal() {
           }}
         />
       </div>
-      <div className="mt-6 flex items-center justify-between border-t border-light-600 px-5 pb-5 pt-5 dark:border-dark-600">
+      <div className="mt-6 flex items-center justify-between gap-4 border-t border-light-600 px-5 pb-5 pt-5 dark:border-dark-600">
         <div className="text-xs text-neutral-600 dark:text-dark-800">
           <p>
             {t`Need help?`}{" "}
             <Link
-              href="mailto:support@kan.bn"
-              className="text-blue-600 underline dark:text-blue-300"
+              href="https://github.com/Kaidasenpai/kan-adrenaline/issues"
+              target="_blank"
+              rel="noreferrer"
+              className="text-light-1000 underline decoration-[#B4D234] underline-offset-2 dark:text-[#B4D234]"
             >
-              {t`Contact us`}
+              {t`Report an issue`}
             </Link>
-            {t`, or see our`}{" "}
+            <span aria-hidden="true"> · </span>
             <Link
               href="https://docs.kan.bn"
               target="_blank"
               rel="noreferrer"
-              className="text-blue-600 underline dark:text-blue-300"
+              className="text-light-1000 underline decoration-[#B4D234] underline-offset-2 dark:text-[#B4D234]"
             >
-              {t`docs`}
+              {t`Upstream documentation`}
             </Link>
             .
           </p>
         </div>
-        <div>
+        <div className="shrink-0">
           <Button type="submit" isLoading={createFeedback.isPending}>
             {t`Send feedback`}
           </Button>

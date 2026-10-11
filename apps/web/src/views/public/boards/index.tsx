@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { t } from "@lingui/core/macro";
+import { useEffect } from "react";
+
+import { BrandLogo } from "~/components/BrandLogo";
 import { PageHead } from "~/components/PageHead";
 import PatternedBackground from "~/components/PatternedBackground";
 import { api } from "~/utils/api";
@@ -72,21 +74,15 @@ export default function PublicBoardsView() {
 
   return (
     <>
-      <PageHead title={`${data?.name ?? t`Workspace`} | kan.bn`} />
-      <style jsx global>{`
-        html {
-          height: 100vh;
-          overflow: hidden;
-        }
-      `}</style>
-      <div className="flex h-screen flex-col items-center justify-center bg-light-100 dark:bg-dark-50">
+      <PageHead title={`${data?.name ?? t`Workspace`} | Adrenaline Tasks`} />
+      <div className="flex min-h-dvh flex-col items-center justify-center bg-light-100 px-4 py-10 dark:bg-dark-50">
         <h1 className="mb-2 text-2xl font-bold text-light-1000 dark:text-dark-1000">
           {data?.name}
         </h1>
-        <p className="mb-6 text-light-1000 dark:text-dark-900">
+        <p className="mb-6 max-w-xl text-center text-light-1000 dark:text-dark-900">
           {data?.description}
         </p>
-        <div className="mb-4 h-[400px] w-[600px] rounded-xl border border-light-400 bg-light-200 p-4 dark:border-dark-200 dark:bg-dark-100">
+        <div className="mb-6 h-[400px] w-full max-w-[600px] rounded-xl border border-light-400 bg-light-200 p-4 dark:border-dark-200 dark:bg-dark-100">
           {data?.boards && workspaceSlug && (
             <BoardsList
               isLoading={isLoading}
@@ -95,11 +91,8 @@ export default function PublicBoardsView() {
             />
           )}
         </div>
-        <Link
-          className="text-lg font-bold tracking-tight text-neutral-900 dark:text-dark-1000"
-          href="/"
-        >
-          kan.bn
+        <Link href="/">
+          <BrandLogo size="sm" />
         </Link>
       </div>
     </>

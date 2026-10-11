@@ -31,15 +31,15 @@ const Modal: React.FC<Props> = ({
     closeOnClickOutside ?? modalCloseOnClickOutside;
 
   const modalSizeMap = {
-    sm: "max-w-[400px]",
-    md: "max-w-[550px]",
-    lg: "max-w-[800px]",
+    sm: "max-w-[440px]",
+    md: "max-w-[600px]",
+    lg: "max-w-[880px]",
   };
 
   const positionFromTopMap = {
-    sm: "mt-[12vh]",
-    md: "mt-[25vh]",
-    lg: "mt-[50vh]",
+    sm: "clamp(0rem, 4dvh, 2rem)",
+    md: "clamp(0rem, 8dvh, 5rem)",
+    lg: "clamp(0rem, 16dvh, 10rem)",
   };
 
   return (
@@ -51,29 +51,37 @@ const Modal: React.FC<Props> = ({
       >
         <Transition.Child
           as={Fragment}
-          enter="ease-out duration-300"
+          enter="ease-interface duration-[180ms]"
           enterFrom="opacity-0"
           enterTo="opacity-100"
-          leave="ease-in duration-200"
+          leave="ease-interface duration-[120ms]"
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-light-50 bg-opacity-40 transition-opacity dark:bg-dark-50 dark:bg-opacity-40" />
+          <div className="fixed inset-0 bg-[#171A15]/45 transition-opacity dark:bg-black/60" />
         </Transition.Child>
 
         <div className="fixed inset-0 z-50 w-screen overflow-y-auto">
-          <div className={`flex min-h-full justify-center p-4 text-center sm:p-0 ${centered ? "items-center" : "items-start sm:items-start"}`}>
+          <div
+            className={`flex min-h-full justify-center p-4 ${centered ? "items-center" : "items-start"}`}
+          >
             <Transition.Child
               as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-              enterTo="opacity-100 translate-y-0 sm:scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              enter="transition-opacity ease-interface duration-[180ms]"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="transition-opacity ease-interface duration-[120ms]"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
             >
               <Dialog.Panel
-                className={`relative ${centered ? "" : positionFromTopMap[positionFromTop]} w-full transform rounded-lg border border-light-600 bg-white/90 text-left shadow-3xl-light backdrop-blur-[6px] transition-all dark:border-dark-600 dark:bg-dark-100/90 dark:shadow-3xl-dark ${modalSizeMap[modalSize]}`}
+                className={`adrenaline-modal relative w-full overflow-y-auto overscroll-contain rounded-xl border border-light-300 bg-white text-left text-light-1000 shadow-3xl-light dark:border-dark-400 dark:bg-dark-100 dark:text-dark-1000 dark:shadow-3xl-dark ${modalSizeMap[modalSize]}`}
+                style={{
+                  marginTop: centered ? 0 : positionFromTopMap[positionFromTop],
+                  maxHeight: centered
+                    ? "calc(100dvh - 2rem)"
+                    : `calc(100dvh - ${positionFromTopMap[positionFromTop]} - 2rem)`,
+                }}
               >
                 {children}
               </Dialog.Panel>

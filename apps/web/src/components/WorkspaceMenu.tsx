@@ -4,12 +4,14 @@ import { t } from "@lingui/core/macro";
 import { env } from "next-runtime-env";
 import { Fragment, useMemo, useState } from "react";
 import { HiCheck, HiMagnifyingGlass } from "react-icons/hi2";
+import { TbChevronDown } from "react-icons/tb";
 import { twMerge } from "tailwind-merge";
 
 import { useKeyboardShortcut } from "~/providers/keyboard-shortcuts";
 import { useModal } from "~/providers/modal";
 import { useWorkspace } from "~/providers/workspace";
 import { api } from "~/utils/api";
+import { BrandMark } from "./BrandLogo";
 import CommandPallette from "./CommandPallette";
 import { Tooltip } from "./Tooltip";
 
@@ -61,26 +63,30 @@ export default function WorkspaceMenu({
           ) : (
             <div
               className={twMerge(
-                "flex items-center justify-start gap-1",
-                isCollapsed && "md:flex-col-reverse md:items-center",
+                "flex flex-col items-stretch justify-start gap-2",
+                isCollapsed && "md:items-center",
               )}
             >
               <Menu.Button
                 className={twMerge(
-                  "mb-1 flex h-[34px] min-w-0 flex-1 items-center justify-start rounded-md p-1.5 hover:bg-light-200 dark:hover:bg-dark-200",
+                  "focus-visible:outline-brand-accent dark:focus-visible:outline-brand-lime flex min-h-14 w-full min-w-0 items-center justify-start rounded-md bg-light-200 px-2.5 py-2 hover:bg-light-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 dark:bg-dark-200 dark:hover:bg-dark-300",
                   isCollapsed &&
-                    "md:mb-1.5 md:h-9 md:w-9 md:flex-none md:justify-center md:p-0",
+                    "md:h-11 md:min-h-11 md:w-11 md:flex-none md:justify-center md:p-0",
                 )}
                 title={isCollapsed ? workspace.name : undefined}
               >
-                <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-indigo-700">
-                  <span className="text-xs font-bold leading-none text-white">
-                    {workspace.name.charAt(0).toUpperCase()}
-                  </span>
+                <span className="bg-brand-ink inline-flex h-8 w-8 shrink-0 items-center justify-center rounded">
+                  {workspace.name.toLowerCase().startsWith("adrenalin") ? (
+                    <BrandMark className="h-6 w-7" />
+                  ) : (
+                    <span className="text-brand-lime text-xs font-bold leading-none">
+                      {workspace.name.charAt(0).toUpperCase()}
+                    </span>
+                  )}
                 </span>
                 <span
                   className={twMerge(
-                    "ml-2 min-w-0 flex-1 truncate text-left text-sm font-bold text-neutral-900 dark:text-dark-1000",
+                    "ml-2.5 min-w-0 flex-1 text-left text-sm font-medium leading-5 text-neutral-900 dark:text-dark-1000",
                     isCollapsed && "md:hidden",
                   )}
                 >
@@ -96,17 +102,39 @@ export default function WorkspaceMenu({
                     Pro
                   </span>
                 )}
+                <TbChevronDown
+                  aria-hidden="true"
+                  className={twMerge(
+                    "ml-1 h-4 w-4 shrink-0 text-light-900 dark:text-dark-900",
+                    isCollapsed && "md:hidden",
+                  )}
+                />
               </Menu.Button>
               <Tooltip content={commandPaletteShortcutTooltipContent}>
                 <Button
                   aria-label={t`Search`}
                   className={twMerge(
-                    "mb-1 h-[34px] w-[34px] flex-shrink-0 rounded-lg bg-light-200 p-2 hover:bg-light-300 focus:outline-none dark:bg-dark-200 dark:hover:bg-dark-300",
-                    isCollapsed && "md:mb-2 md:h-9 md:w-9",
+                    "focus-visible:outline-brand-accent dark:focus-visible:outline-brand-lime flex h-11 w-full items-center gap-2.5 rounded-md px-3 text-sm text-light-950 data-[focus]:bg-light-200 hover:bg-light-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 dark:text-dark-950 dark:data-[focus]:bg-dark-200 dark:hover:bg-dark-200",
+                    isCollapsed && "md:w-11 md:justify-center md:px-0",
                   )}
                   onClick={() => setIsOpen(true)}
                 >
-                  <HiMagnifyingGlass className="h-4 w-4" aria-hidden="true" />
+                  <HiMagnifyingGlass
+                    className="h-[18px] w-[18px] shrink-0"
+                    aria-hidden="true"
+                  />
+                  <span
+                    className={twMerge(isCollapsed && "md:hidden")}
+                  >{t`Search`}</span>
+                  <span
+                    aria-hidden="true"
+                    className={twMerge(
+                      "ml-auto text-xs text-light-900 dark:text-dark-900",
+                      isCollapsed && "md:hidden",
+                    )}
+                  >
+                    ⌘ K
+                  </span>
                 </Button>
               </Tooltip>
             </div>
@@ -115,17 +143,21 @@ export default function WorkspaceMenu({
 
         <Transition
           as={Fragment}
-          enter="transition ease-out duration-100"
+          enter="transition duration-150 ease-[cubic-bezier(0.22,1,0.36,1)]"
           enterFrom="transform opacity-0 scale-95"
           enterTo="transform opacity-100 scale-100"
-          leave="transition ease-in duration-75"
+          leave="transition duration-100 ease-[cubic-bezier(0.22,1,0.36,1)]"
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
           <Menu.Items
+            data-sidebar-menu
+            anchor={{ to: "bottom start", gap: 8, padding: 12 }}
             className={twMerge(
-              "absolute left-0 z-10 origin-top-left rounded-md border border-light-600 bg-light-50 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-dark-600 dark:bg-dark-300",
-              isCollapsed ? "w-48" : "w-full",
+              "z-[100] max-h-[calc(100dvh-2rem)] origin-top-left overflow-y-auto rounded-md border border-light-600 bg-light-50 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-dark-600 dark:bg-dark-300",
+              isCollapsed
+                ? "w-60 max-w-[calc(100vw-1.5rem)]"
+                : "w-[212px] max-w-[calc(100vw-1.5rem)]",
             )}
           >
             <div className="p-1">
@@ -134,15 +166,21 @@ export default function WorkspaceMenu({
                   <Menu.Item>
                     <button
                       onClick={() => switchWorkspace(availableWorkspace)}
-                      className="flex w-full items-center justify-between rounded-[5px] px-3 py-2 text-left text-sm text-neutral-900 hover:bg-light-200 dark:text-dark-1000 dark:hover:bg-dark-400"
+                      className="flex w-full items-center justify-between rounded-[5px] px-3 py-2 text-left text-sm text-neutral-900 data-[focus]:bg-light-200 hover:bg-light-200 dark:text-dark-1000 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
                     >
                       <div className="flex min-w-0 flex-1 items-center">
-                        <span className="inline-flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-[5px] bg-indigo-700">
-                          <span className="text-xs font-medium leading-none text-white">
-                            {availableWorkspace.name.charAt(0).toUpperCase()}
-                          </span>
+                        <span className="bg-brand-ink inline-flex h-5 w-5 flex-shrink-0 items-center justify-center rounded">
+                          {availableWorkspace.name
+                            .toLowerCase()
+                            .startsWith("adrenalin") ? (
+                            <BrandMark className="h-5 w-5" />
+                          ) : (
+                            <span className="text-brand-lime text-sm font-medium leading-none">
+                              {availableWorkspace.name.charAt(0).toUpperCase()}
+                            </span>
+                          )}
                         </span>
-                        <span className="ml-2 truncate text-xs font-medium">
+                        <span className="ml-2 truncate text-sm font-medium">
                           {availableWorkspace.name}
                         </span>
                       </div>
@@ -172,7 +210,7 @@ export default function WorkspaceMenu({
                       );
                     }
                   }}
-                  className="flex w-full items-center justify-between rounded-[5px] px-3 py-2 text-left text-xs text-neutral-900 hover:bg-light-200 dark:text-dark-1000 dark:hover:bg-dark-400"
+                  className="flex min-h-11 w-full items-center justify-between rounded-[5px] px-3 py-2 text-left text-sm text-neutral-900 data-[focus]:bg-light-200 hover:bg-light-200 dark:text-dark-1000 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
                 >
                   {t`Create workspace`}
                 </button>

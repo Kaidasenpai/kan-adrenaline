@@ -7793,105 +7793,105 @@
     "translation": "Adres URL YouTube"
   },
   "QeXxn3": {
-    "translation": "",
+    "translation": "Powrót do logowania",
     "message": "Back to sign in",
     "placeholders": {},
     "comments": [],
     "origin": [["src/pages/setup.tsx", 75]]
   },
   "Wk8hkn": {
-    "translation": "",
+    "translation": "Wybierz hasło",
     "message": "Choose your password",
     "placeholders": {},
     "comments": [],
     "origin": [["src/pages/setup.tsx", 51]]
   },
   "xnWESi": {
-    "translation": "",
+    "translation": "Potwierdź hasło",
     "message": "Confirm password",
     "placeholders": {},
     "comments": [],
     "origin": [["src/pages/setup.tsx", 68]]
   },
   "L8vmLR": {
-    "translation": "",
+    "translation": "Logowanie | Adrenaline Tasks",
     "message": "Login | Adrenaline Tasks",
     "placeholders": {},
     "comments": [],
     "origin": [["src/views/auth/login/index.tsx", 33]]
   },
   "786+nw": {
-    "translation": "",
+    "translation": "Otwórz prywatny link konfiguracji, aby aktywować konto.",
     "message": "Open your private setup link to activate your account.",
     "placeholders": {},
     "comments": [],
     "origin": [["src/pages/setup.tsx", 59]]
   },
   "8ZsakT": {
-    "translation": "",
+    "translation": "Hasło",
     "message": "Password",
     "placeholders": {},
     "comments": [],
     "origin": [["src/pages/setup.tsx", 64]]
   },
   "EATxN/": {
-    "translation": "",
+    "translation": "Hasła muszą być identyczne.",
     "message": "Passwords must match.",
     "placeholders": {},
     "comments": [],
     "origin": [["src/pages/setup.tsx", 24]]
   },
   "2SOFq+": {
-    "translation": "",
+    "translation": "Zapisz hasło",
     "message": "Save password",
     "placeholders": {},
     "comments": [],
     "origin": [["src/pages/setup.tsx", 72]]
   },
   "3rmJz6": {
-    "translation": "",
+    "translation": "Skonfiguruj konto | Adrenaline Tasks",
     "message": "Set up your account | Adrenaline Tasks",
     "placeholders": {},
     "comments": [],
     "origin": [["src/pages/setup.tsx", 46]]
   },
   "qq5JSg": {
-    "translation": "",
+    "translation": "Zaloguj się, aby zarządzać projektami, wydarzeniami i zadaniami produkcyjnymi.",
     "message": "Sign in to start managing your projects, events, and production tasks.",
     "placeholders": {},
     "comments": [],
     "origin": [["src/pages/setup.tsx", 55]]
   },
   "joolK7": {
-    "translation": "",
+    "translation": "Kod źródłowy",
     "message": "Source code",
     "placeholders": {},
     "comments": [],
     "origin": [["src/pages/_app.tsx", 107]]
   },
   "GtlneA": {
-    "translation": "",
+    "translation": "Ten link konfiguracji wygasł lub został już użyty.",
     "message": "This setup link has expired or has already been used.",
     "placeholders": {},
     "comments": [],
     "origin": [["src/pages/setup.tsx", 31]]
   },
   "ZwUqht": {
-    "translation": "",
+    "translation": "Użyj co najmniej 12 znaków. Ten link konfiguracji działa tylko raz.",
     "message": "Use at least 12 characters. This setup link works once.",
     "placeholders": {},
     "comments": [],
     "origin": [["src/pages/setup.tsx", 62]]
   },
   "7JYB8n": {
-    "translation": "",
+    "translation": "Nie udało się zapisać hasła. Spróbuj ponownie.",
     "message": "We could not save your password. Please try again.",
     "placeholders": {},
     "comments": [],
     "origin": [["src/pages/setup.tsx", 38]]
   },
   "LORPsz": {
-    "translation": "",
+    "translation": "Twoje konto jest gotowe",
     "message": "Your account is ready",
     "placeholders": {},
     "comments": [],
@@ -7899,7 +7899,7 @@
   },
 "XtSlCA": {
   "message": "Sign up | Adrenaline Tasks",
-  "translation": "",
+  "translation": "Rejestracja | Adrenaline Tasks",
   "placeholders": {},
   "comments": [],
   "origin": [
@@ -7908,5 +7908,721 @@
       41
     ]
   ]
-}
+},
+  "pMykEw": {
+    "translation": "404 - Nie znaleziono strony | Adrenaline Tasks",
+    "message": "404 - Page Not Found | Adrenaline Tasks",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/pages/404.tsx",
+        12
+      ]
+    ]
+  },
+  "kXHm1k": {
+    "translation": "Opinia o Adrenaline Tasks",
+    "message": "Adrenaline Tasks feedback",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/FeedbackModal.tsx",
+        62
+      ]
+    ]
+  },
+  "mO95sp": {
+    "translation": "Zamknij panel",
+    "message": "Close panel",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Dashboard.tsx",
+        214
+      ]
+    ]
+  },
+  "mkMLq4": {
+    "translation": "Zwiń pasek boczny",
+    "message": "Collapse sidebar",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Dashboard.tsx",
+        189
+      ],
+      [
+        "src/components/SideNavigation.tsx",
+        177
+      ]
+    ]
+  },
+  "tugdy6": {
+    "translation": "Rozwiń pasek boczny",
+    "message": "Expand sidebar",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Dashboard.tsx",
+        189
+      ],
+      [
+        "src/components/SideNavigation.tsx",
+        177
+      ]
+    ]
+  },
+  "/ONqAc": {
+    "translation": "Dołącz do przestrzeni roboczej | Adrenaline Tasks",
+    "message": "Join workspace | Adrenaline Tasks",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/invite/index.tsx",
+        88
+      ],
+      [
+        "src/views/invite/index.tsx",
+        101
+      ]
+    ]
+  },
+  "nhMLCJ": {
+    "translation": "Otwórz panel",
+    "message": "Open panel",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Dashboard.tsx",
+        214
+      ]
+    ]
+  },
+  "g2UNkE": {
+    "translation": "Na bazie",
+    "message": "Powered by",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/public/board/index.tsx",
+        260
+      ]
+    ]
+  },
+  "w6qPWt": {
+    "translation": "Produkcja",
+    "message": "Production",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/AuthBrandShell.tsx",
+        22
+      ]
+    ]
+  },
+  "+0B+ue": {
+    "translation": "Projekty",
+    "message": "Projects",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/AuthBrandShell.tsx",
+        18
+      ]
+    ]
+  },
+  "iYlPsv": {
+    "translation": "Projekty, wydarzenia i produkcja w Adrenaline Entertainment.",
+    "message": "Projects, events, and production at Adrenaline Entertainment.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/PageHead.tsx",
+        12
+      ]
+    ]
+  },
+  "Q3LOVJ": {
+    "translation": "Zgłoś problem",
+    "message": "Report an issue",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/FeedbackModal.tsx",
+        106
+      ]
+    ]
+  },
+  "dL6d4j": {
+    "translation": "Dokumentacja projektu źródłowego",
+    "message": "Upstream documentation",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/FeedbackModal.tsx",
+        115
+      ],
+      [
+        "src/components/UserMenu.tsx",
+        213
+      ]
+    ]
+  },
+  "z6kfQ+": {
+    "translation": "Zaproszono Cię do dołączenia do przestrzeni roboczej w Adrenaline Tasks.",
+    "message": "You've been invited to join a workspace on Adrenaline Tasks.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/invite/index.tsx",
+        149
+      ]
+    ]
+  },
+  "PI1RcN": {
+    "translation": "Dodatkowe kolumny: {count}",
+    "message": "{count} more columns",
+    "placeholders": {
+      "count": [
+        "count"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        70
+      ]
+    ]
+  },
+  "RuXuwk": {
+    "translation": "+{0} więcej",
+    "message": "+{0} more",
+    "placeholders": {
+      "0": [
+        "board.labels.length - 3"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        247
+      ]
+    ]
+  },
+  "RGQQPB": {
+    "translation": "Jeszcze 1 kolumna",
+    "message": "1 more column",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        70
+      ]
+    ]
+  },
+  "D50nTB": {
+    "translation": "Aktywne tablice",
+    "message": "Active boards",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/index.tsx",
+        150
+      ]
+    ]
+  },
+  "ycd4j7": {
+    "translation": "Zarchiwizowane tablice",
+    "message": "Archived boards",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/index.tsx",
+        149
+      ]
+    ]
+  },
+  "w/Sphq": {
+    "translation": "Załączniki",
+    "message": "Attachments",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/Card.tsx",
+        147
+      ],
+      [
+        "src/views/card/index.tsx",
+        489
+      ]
+    ]
+  },
+  "t8L2y0": {
+    "translation": "Status tablicy",
+    "message": "Board status",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/index.tsx",
+        121
+      ]
+    ]
+  },
+  "+NYYc6": {
+    "translation": "Przebieg pracy na tablicy",
+    "message": "Board workflow",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        199
+      ]
+    ]
+  },
+  "jcDU50": {
+    "translation": "Wybierz sekcję",
+    "message": "Choose a section",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/SettingsLayout.tsx",
+        123
+      ]
+    ]
+  },
+  "Nu4oKW": {
+    "translation": "Opis",
+    "message": "Description",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/Card.tsx",
+        105
+      ],
+      [
+        "src/views/board/components/NewCardForm.tsx",
+        452
+      ],
+      [
+        "src/views/card/index.tsx",
+        447
+      ]
+    ]
+  },
+  "URmyfc": {
+    "translation": "Szczegóły",
+    "message": "Details",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/card/index.tsx",
+        124
+      ]
+    ]
+  },
+  "r4rBj2": {
+    "translation": "Upuść karty tutaj",
+    "message": "Drop cards here",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/CardList.tsx",
+        99
+      ]
+    ]
+  },
+  "YQqv2e": {
+    "translation": "Zacznij od utworzenia nowej tablicy",
+    "message": "Get started by creating a new board",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        138
+      ]
+    ]
+  },
+  "ZD7u2I": {
+    "translation": "Zacznij od utworzenia nowego szablonu",
+    "message": "Get started by creating a new template",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        137
+      ]
+    ]
+  },
+  "Pw01g0": {
+    "translation": "Ukryj hasło",
+    "message": "Hide password",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Input.tsx",
+        102
+      ]
+    ]
+  },
+  "GA5TFo": {
+    "translation": "Przestrzeń robocza tylko na zaproszenie",
+    "message": "Invite-only workspace",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/auth/login/index.tsx",
+        59
+      ]
+    ]
+  },
+  "VgkCaI": {
+    "translation": "Ładowanie tablic",
+    "message": "Loading boards",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        76
+      ]
+    ]
+  },
+  "+Apw5Q": {
+    "translation": "Zarządzaj kontem i przestrzenią roboczą.",
+    "message": "Manage your account and workspace.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/SettingsLayout.tsx",
+        100
+      ]
+    ]
+  },
+  "HsRSay": {
+    "translation": "Zarządzaj zespołem i dostępem do przestrzeni roboczej.",
+    "message": "Manage your team and workspace access.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/members/index.tsx",
+        329
+      ]
+    ]
+  },
+  "zDw80P": {
+    "translation": "Nowa tablica",
+    "message": "New board",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        150
+      ],
+      [
+        "src/views/boards/index.tsx",
+        89
+      ]
+    ]
+  },
+  "DhLN1b": {
+    "translation": "Brak tablic",
+    "message": "No boards",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        131
+      ]
+    ]
+  },
+  "YxR4sM": {
+    "translation": "Nie ma jeszcze kart",
+    "message": "No cards yet",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/CardList.tsx",
+        99
+      ]
+    ]
+  },
+  "m8ktm+": {
+    "translation": "Nie ma jeszcze kolumn",
+    "message": "No columns yet",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        219
+      ]
+    ]
+  },
+  "kTNh5S": {
+    "translation": "Brak szablonów",
+    "message": "No templates",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        130
+      ]
+    ]
+  },
+  "HWAICJ": {
+    "translation": "Otwórz {0}",
+    "message": "Open {0}",
+    "placeholders": {
+      "0": [
+        "board.name"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        174
+      ]
+    ]
+  },
+  "3v3Zdr": {
+    "translation": "Umieść kartę na dole",
+    "message": "Place card at bottom",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/NewCardForm.tsx",
+        633
+      ],
+      [
+        "src/views/board/components/NewCardForm.tsx",
+        638
+      ]
+    ]
+  },
+  "2prhpC": {
+    "translation": "Umieść kartę na górze",
+    "message": "Place card at top",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/NewCardForm.tsx",
+        632
+      ],
+      [
+        "src/views/board/components/NewCardForm.tsx",
+        637
+      ]
+    ]
+  },
+  "JEtdmQ": {
+    "translation": "Projekty, wydarzenia i produkcja w jednej przestrzeni roboczej.",
+    "message": "Projects, events, and production in one workspace.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/index.tsx",
+        63
+      ]
+    ]
+  },
+  "UkrtYN": {
+    "translation": "Gotowe schematy pracy do wykorzystania w kolejnym projekcie.",
+    "message": "Reusable workflows for your next project.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/index.tsx",
+        62
+      ]
+    ]
+  },
+  "+Ni3Gv": {
+    "translation": "Wyślij link do logowania",
+    "message": "Send magic link",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/AuthForm.tsx",
+        473
+      ]
+    ]
+  },
+  "KNbXtB": {
+    "translation": "Nawigacja po ustawieniach",
+    "message": "Settings navigation",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/SettingsLayout.tsx",
+        114
+      ],
+      [
+        "src/components/SettingsLayout.tsx",
+        153
+      ]
+    ]
+  },
+  "7C+Jn5": {
+    "translation": "Pokaż hasło",
+    "message": "Show password",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/Input.tsx",
+        102
+      ]
+    ]
+  },
+  "ZalzZ1": {
+    "translation": "Zaloguj się do swojej przestrzeni roboczej.",
+    "message": "Sign in to your workspace.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/auth/login/index.tsx",
+        40
+      ]
+    ]
+  },
+  "e+RpCP": {
+    "translation": "Zarejestruj się",
+    "message": "Sign up",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/AuthForm.tsx",
+        471
+      ]
+    ]
+  },
+  "yNR1Vx": {
+    "translation": "Przełącz na ciemny motyw",
+    "message": "Switch to dark theme",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ThemeToggle.tsx",
+        18
+      ]
+    ]
+  },
+  "e0IFR+": {
+    "translation": "Przełącz na jasny motyw",
+    "message": "Switch to light theme",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ThemeToggle.tsx",
+        19
+      ]
+    ]
+  },
+  "jZP+id": {
+    "translation": "Praca za kulisami widowiska.",
+    "message": "The work behind the show.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/AuthBrandShell.tsx",
+        16
+      ]
+    ]
+  },
+  "PRQRqX": {
+    "translation": "Ta przestrzeń robocza jest dostępna tylko na zaproszenie. Poproś zespół o zaproszenie.",
+    "message": "This workspace is invite-only. Ask your team for an invitation.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/auth/signup/index.tsx",
+        43
+      ]
+    ]
+  },
+  "KDw4GX": {
+    "translation": "Spróbuj ponownie",
+    "message": "Try again",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        113
+      ]
+    ]
+  },
+  "70BKDS": {
+    "translation": "Nie udało się załadować tablic",
+    "message": "Unable to load boards",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        107
+      ]
+    ]
+  },
+  "l0bftS": {
+    "translation": "Nie udało się zaktualizować ulubionych",
+    "message": "Unable to update favorite",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        40
+      ]
+    ]
+  }
 }

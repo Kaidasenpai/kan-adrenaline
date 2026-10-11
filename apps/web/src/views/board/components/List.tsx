@@ -23,6 +23,7 @@ import { isPlaceholderPublicId } from "~/utils/helpers";
 interface ListProps {
   children: ReactNode;
   list: List;
+  cardCount?: number;
   setSelectedPublicListId: (publicListId: PublicListId) => void;
 }
 
@@ -42,6 +43,7 @@ type PublicListId = string;
 export default function List({
   children,
   list,
+  cardCount = 0,
   setSelectedPublicListId,
 }: ListProps) {
   const { openModal } = useModal();
@@ -109,39 +111,40 @@ export default function List({
       style={style}
       {...attributes}
       {...listeners}
-      className={`dark-text-dark-1000 mr-5 h-fit min-w-[18rem] max-w-[18rem] snap-start rounded-md border border-light-400 bg-light-300 py-2 pl-2 pr-1 text-neutral-900 dark:border-dark-300 dark:bg-dark-100 md:snap-align-none ${
+      className={`mr-4 flex h-fit max-h-full min-h-0 min-w-[19rem] max-w-[19rem] snap-start flex-col rounded-xl border border-light-300 bg-light-100 p-3 text-neutral-900 dark:border-dark-300 dark:bg-dark-100 md:snap-align-none ${
         canDrag ? (isDragging ? "cursor-grabbing" : "cursor-grab") : ""
       }`}
     >
-      <div className="mb-2 flex justify-between">
+      <div className="mb-3 flex min-h-10 shrink-0 items-center justify-between gap-2 border-b border-light-300 pb-3 dark:border-dark-300">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="w-full focus-visible:outline-none"
+          className="min-w-0 flex-1 focus-visible:outline-none"
         >
           <input
-            id="name"
+            id={`list-name-${list.publicId}`}
             type="text"
             aria-label={t`List name`}
             {...register("name")}
             onBlur={handleSubmit(onSubmit)}
             readOnly={!canEdit || isOptimistic}
-            className="w-full border-0 bg-transparent px-4 pt-1 text-sm font-medium text-neutral-900 focus:ring-0 focus-visible:outline-none dark:text-dark-1000"
+            className="focus:ring-brand-accent dark:focus:ring-brand-lime w-full rounded border-0 bg-transparent px-1 py-1.5 text-sm font-bold text-neutral-900 focus:ring-2 focus-visible:outline-none dark:text-dark-1000"
           />
         </form>
-        <div className="flex items-center">
+        <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-md bg-light-300 px-1.5 text-xs font-semibold tabular-nums text-light-800 dark:bg-dark-200 dark:text-dark-900">
+          {cardCount}
+        </span>
+        <div className="flex shrink-0 items-center gap-0.5">
           <Tooltip
             content={!canCreateCard ? t`You don't have permission` : undefined}
           >
             <button
-              className="mx-1 inline-flex h-fit items-center rounded-md p-1 px-1 text-sm font-semibold text-dark-50 hover:bg-light-400 disabled:cursor-not-allowed disabled:opacity-60 dark:hover:bg-dark-200"
+              type="button"
+              className="focus-visible:outline-brand-accent dark:focus-visible:outline-brand-lime inline-flex h-9 w-9 items-center justify-center rounded-md text-light-900 hover:bg-light-300 focus-visible:outline focus-visible:outline-2 disabled:cursor-not-allowed disabled:opacity-60 dark:text-dark-900 dark:hover:bg-dark-200"
               onClick={() => openNewCardForm(list.publicId)}
               disabled={!canCreateCard || isOptimistic}
               aria-label={t`Add card`}
             >
-              <HiOutlinePlusSmall
-                className="h-5 w-5 text-dark-900"
-                aria-hidden="true"
-              />
+              <HiOutlinePlusSmall className="h-5 w-5" aria-hidden="true" />
             </button>
           </Tooltip>
           {(() => {
@@ -175,7 +178,7 @@ export default function List({
             }
 
             return (
-              <div className="relative mr-1 inline-block">
+              <div className="relative inline-block">
                 <Dropdown items={dropdownItems} ariaLabel={t`List options`}>
                   <HiEllipsisHorizontal className="h-5 w-5 text-dark-900" />
                 </Dropdown>

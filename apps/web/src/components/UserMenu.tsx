@@ -9,6 +9,7 @@ import { twMerge } from "tailwind-merge";
 
 import { authClient } from "@kan/auth/client";
 
+import { BrandLogo } from "~/components/BrandLogo";
 import { env } from "~/env";
 import { useIsMobile } from "~/hooks/useMediaQuery";
 import { useKeyboardShortcuts } from "~/providers/keyboard-shortcuts";
@@ -59,6 +60,7 @@ export default function UserMenu({
     openModal(modalType);
   };
 
+  const accountName = displayName?.trim() ? displayName : email;
   const avatarUrl = imageUrl ? getAvatarUrl(imageUrl) : null;
 
   return (
@@ -76,35 +78,42 @@ export default function UserMenu({
           </div>
         ) : (
           <Menu.Button
-            className="flex w-full items-center rounded-md p-1.5 text-neutral-900 hover:bg-light-200 dark:text-dark-900 dark:hover:bg-dark-200 dark:hover:text-dark-1000"
-            title={isCollapsed ? (displayName || email) : undefined}
+            className="focus-visible:outline-brand-accent dark:focus-visible:outline-brand-lime flex min-h-14 w-full items-center rounded-md p-2 text-neutral-900 data-[focus]:bg-light-200 hover:bg-light-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 dark:text-dark-900 dark:data-[focus]:bg-dark-200 dark:hover:bg-dark-200 dark:hover:text-dark-1000"
+            title={isCollapsed ? accountName : undefined}
           >
             {avatarUrl ? (
               <Image
                 src={avatarUrl}
                 className="rounded-full bg-gray-50"
-                width={24}
-                height={24}
+                width={32}
+                height={32}
                 alt=""
               />
             ) : (
-              <span className="inline-block h-6 w-6 overflow-hidden rounded-full bg-light-400 dark:bg-dark-400">
-                <svg
-                  className="h-full w-full text-dark-700"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
+              <span
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-light-300 text-xs font-semibold text-light-1000 dark:bg-dark-300 dark:text-dark-1000"
+                aria-hidden="true"
+              >
+                {accountName
+                  .trim()
+                  .split(/\s+/)
+                  .slice(0, 2)
+                  .map((part) => part.charAt(0).toUpperCase())
+                  .join("")}
               </span>
             )}
             <span
               className={twMerge(
-                "mx-2 truncate text-sm",
+                "ml-2.5 min-w-0 text-left text-sm font-medium leading-5",
                 isCollapsed && "md:hidden",
               )}
             >
-              {displayName || email}
+              <span className="block truncate">{accountName}</span>
+              {displayName && (
+                <span className="block truncate text-xs font-normal text-light-900 dark:text-dark-900">
+                  {email}
+                </span>
+              )}
             </span>
           </Menu.Button>
         )}
@@ -112,28 +121,33 @@ export default function UserMenu({
 
       <Transition
         as={Fragment}
-        enter="transition ease-out duration-100"
+        enter="transition duration-150 ease-[cubic-bezier(0.22,1,0.36,1)]"
         enterFrom="transform opacity-0 scale-95"
         enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
+        leave="transition duration-100 ease-[cubic-bezier(0.22,1,0.36,1)]"
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items
+          data-sidebar-menu
+          anchor={{ to: "top start", gap: 8, padding: 12 }}
           className={twMerge(
-            "absolute bottom-[40px] z-10 mt-2 origin-top-left rounded-md border border-light-600 bg-light-50 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-dark-600 dark:bg-dark-300",
-            isCollapsed ? "left-0 w-48" : "left-0 w-full",
+            "z-[100] max-h-[calc(100dvh-2rem)] origin-bottom-left overflow-y-auto rounded-md border border-light-600 bg-light-50 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-dark-600 dark:bg-dark-300",
+            "w-60 max-w-[calc(100vw-1.5rem)]",
           )}
         >
           <div className="flex flex-col text-neutral-900 dark:text-dark-1000">
+            <div className="border-b border-light-600 px-3 py-3 dark:border-dark-600">
+              <BrandLogo size="sm" />
+            </div>
             <div className="p-1">
-              <div className="flex w-full items-center px-3 py-2 text-left text-xs">
+              <div className="flex min-h-11 w-full items-center px-3 py-2 text-left text-sm">
                 <span>{t`Theme`}</span>
               </div>
               <Menu.Item>
                 <button
                   onClick={() => setTheme("system")}
-                  className="flex w-full items-center rounded-[5px] px-3 py-2 text-left text-xs hover:bg-light-200 dark:hover:bg-dark-400"
+                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-left text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
                 >
                   <span
                     className={twMerge(
@@ -147,7 +161,7 @@ export default function UserMenu({
               <Menu.Item>
                 <button
                   onClick={() => setTheme("dark")}
-                  className="flex w-full items-center rounded-[5px] px-3 py-2 text-left text-xs hover:bg-light-200 dark:hover:bg-dark-400"
+                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-left text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
                 >
                   <span
                     className={twMerge(
@@ -161,7 +175,7 @@ export default function UserMenu({
               <Menu.Item>
                 <button
                   onClick={() => setTheme("light")}
-                  className="flex w-full items-center rounded-[5px] px-3 py-2 text-left text-xs hover:bg-light-200 dark:hover:bg-dark-400"
+                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-left text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
                 >
                   <span
                     className={twMerge(
@@ -182,18 +196,18 @@ export default function UserMenu({
                     }
                     openLegend();
                   }}
-                  className="flex w-full items-center rounded-[5px] px-3 py-2 text-left text-xs hover:bg-light-200 dark:hover:bg-dark-400"
+                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-left text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
                 >
                   {t`Shortcuts`}
                 </button>
               </Menu.Item>
               <Menu.Item>
                 <Link
-                  href="mailto:support@kan.bn"
+                  href="https://github.com/Kaidasenpai/kan-adrenaline/issues"
                   target="_blank"
                   rel="noreferrer"
                   onClick={handleLinkClick}
-                  className="flex w-full items-center rounded-[5px] px-3 py-2 text-left text-xs hover:bg-light-200 dark:hover:bg-dark-400"
+                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-left text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
                 >
                   {t`Support`}
                 </Link>
@@ -204,15 +218,15 @@ export default function UserMenu({
                   target="_blank"
                   rel="noreferrer"
                   onClick={handleLinkClick}
-                  className="flex w-full items-center rounded-[5px] px-3 py-2 text-left text-xs hover:bg-light-200 dark:hover:bg-dark-400"
+                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-left text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
                 >
-                  {t`Documentation`}
+                  {t`Upstream documentation`}
                 </Link>
               </Menu.Item>
               <Menu.Item>
                 <button
                   onClick={() => handleModalOpen("NEW_FEEDBACK")}
-                  className="flex w-full items-center rounded-[5px] px-3 py-2 text-left text-xs hover:bg-light-200 dark:hover:bg-dark-400"
+                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-left text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
                 >
                   {t`Feedback`}
                 </button>
@@ -222,7 +236,7 @@ export default function UserMenu({
               <Menu.Item>
                 <button
                   onClick={handleLogout}
-                  className="flex w-full items-center rounded-[5px] px-3 py-2 text-left text-xs hover:bg-light-200 dark:hover:bg-dark-400"
+                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-left text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
                 >
                   {t`Logout`}
                 </button>
@@ -240,7 +254,7 @@ export default function UserMenu({
                     target="_blank"
                     rel="noreferrer"
                     onClick={handleLinkClick}
-                    className="flex w-full items-center justify-center rounded-[5px] px-3 py-2 text-center text-xs text-light-900 hover:bg-light-200 dark:text-dark-900 dark:hover:bg-dark-400"
+                    className="flex w-full items-center justify-center rounded-[5px] px-3 py-2 text-center text-xs text-light-900 data-[focus]:bg-light-200 hover:bg-light-200 dark:text-dark-900 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
                   >
                     Version: {env.NEXT_PUBLIC_APP_VERSION}
                   </Link>

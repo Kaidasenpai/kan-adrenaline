@@ -1,11 +1,6 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 
-const menuGapClass = {
-  sm: "mt-1",
-  md: "mt-2",
-};
-
 export default function Dropdown({
   items,
   children,
@@ -30,7 +25,7 @@ export default function Dropdown({
         <Menu.Button
           disabled={disabled}
           aria-label={ariaLabel}
-          className="flex h-7 w-7 items-center justify-center rounded-[5px] hover:bg-light-200 focus:outline-none dark:hover:bg-dark-200"
+          className="ease-interface focus-visible:ring-brand-accent dark:focus-visible:ring-brand-lime flex h-11 w-11 items-center justify-center rounded-lg text-light-900 transition-colors duration-150 data-[focus]:bg-light-200 hover:bg-light-200 hover:text-light-1000 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 dark:text-dark-900 dark:data-[focus]:bg-dark-200 dark:hover:bg-dark-200 dark:hover:text-dark-1000"
         >
           {children}
         </Menu.Button>
@@ -38,15 +33,20 @@ export default function Dropdown({
 
       <Transition
         as={Fragment}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
+        enter="transition-opacity ease-interface duration-150"
+        enterFrom="opacity-0"
+        enterTo="opacity-100"
+        leave="transition-opacity ease-interface duration-100"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
       >
         <Menu.Items
-          className={`absolute right-0 isolate z-[100] ${menuGapClass[menuGap]} w-56 origin-top-right rounded-md border border-light-200 bg-white p-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-dark-400 dark:bg-dark-300`}
+          anchor={{
+            to: "bottom end",
+            gap: menuGap === "sm" ? 4 : 8,
+            padding: 12,
+          }}
+          className="isolate z-[100] max-h-[min(28rem,calc(100dvh-5rem))] w-60 max-w-[calc(100vw-1.5rem)] overflow-y-auto rounded-lg border border-light-300 bg-white p-1.5 shadow-3xl-light focus:outline-none dark:border-dark-400 dark:bg-dark-100 dark:shadow-3xl-dark"
         >
           <div className="flex flex-col">
             {items.map((item) => (
@@ -54,7 +54,7 @@ export default function Dropdown({
                 <button
                   onClick={item.action}
                   disabled={item.disabled ?? !item.action}
-                  className="flex w-auto items-center gap-2 rounded-[5px] px-2.5 py-1.5 text-left text-sm text-neutral-900 hover:bg-light-200 disabled:cursor-not-allowed disabled:opacity-60 dark:text-dark-950 dark:hover:bg-dark-400"
+                  className="ease-interface flex min-h-11 w-full items-center gap-3 rounded-md px-3 py-2 text-left text-sm text-light-1000 transition-colors duration-150 data-[focus]:bg-light-100 hover:bg-light-100 focus:bg-light-100 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:text-dark-1000 dark:data-[focus]:bg-dark-200 dark:hover:bg-dark-200 dark:focus:bg-dark-200"
                 >
                   {item.icon}
                   {item.label}

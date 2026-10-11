@@ -7,9 +7,9 @@ import { useState } from "react";
 
 import { authClient } from "@kan/auth/client";
 
+import AuthBrandShell from "~/components/AuthBrandShell";
 import { Auth } from "~/components/AuthForm";
 import { PageHead } from "~/components/PageHead";
-import PatternedBackground from "~/components/PatternedBackground";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -31,51 +31,49 @@ export default function LoginPage() {
   return (
     <>
       <PageHead title={t`Login | Adrenaline Tasks`} />
-      <main className="h-screen bg-light-100 pt-20 dark:bg-dark-50 sm:pt-0">
-        <div className="justify-top flex h-full flex-col items-center px-4 sm:justify-center">
-          <div className="z-10 flex w-full flex-col items-center">
-            <Link href="/">
-              <h1 className="mb-6 text-lg font-bold tracking-tight text-light-1000 dark:text-dark-1000">
-                Adrenaline Entertainment
-              </h1>
-            </Link>
-            <p className="mb-10 text-3xl font-bold tracking-tight text-light-1000 dark:text-dark-1000">
-              {isMagicLinkSent ? t`Check your inbox` : t`Welcome back`}
-            </p>
-            {isMagicLinkSent ? (
-              <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                <p className="text-md mt-2 text-center text-light-1000 dark:text-dark-1000">
-                  <Trans>
-                    Click on the link we've sent to {magicLinkRecipient} to sign
-                    in.
-                  </Trans>
-                </p>
-              </div>
-            ) : (
-              <div className="w-full rounded-lg border border-light-500 bg-light-300 px-4 py-10 dark:border-dark-400 dark:bg-dark-200 sm:max-w-md lg:px-10">
-                <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                  <Auth setIsMagicLinkSent={handleMagicLinkSent} />
-                </div>
-              </div>
-            )}
-            {(!isSignUpDisabled || redirect?.startsWith("/invite/")) && (
-              <p className="mt-4 text-sm text-light-1000 dark:text-dark-1000">
+      <AuthBrandShell>
+        <div className="flex w-full flex-col">
+          <h1 className="mb-3 text-3xl font-semibold tracking-[-0.035em] text-light-1000 dark:text-dark-1000">
+            {isMagicLinkSent ? t`Check your inbox` : t`Welcome back`}
+          </h1>
+          {!isMagicLinkSent && (
+            <p className="mb-8 text-sm text-light-950 dark:text-dark-950">{t`Sign in to your workspace.`}</p>
+          )}
+          {isMagicLinkSent ? (
+            <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+              <p className="text-md mt-2 text-center text-light-1000 dark:text-dark-1000">
                 <Trans>
-                  Don't have an account?{" "}
-                  <span className="underline">
-                    <Link
-                      href={redirect ? `/signup?next=${redirect}` : "/signup"}
-                    >
-                      Sign up
-                    </Link>
-                  </span>
+                  Click on the link we've sent to {magicLinkRecipient} to sign
+                  in.
                 </Trans>
               </p>
-            )}
-          </div>
-          <PatternedBackground />
+            </div>
+          ) : (
+            <div className="w-full">
+              <div className="w-full">
+                <Auth setIsMagicLinkSent={handleMagicLinkSent} />
+              </div>
+            </div>
+          )}
+          {isSignUpDisabled && !redirect?.startsWith("/invite/") && (
+            <p className="mt-6 text-center text-xs text-light-900 dark:text-dark-900">{t`Invite-only workspace`}</p>
+          )}
+          {(!isSignUpDisabled || redirect?.startsWith("/invite/")) && (
+            <p className="mt-4 text-sm text-light-1000 dark:text-dark-1000">
+              <Trans>
+                Don't have an account?{" "}
+                <span className="underline">
+                  <Link
+                    href={redirect ? `/signup?next=${redirect}` : "/signup"}
+                  >
+                    Sign up
+                  </Link>
+                </span>
+              </Trans>
+            </p>
+          )}
         </div>
-      </main>
+      </AuthBrandShell>
     </>
   );
 }

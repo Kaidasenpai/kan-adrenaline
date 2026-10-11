@@ -2,15 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  font-size: 14px;
+@layer base {
+  html {
+    font-size: 16px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-light-50 text-light-1000 antialiased dark:bg-dark-50 dark:text-dark-1000;
+  }
+
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 2px solid #536312;
+    outline-offset: 3px;
+  }
+
+  .dark :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline-color: #b4d234;
+  }
+}
+
+::selection {
+  background: #b4d234;
+  color: #171a12;
 }
 
 [contenteditable="true"]:empty:before {
   content: attr(placeholder);
   display: block;
-  color: #707070;
-  font-size: 0.8rem;
+  @apply text-sm text-light-900 dark:text-dark-900;
+}
+
+@layer components {
+  .adrenaline-modal h2 {
+    @apply text-lg font-semibold leading-6 tracking-tight;
+  }
+
+  .settings-content > div:first-child {
+    border-top: 0;
+  }
+
+  .settings-content h2 {
+    @apply font-semibold tracking-tight;
+  }
 }
 
 .gradient-border::before {
@@ -18,8 +52,8 @@ html {
     from 0deg,
     transparent 0deg,
     transparent 45deg,
-    rgba(244, 114, 182, 0.4) 85deg,
-    rgba(192, 132, 252, 0.4) 95deg,
+    rgba(180, 210, 52, 0.4) 85deg,
+    rgba(144, 168, 41, 0.4) 95deg,
     transparent 110deg,
     transparent 360deg
   );
@@ -46,14 +80,25 @@ html {
 
 /* Tippy.js tooltip theme */
 .tippy-box[data-theme~="tooltip"] {
-  @apply rounded-md border border-light-600 bg-white px-2 py-1 text-sm text-neutral-900 shadow-lg dark:border-dark-600 dark:bg-dark-100 dark:text-dark-1000;
+  @apply rounded-md border border-light-300 bg-white px-2.5 py-1.5 text-xs text-light-1000 shadow-sm dark:border-dark-400 dark:bg-dark-100 dark:text-dark-1000;
 }
 
 .tippy-box[data-theme~="tooltip"] > .tippy-arrow::before {
-  @apply border-t-light-600 dark:border-t-dark-600;
+  @apply border-t-light-300 dark:border-t-dark-400;
 }
 
 .tippy-box[data-theme~="tooltip"][data-placement^="bottom"]
   > .tippy-arrow::before {
-  @apply border-b-light-600 dark:border-b-dark-600;
+  @apply border-b-light-300 dark:border-b-dark-400;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

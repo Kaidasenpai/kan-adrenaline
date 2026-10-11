@@ -6,6 +6,7 @@ import { useState } from "react";
 
 import { authClient } from "@kan/auth/client";
 
+import AuthBrandShell from "~/components/AuthBrandShell";
 import Button from "~/components/Button";
 import Input from "~/components/Input";
 import { PageHead } from "~/components/PageHead";
@@ -50,9 +51,8 @@ export default function SetupPage() {
   return (
     <>
       <PageHead title={t`Set up your account | Adrenaline Tasks`} />
-      <main className="flex min-h-dvh items-center justify-center bg-light-100 px-5 py-16 text-light-1000 dark:bg-dark-50 dark:text-dark-1000">
+      <AuthBrandShell>
         <section className="w-full max-w-md">
-          <p className="mb-3 text-sm font-semibold">Adrenaline Entertainment</p>
           <h1 className="mb-3 text-3xl font-bold tracking-tight">
             {complete ? t`Your account is ready` : t`Choose your password`}
           </h1>
@@ -119,7 +119,7 @@ export default function SetupPage() {
             className="mt-6 inline-block text-sm underline underline-offset-4 focus-visible:outline focus-visible:outline-2"
           >{t`Back to sign in`}</Link>
         </section>
-      </main>
+      </AuthBrandShell>
     </>
   );
 }

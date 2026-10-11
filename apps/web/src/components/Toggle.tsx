@@ -16,34 +16,30 @@ const Toggle = ({
   showLabel?: boolean;
   labelPosition?: "before" | "after";
 }) => (
-  <div className="flex items-center">
+  <div className="flex min-h-11 items-center gap-3">
     {showLabel && labelPosition === "before" && (
-      <span className="mr-2 text-xs text-light-900 dark:text-dark-900">
-        {label}
-      </span>
+      <span className="text-sm text-light-950 dark:text-dark-950">{label}</span>
     )}
     <Switch
       checked={isChecked}
       onChange={onChange}
       disabled={disabled}
       className={twMerge(
-        "relative inline-flex h-4 w-6 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-light-800 transition-colors duration-200 ease-in-out focus:outline-none dark:bg-dark-800",
-        isChecked && "bg-indigo-600 dark:bg-indigo-600",
+        "ease-interface focus-visible:ring-brand-accent dark:focus-visible:ring-brand-lime relative inline-flex h-7 w-12 flex-shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent bg-light-700 transition-colors duration-150 after:absolute after:-inset-y-2 after:inset-x-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-light-50 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-dark-600 dark:focus-visible:ring-offset-dark-50",
+        isChecked && "bg-brand-lime dark:bg-brand-lime",
       )}
     >
       <span className="sr-only">{label}</span>
       <span
         aria-hidden="true"
         className={twMerge(
-          "pointer-events-none inline-block h-3 w-3 translate-x-0 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
-          isChecked && "translate-x-2",
+          "ease-interface pointer-events-none inline-block h-5 w-5 translate-x-0.5 rounded-full bg-white shadow-sm ring-0 transition-[transform,background-color] duration-150",
+          isChecked && "bg-brand-ink translate-x-[22px]",
         )}
       />
     </Switch>
     {showLabel && labelPosition === "after" && (
-      <span className="ml-2 text-xs text-light-900 dark:text-dark-900">
-        {label}
-      </span>
+      <span className="text-sm text-light-950 dark:text-dark-950">{label}</span>
     )}
   </div>
 );

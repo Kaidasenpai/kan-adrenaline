@@ -122,14 +122,15 @@ export function NewListForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="px-5 pt-5">
-        <div className="flex w-full items-center justify-between pb-4">
-          <h2 className="text-sm font-bold text-neutral-900 dark:text-dark-1000">
+      <div className="px-6 pt-6">
+        <div className="flex w-full items-center justify-between gap-4 pb-6">
+          <h2 className="text-xl font-bold tracking-tight text-neutral-900 dark:text-dark-1000">
             {t`New list`}
           </h2>
           <button
             type="button"
-            className="rounded p-1 hover:bg-light-200 focus:outline-none dark:hover:bg-dark-300"
+            aria-label={t`Close`}
+            className="focus-visible:outline-brand-accent dark:focus-visible:outline-brand-lime flex h-10 w-10 shrink-0 items-center justify-center rounded-md hover:bg-light-200 focus-visible:outline focus-visible:outline-2 dark:hover:bg-dark-300"
             onClick={(e) => {
               e.preventDefault();
               closeModal();
@@ -139,8 +140,15 @@ export function NewListForm({
           </button>
         </div>
 
+        <label
+          htmlFor="list-name"
+          className="mb-2 block text-xs font-semibold text-light-950 dark:text-dark-950"
+        >
+          {t`List name`}
+        </label>
         <Input
           id="list-name"
+          className="min-h-11 bg-white text-light-1000 dark:bg-dark-200"
           placeholder={t`List name`}
           {...register("name")}
           onKeyDown={async (e) => {
@@ -151,7 +159,7 @@ export function NewListForm({
           }}
         />
       </div>
-      <div className="mt-12 flex items-center justify-end space-x-4 border-t border-light-600 px-5 pb-5 pt-5 dark:border-dark-600">
+      <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-light-300 px-6 pb-6 pt-5 dark:border-dark-300">
         <Toggle
           label={t`Create another`}
           isChecked={isCreateAnotherEnabled}
