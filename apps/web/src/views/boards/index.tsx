@@ -1,5 +1,4 @@
 import { t } from "@lingui/core/macro";
-import { useLingui } from "@lingui/react";
 import { useMemo, useState } from "react";
 import { HiArrowDownTray, HiOutlinePlusSmall } from "react-icons/hi2";
 
@@ -9,6 +8,7 @@ import Modal from "~/components/modal";
 import { NewWorkspaceForm } from "~/components/NewWorkspaceForm";
 import { PageHead } from "~/components/PageHead";
 import { Tooltip } from "~/components/Tooltip";
+import { useLocalisation } from "~/hooks/useLocalisation";
 import { usePermissions } from "~/hooks/usePermissions";
 import { useKeyboardShortcut } from "~/providers/keyboard-shortcuts";
 import { useModal } from "~/providers/modal";
@@ -18,9 +18,9 @@ import { ImportBoardsForm } from "./components/ImportBoardsForm";
 import { NewBoardForm } from "./components/NewBoardForm";
 
 export default function BoardsPage({ isTemplate }: { isTemplate?: boolean }) {
-  useLingui();
+  const { locale } = useLocalisation();
   const boardsTabs = [
-    { key: "boards" as const, label: t`Active` },
+    { key: "boards" as const, label: t`Active boards` },
     { key: "archived" as const, label: t`Archived` },
   ];
   const { openModal, modalContentType, isOpen } = useModal();
@@ -33,10 +33,12 @@ export default function BoardsPage({ isTemplate }: { isTemplate?: boolean }) {
       type: "PRESS" as const,
       stroke: { key: "C" },
       action: () => canCreateBoard && openModal("NEW_BOARD"),
-      description: t`Create new ${isTemplate ? "template" : "board"}`,
+      description: isTemplate ? t`Create new template` : t`Create new board`,
       group: "ACTIONS" as const,
     }),
-    [canCreateBoard, isTemplate, openModal],
+    // Lingui macros read the active locale indirectly.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [canCreateBoard, isTemplate, openModal, locale],
   );
 
   const { tooltipContent: createModalShortcutTooltipContent } =

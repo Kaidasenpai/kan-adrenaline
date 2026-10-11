@@ -37,6 +37,7 @@ import { twMerge } from "tailwind-merge";
 import Button from "~/components/Button";
 import LabelIcon from "~/components/LabelIcon";
 import { useLocalisation } from "~/hooks/useLocalisation";
+import { localizedDragAccessibility } from "~/utils/drag-accessibility";
 import { isPlaceholderPublicId } from "~/utils/helpers";
 
 const MAX_CARDS_PER_DAY = 3;
@@ -65,6 +66,7 @@ function DraggableCalendarCard({
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id: card.publicId,
+      attributes: { roleDescription: t`Draggable card` },
       disabled,
     });
 
@@ -96,11 +98,17 @@ function DraggableCalendarCard({
             <LabelIcon colourCode={card.labels[0].colourCode} />
           )}
         </span>
-        <span className="flex-auto truncate text-light-1000 dark:text-dark-1000">
+        <span
+          dir="auto"
+          className="flex-auto truncate text-light-1000 dark:text-dark-1000"
+        >
           {card.title}
         </span>
         {ticketNumber && (
-          <span className="hidden flex-none text-light-800 dark:text-dark-800 xl:block">
+          <span
+            dir="ltr"
+            className="hidden flex-none text-light-800 dark:text-dark-800 xl:block"
+          >
             {ticketNumber}
           </span>
         )}
@@ -163,7 +171,7 @@ const CalendarView = ({
   onDateClick,
   onCardDrop,
 }: CalendarViewProps) => {
-  const { dateLocale } = useLocalisation();
+  const { dateLocale, isRTL, formatNumber, formatDate } = useLocalisation();
   const [currentMonth, setCurrentMonth] = useState(() =>
     startOfMonth(new Date()),
   );
@@ -293,7 +301,7 @@ const CalendarView = ({
       <header className="flex items-center justify-between border-b border-light-300 px-6 pb-4 dark:border-dark-300 md:px-8">
         <h2 className="text-sm font-semibold text-light-1000 dark:text-dark-1000">
           <time dateTime={format(currentMonth, "yyyy-MM")}>
-            {format(currentMonth, "MMMM yyyy", { locale: dateLocale })}
+            {formatDate(currentMonth, { month: "long", year: "numeric" })}
           </time>
         </h2>
         <div className="flex items-center rounded-md border-[1px] border-light-300 bg-light-50 dark:border-dark-300 dark:bg-dark-50">
@@ -301,9 +309,13 @@ const CalendarView = ({
             type="button"
             aria-label={t`Previous month`}
             onClick={() => goToMonth(subMonths(currentMonth, 1))}
-            className={twMerge(navButtonClasses, "rounded-l-md")}
+            className={twMerge(navButtonClasses, "rounded-s-md")}
           >
-            <HiChevronLeft className="h-4 w-4" aria-hidden="true" />
+            {isRTL ? (
+              <HiChevronRight className="h-4 w-4" aria-hidden="true" />
+            ) : (
+              <HiChevronLeft className="h-4 w-4" aria-hidden="true" />
+            )}
           </button>
           <span className={dividerClasses} />
           <button
@@ -318,9 +330,13 @@ const CalendarView = ({
             type="button"
             aria-label={t`Next month`}
             onClick={() => goToMonth(addMonths(currentMonth, 1))}
-            className={twMerge(navButtonClasses, "rounded-r-md")}
+            className={twMerge(navButtonClasses, "rounded-e-md")}
           >
-            <HiChevronRight className="h-4 w-4" aria-hidden="true" />
+            {isRTL ? (
+              <HiChevronLeft className="h-4 w-4" aria-hidden="true" />
+            ) : (
+              <HiChevronRight className="h-4 w-4" aria-hidden="true" />
+            )}
           </button>
         </div>
       </header>
@@ -347,6 +363,22 @@ const CalendarView = ({
             </div>
 
             <DndContext
+              accessibility={localizedDragAccessibility(
+                (id) =>
+                  lists
+                    .flatMap((list) => list.cards)
+                    .find((card) => card.publicId === id)?.title ?? t`Item`,
+                (id) => {
+                  const day = days.find((day) => day.key === id);
+                  return day
+                    ? formatDate(day.date, {
+                        weekday: "long",
+                        day: "numeric",
+                        month: "long",
+                      })
+                    : t`Item`;
+                },
+              )}
               sensors={sensors}
               onDragStart={({ active }) => setActiveId(String(active.id))}
               onDragEnd={handleDragEnd}
@@ -380,7 +412,7 @@ const CalendarView = ({
                               "bg-light-1000 font-semibold text-light-50 dark:bg-dark-1000 dark:text-dark-50",
                           )}
                         >
-                          {format(day.date, "d")}
+                          {formatNumber(day.date.getDate())}
                         </time>
                         <DroppableDayCell dayKey={day.key}>
                           {day.cards.slice(0, MAX_CARDS_PER_DAY).map((card) => (
@@ -419,11 +451,17 @@ const CalendarView = ({
                         />
                       )}
                     </span>
-                    <span className="flex-auto truncate text-light-1000 dark:text-dark-1000">
+                    <span
+                      dir="auto"
+                      className="flex-auto truncate text-light-1000 dark:text-dark-1000"
+                    >
                       {activeCard.title}
                     </span>
                     {ticketNumber(activeCard) && (
-                      <span className="flex-none text-light-800 dark:text-dark-800">
+                      <span
+                        dir="ltr"
+                        className="flex-none text-light-800 dark:text-dark-800"
+                      >
                         {ticketNumber(activeCard)}
                       </span>
                     )}
@@ -462,7 +500,7 @@ const CalendarView = ({
                             "bg-light-1000 font-semibold text-light-50 dark:bg-dark-1000 dark:text-dark-50",
                         )}
                       >
-                        {format(day.date, "d")}
+                        {formatNumber(day.date.getDate())}
                       </time>
                       <span className="sr-only">
                         {t`${day.cards.length} cards due`}
@@ -522,11 +560,17 @@ const CalendarView = ({
                             <LabelIcon colourCode={card.labels[0].colourCode} />
                           )}
                         </span>
-                        <span className="flex-auto truncate text-sm text-light-1000 dark:text-dark-1000">
+                        <span
+                          dir="auto"
+                          className="flex-auto truncate text-sm text-light-1000 dark:text-dark-1000"
+                        >
                           {card.title}
                         </span>
                         {ticketNumber(card) && (
-                          <span className="flex-none text-xs text-light-800 dark:text-dark-800">
+                          <span
+                            dir="ltr"
+                            className="flex-none text-xs text-light-800 dark:text-dark-800"
+                          >
                             {ticketNumber(card)}
                           </span>
                         )}

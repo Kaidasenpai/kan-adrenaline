@@ -44,10 +44,10 @@ const FeatureItem = ({
       onMouseEnter={handleMouseEnter}
       className="group relative flex aspect-square w-full flex-col items-center justify-center overflow-hidden rounded-3xl border border-light-200 bg-light-50 p-2 dark:border-dark-200 dark:bg-dark-50"
     >
-      <div className="absolute left-8 top-8 h-2 w-2 rounded-full bg-light-200 dark:bg-dark-200" />
-      <div className="absolute right-8 top-8 h-2 w-2 rounded-full bg-light-200 dark:bg-dark-200" />
-      <div className="absolute bottom-8 left-8 h-2 w-2 rounded-full bg-light-200 dark:bg-dark-200" />
-      <div className="absolute bottom-8 right-8 h-2 w-2 rounded-full bg-light-200 dark:bg-dark-200" />
+      <div className="absolute start-8 top-8 h-2 w-2 rounded-full bg-light-200 dark:bg-dark-200" />
+      <div className="absolute end-8 top-8 h-2 w-2 rounded-full bg-light-200 dark:bg-dark-200" />
+      <div className="absolute bottom-8 start-8 h-2 w-2 rounded-full bg-light-200 dark:bg-dark-200" />
+      <div className="absolute bottom-8 end-8 h-2 w-2 rounded-full bg-light-200 dark:bg-dark-200" />
 
       <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-light-300 bg-light-200 dark:border-dark-600 dark:bg-dark-200">
         <LottieIcon index={index} json={feature.icon} isPlaying={isHovered} />
@@ -63,13 +63,13 @@ const FeatureItem = ({
       </div>
 
       {feature.comingSoon && (
-        <div className="absolute right-4 top-4 rounded-full border border-light-300 px-2 py-1 text-[10px] text-light-1000 dark:border-dark-600 dark:bg-dark-50 dark:text-dark-900">
+        <div className="absolute end-4 top-4 rounded-full border border-light-300 px-2 py-1 text-[10px] text-light-1000 dark:border-dark-600 dark:bg-dark-50 dark:text-dark-900">
           {t`Coming soon`}
         </div>
       )}
 
       {feature.new && (
-        <div className="absolute right-4 top-4 rounded-full border border-light-300 px-2 py-1 text-[10px] text-light-1000 dark:border-dark-600 dark:bg-dark-50 dark:text-dark-900">
+        <div className="absolute end-4 top-4 rounded-full border border-light-300 px-2 py-1 text-[10px] text-light-1000 dark:border-dark-600 dark:bg-dark-50 dark:text-dark-900">
           {t`New`}
         </div>
       )}

@@ -9,9 +9,9 @@ const StatusMarker = () => (
     href="https://kan.openstatus.dev"
     target="_blank"
     rel="noopener noreferrer"
-    className="flex w-fit items-center gap-1.5 rounded-full border border-light-300 py-2 pl-3 pr-4 text-xs text-light-950 hover:bg-light-100 dark:border-dark-300 dark:text-dark-800 dark:hover:bg-dark-100"
+    className="flex w-fit items-center gap-1.5 rounded-full border border-light-300 py-2 pe-4 ps-3 text-xs text-light-950 hover:bg-light-100 dark:border-dark-300 dark:text-dark-800 dark:hover:bg-dark-100"
   >
-    <span className="relative mr-1 h-2 w-2">
+    <span className="relative me-1 h-2 w-2">
       <span className="absolute -inset-[1px] animate-[ping_1s_infinite] rounded-full bg-green-500/30"></span>
       <span className="absolute inset-0 rounded-full bg-green-500"></span>
     </span>

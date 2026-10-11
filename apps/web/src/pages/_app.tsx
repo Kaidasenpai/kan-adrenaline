@@ -4,9 +4,10 @@ import "~/utils/i18n";
 import type { NextPage, Viewport } from "next";
 import type { AppProps, AppType } from "next/app";
 import type { ReactElement, ReactNode } from "react";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Noto_Sans_Arabic, Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import { t } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react";
 import { env } from "next-runtime-env";
 import { ThemeProvider } from "next-themes";
 import posthog from "posthog-js";
@@ -25,6 +26,23 @@ const jakarta = Plus_Jakarta_Sans({
   display: "swap",
   variable: "--font-plus-jakarta-sans",
 });
+
+const arabic = Noto_Sans_Arabic({
+  subsets: ["arabic"],
+  display: "swap",
+});
+
+function SourceCodeOffer() {
+  useLingui();
+  return (
+    <a
+      href="https://github.com/Kaidasenpai/kan-adrenaline"
+      className="fixed bottom-2 end-3 z-50 rounded bg-light-100 px-2 py-1 text-xs text-light-900 underline underline-offset-2 focus-visible:outline focus-visible:outline-2 dark:bg-dark-50 dark:text-dark-900"
+    >
+      {t`Source code`}
+    </a>
+  );
+}
 
 export const metadata = {
   title: "Adrenaline Tasks",
@@ -71,6 +89,13 @@ const MyApp: AppType = ({ Component, pageProps }: AppPropsWithLayout) => {
         html {
           font-family: ${jakarta.style.fontFamily};
         }
+        html:lang(ar),
+        .font-sans:lang(ar) {
+          font-family: ${arabic.style.fontFamily};
+        }
+        :lang(ar) {
+          letter-spacing: normal;
+        }
         body {
           position: relative;
         }
@@ -84,8 +109,8 @@ const MyApp: AppType = ({ Component, pageProps }: AppPropsWithLayout) => {
       )}
       <script src="/__ENV.js" />
       <div className={`${jakarta.variable} font-sans`}>
-        <KeyboardShortcutProvider>
-          <LinguiProviderWrapper>
+        <LinguiProviderWrapper>
+          <KeyboardShortcutProvider>
             <FontSizeProvider>
               <ThemeProvider
                 attribute="class"
@@ -103,17 +128,12 @@ const MyApp: AppType = ({ Component, pageProps }: AppPropsWithLayout) => {
                     )}
                   </PopupProvider>
                 </ModalProvider>
+                <SourceCodeOffer />
               </ThemeProvider>
             </FontSizeProvider>
-          </LinguiProviderWrapper>
-        </KeyboardShortcutProvider>
+          </KeyboardShortcutProvider>
+        </LinguiProviderWrapper>
       </div>
-      <a
-        href="https://github.com/Kaidasenpai/kan-adrenaline"
-        className="fixed bottom-2 right-3 z-50 rounded bg-light-100 px-2 py-1 text-xs text-light-900 underline underline-offset-2 focus-visible:outline focus-visible:outline-2 dark:bg-dark-50 dark:text-dark-900"
-      >
-        {t`Source code`}
-      </a>
     </>
   );
 };

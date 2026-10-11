@@ -1,9 +1,9 @@
 import { t } from "@lingui/core/macro";
 
+import type { api } from "~/utils/api";
 import Button from "~/components/Button";
 import { useModal } from "~/providers/modal";
 import { useWorkspace } from "~/providers/workspace";
-import type { api } from "~/utils/api";
 
 type ResetMutation = ReturnType<
   typeof api.permission.resetWorkspaceMemberPermissions.useMutation
@@ -35,7 +35,7 @@ export function ClearCustomPermissionsConfirmation({
           {t`This will remove all custom member permissions in this workspace. Members will inherit permissions only from their roles.`}
         </p>
       </div>
-      <div className="mt-5 flex justify-end space-x-2 sm:mt-6">
+      <div className="mt-5 flex justify-end space-x-2 sm:mt-6 rtl:space-x-reverse">
         <Button size="sm" variant="secondary" onClick={() => closeModal()}>
           {t`Cancel`}
         </Button>
@@ -51,5 +51,3 @@ export function ClearCustomPermissionsConfirmation({
     </div>
   );
 }
-
-

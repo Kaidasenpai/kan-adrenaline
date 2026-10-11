@@ -24,6 +24,7 @@ import ButtonComponent from "~/components/Button";
 import ReactiveButton from "~/components/ReactiveButton";
 import UserMenu from "~/components/UserMenu";
 import WorkspaceMenu from "~/components/WorkspaceMenu";
+import { useLocalisation } from "~/hooks/useLocalisation";
 import { useWorkspace } from "~/providers/workspace";
 import { api } from "~/utils/api";
 
@@ -44,6 +45,7 @@ export default function SideNavigation({
   isLoading,
   onCloseSideNav,
 }: SideNavigationProps) {
+  const { locale } = useLocalisation();
   const router = useRouter();
   const { workspace } = useWorkspace();
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -135,7 +137,9 @@ export default function SideNavigation({
         },
       },
     ],
-    [router],
+    // Lingui macros read the active locale indirectly.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [router, locale],
   );
 
   const toggleCollapse = () => {
@@ -146,7 +150,7 @@ export default function SideNavigation({
     <>
       <nav
         className={twMerge(
-          "flex h-full w-[244px] flex-col justify-between border-r border-light-400 bg-light-100 px-4 pb-5 pt-7 dark:border-dark-400 dark:bg-dark-100",
+          "flex h-full w-[244px] flex-col justify-between border-e border-light-400 bg-light-100 px-4 pb-5 pt-7 dark:border-dark-400 dark:bg-dark-100",
           isCollapsed && "md:w-[72px] md:px-3",
         )}
       >
@@ -160,7 +164,7 @@ export default function SideNavigation({
             <Link
               href="/boards"
               onClick={onCloseSideNav}
-              className="focus-visible:outline-brand-accent dark:focus-visible:outline-brand-lime rounded pl-1 focus-visible:outline focus-visible:outline-2"
+              className="focus-visible:outline-brand-accent dark:focus-visible:outline-brand-lime rounded ps-1 focus-visible:outline focus-visible:outline-2"
             >
               <BrandLogo size="sm" compact={isCollapsed} />
             </Link>
@@ -175,12 +179,12 @@ export default function SideNavigation({
               {isCollapsed ? (
                 <TbLayoutSidebarLeftExpand
                   size={18}
-                  className="text-light-900 dark:text-dark-900"
+                  className="text-light-900 dark:text-dark-900 rtl:rotate-180"
                 />
               ) : (
                 <TbLayoutSidebarLeftCollapse
                   size={18}
-                  className="text-light-900 dark:text-dark-900"
+                  className="text-light-900 dark:text-dark-900 rtl:rotate-180"
                 />
               )}
             </Button>
@@ -212,7 +216,7 @@ export default function SideNavigation({
         <div className="shrink-0 space-y-2 border-t border-light-400 pt-4 dark:border-dark-400">
           <UserMenu
             displayName={user.displayName ?? undefined}
-            email={user.email ?? "Email not provided?"}
+            email={user.email ?? t`Email not provided`}
             imageUrl={user.image ?? undefined}
             isLoading={isLoading}
             isCollapsed={isCollapsed}

@@ -263,7 +263,7 @@ export default function WorkspaceNameView() {
                     rows={3}
                     className="block w-full resize-none rounded-md border-0 bg-dark-300 bg-white/5 py-1.5 text-sm shadow-sm ring-1 ring-inset ring-light-600 placeholder:text-dark-800 focus:ring-2 focus:ring-inset focus:ring-light-700 dark:text-dark-1000 dark:ring-dark-700 dark:focus:ring-dark-700 sm:leading-6"
                   />
-                  <p className="mt-1 text-right text-[10px] text-light-700 dark:text-dark-700">
+                  <p className="mt-1 text-end text-[10px] text-light-700 dark:text-dark-700">
                     {description.length}/280
                   </p>
                 </div>
@@ -271,7 +271,7 @@ export default function WorkspaceNameView() {
             </div>
 
             <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-              <div className="ml-auto flex gap-2">
+              <div className="ms-auto flex gap-2">
                 {!isLicenseFlow && (
                   <Button
                     variant="ghost"

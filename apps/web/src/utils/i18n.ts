@@ -1,13 +1,15 @@
 import { i18n } from "@lingui/core";
 
 import type { Locale } from "~/locales";
-import { defaultLocale } from "~/locales";
+import { defaultLocale, localeFormattingTag } from "~/locales";
 import { messages as enMessages } from "~/locales/en/messages";
 
 const loadMessages = async (locale: Locale) => {
   switch (locale) {
     case "en":
       return enMessages;
+    case "ar":
+      return (await import("~/locales/ar/messages")).messages;
     case "fr":
       return (await import("~/locales/fr/messages")).messages;
     case "de":
@@ -23,7 +25,7 @@ const loadMessages = async (locale: Locale) => {
     case "pl":
       return (await import("~/locales/pl/messages")).messages;
     case "ptbr":
-      return (await import("~/locales/ptbr/messages")).messages;
+      return (await import("~/locales/pt-BR/messages")).messages;
     default:
       return enMessages;
   }
@@ -32,7 +34,7 @@ const loadMessages = async (locale: Locale) => {
 let isInitialized = false;
 const loadedLocales = new Set<string>();
 
-export function initializeI18n(locale: Locale = defaultLocale) {
+export function initializeI18n() {
   if (!isInitialized) {
     i18n.load(defaultLocale, enMessages);
     i18n.activate(defaultLocale);
@@ -43,14 +45,17 @@ export function initializeI18n(locale: Locale = defaultLocale) {
   return i18n;
 }
 
-export async function activateLocale(locale: Locale) {
+export async function loadLocale(locale: Locale) {
   if (!loadedLocales.has(locale)) {
     const messages = await loadMessages(locale);
     i18n.load(locale, messages);
     loadedLocales.add(locale);
   }
+}
 
-  i18n.activate(locale);
+export async function activateLocale(locale: Locale) {
+  await loadLocale(locale);
+  i18n.activate(locale, localeFormattingTag(locale));
   return i18n;
 }
 

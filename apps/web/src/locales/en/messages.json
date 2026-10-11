@@ -14007,5 +14007,1140 @@
         40
       ]
     ]
+  },
+  "FYElf1": {
+    "translation": "{0} is over {1}.",
+    "message": "{0} is over {1}.",
+    "placeholders": {
+      "0": ["getDragItemName(active.id)"],
+      "1": ["getDropTargetName(over)"]
+    },
+    "comments": [],
+    "origin": [["src/views/board/index.tsx", 1079]]
+  },
+  "YKDu3h": {
+    "translation": "{0} was placed at {1}.",
+    "message": "{0} was placed at {1}.",
+    "placeholders": {
+      "0": ["getDragItemName(active.id)"],
+      "1": ["getDropTargetName(over)"]
+    },
+    "comments": [],
+    "origin": [["src/views/board/index.tsx", 1083]]
+  },
+  "7Z/p9U": {
+    "translation": "Admin role permissions cannot be modified",
+    "message": "Admin role permissions cannot be modified",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 16]]
+  },
+  "DZir9y": {
+    "translation": "Adrenaline Entertainment",
+    "message": "Adrenaline Entertainment",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      ["src/components/AuthBrandShell.tsx", 31],
+      ["src/components/AuthBrandShell.tsx", 38],
+      ["src/components/BrandLogo.tsx", 96]
+    ]
+  },
+  "xP2aoc": {
+    "translation": "Adrenaline Tasks",
+    "message": "Adrenaline Tasks",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      ["src/components/BrandLogo.tsx", 54],
+      ["src/components/PageHead.tsx", 9]
+    ]
+  },
+  "oul6YP": {
+    "translation": "An account with this email address already exists.",
+    "message": "An account with this email address already exists.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 105]]
+  },
+  "KPrw02": {
+    "translation": "API key options",
+    "message": "API key options",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/settings/components/ApiKeyList.tsx", 117]]
+  },
+  "p4eAAT": {
+    "translation": "API key revoked",
+    "message": "API key revoked",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      ["src/views/settings/components/RevokeApiKeyConfirmation.tsx", 23]
+    ]
+  },
+  "9wC9gI": {
+    "translation": "Archived boards cannot be moved. Unarchive the board first.",
+    "message": "Archived boards cannot be moved. Unarchive the board first.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 17]]
+  },
+  "6mnfXG": {
+    "translation": "Are you sure you want to delete this board?",
+    "message": "Are you sure you want to delete this board?",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/components/DeleteBoardConfirmation.tsx", 36]]
+  },
+  "xPj0hf": {
+    "translation": "Are you sure you want to delete this list?",
+    "message": "Are you sure you want to delete this list?",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/components/DeleteListConfirmation.tsx", 46]]
+  },
+  "9/y1DR": {
+    "translation": "Are you sure you want to delete this template?",
+    "message": "Are you sure you want to delete this template?",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/components/DeleteBoardConfirmation.tsx", 36]]
+  },
+  "DYSdKh": {
+    "translation": "Are you sure you want to revoke this API key: {entityLabel}?",
+    "message": "Are you sure you want to revoke this API key: {entityLabel}?",
+    "placeholders": { "entityLabel": ["entityLabel"] },
+    "comments": [],
+    "origin": [
+      ["src/views/settings/components/RevokeApiKeyConfirmation.tsx", 49]
+    ]
+  },
+  "lWLwUH": {
+    "translation": "At least one of title, completed, or index must be provided",
+    "message": "At least one of title, completed, or index must be provided",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 18]]
+  },
+  "UY1vmE": {
+    "translation": "Attachment",
+    "message": "Attachment",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/card/components/AttachmentThumbnails.tsx", 341]]
+  },
+  "S7mJ1P": {
+    "translation": "Attachments bucket not configured",
+    "message": "Attachments bucket not configured",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 19]]
+  },
+  "OLMhPm": {
+    "translation": "Blockquote",
+    "message": "Blockquote",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/Editor.tsx", 427]]
+  },
+  "7eXAAZ": {
+    "translation": "Board is already in this workspace",
+    "message": "Board is already in this workspace",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 20]]
+  },
+  "KmydK6": {
+    "translation": "Bold",
+    "message": "Bold",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/Editor.tsx", 665]]
+  },
+  "s1c0ja": {
+    "translation": "Bullet List",
+    "message": "Bullet List",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/Editor.tsx", 417]]
+  },
+  "ANtE4t": {
+    "translation": "Checklist",
+    "message": "Checklist",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/card/components/NewChecklistForm.tsx", 29]]
+  },
+  "DeFvzn": {
+    "translation": "Cloud metadata endpoints are not allowed",
+    "message": "Cloud metadata endpoints are not allowed",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 21]]
+  },
+  "EWPtMO": {
+    "translation": "Code",
+    "message": "Code",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/Editor.tsx", 686]]
+  },
+  "N2eHWq": {
+    "translation": "Code Block",
+    "message": "Code Block",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/Editor.tsx", 432]]
+  },
+  "jfMmzD": {
+    "translation": "Copy board URL",
+    "message": "Copy board URL",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/public/board/index.tsx", 97]]
+  },
+  "hYgDIe": {
+    "translation": "Create",
+    "message": "Create",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/settings/components/NewApiKeyForm.tsx", 65]]
+  },
+  "9QmxLI": {
+    "translation": "Create board",
+    "message": "Create board",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/boards/components/NewBoardForm.tsx", 166]]
+  },
+  "poDo/D": {
+    "translation": "Create new board",
+    "message": "Create new board",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/boards/index.tsx", 36]]
+  },
+  "Q/CvG0": {
+    "translation": "Create new template",
+    "message": "Create new template",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/boards/index.tsx", 36]]
+  },
+  "akal4q": {
+    "translation": "Custom URLs are only available for Pro workspaces",
+    "message": "Custom URLs are only available for Pro workspaces",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 22]]
+  },
+  "+jw/c1": {
+    "translation": "Delete image",
+    "message": "Delete image",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/card/components/AttachmentThumbnails.tsx", 256]]
+  },
+  "dhu12h": {
+    "translation": "Download image",
+    "message": "Download image",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/card/components/AttachmentThumbnails.tsx", 273]]
+  },
+  "b1Ln1n": {
+    "translation": "Draggable card",
+    "message": "Draggable card",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      ["src/views/board/components/CalendarView.tsx", 68],
+      ["src/views/board/components/SortableCard.tsx", 39]
+    ]
+  },
+  "P/rwN7": {
+    "translation": "Draggable list",
+    "message": "Draggable list",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/components/List.tsx", 100]]
+  },
+  "R52v8o": {
+    "translation": "Email not provided",
+    "message": "Email not provided",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/SideNavigation.tsx", 219]]
+  },
+  "H8ZBhB": {
+    "translation": "Error revoking API key",
+    "message": "Error revoking API key",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      ["src/views/settings/components/RevokeApiKeyConfirmation.tsx", 34]
+    ]
+  },
+  "EHy6vf": {
+    "translation": "Failed to add label to card",
+    "message": "Failed to add label to card",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 23]]
+  },
+  "LIjP9w": {
+    "translation": "Failed to add member to card",
+    "message": "Failed to add member to card",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 24]]
+  },
+  "ZgqYku": {
+    "translation": "Failed to create API key",
+    "message": "Failed to create API key",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/settings/components/NewApiKeyForm.tsx", 40]]
+  },
+  "ZU3qUp": {
+    "translation": "Failed to create attachment",
+    "message": "Failed to create attachment",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 25]]
+  },
+  "ybGWD3": {
+    "translation": "Failed to create card",
+    "message": "Failed to create card",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 27]]
+  },
+  "WhVEPR": {
+    "translation": "Failed to create card label relationships",
+    "message": "Failed to create card label relationships",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 28]]
+  },
+  "gvB7F/": {
+    "translation": "Failed to create card member relationships",
+    "message": "Failed to create card member relationships",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 29]]
+  },
+  "iyiU/R": {
+    "translation": "Failed to create checklist",
+    "message": "Failed to create checklist",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 30]]
+  },
+  "Mi77zM": {
+    "translation": "Failed to create checklist item",
+    "message": "Failed to create checklist item",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 31]]
+  },
+  "9weFgV": {
+    "translation": "Failed to create comment",
+    "message": "Failed to create comment",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 32]]
+  },
+  "KFb8yX": {
+    "translation": "Failed to create import record",
+    "message": "Failed to create import record",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 33]]
+  },
+  "RxWIgD": {
+    "translation": "Failed to create invite link",
+    "message": "Failed to create invite link",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 34]]
+  },
+  "LMnlR1": {
+    "translation": "Failed to create label",
+    "message": "Failed to create label",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 35]]
+  },
+  "vadJAy": {
+    "translation": "Failed to create list",
+    "message": "Failed to create list",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 36]]
+  },
+  "hQWBKI": {
+    "translation": "Failed to create new board",
+    "message": "Failed to create new board",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 37]]
+  },
+  "SAzQtx": {
+    "translation": "Failed to create new cards",
+    "message": "Failed to create new cards",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 38]]
+  },
+  "vufRG1": {
+    "translation": "Failed to delete cards",
+    "message": "Failed to delete cards",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 39]]
+  },
+  "JGxbBR": {
+    "translation": "Failed to delete checklist",
+    "message": "Failed to delete checklist",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 40]]
+  },
+  "YpwXI2": {
+    "translation": "Failed to delete comment",
+    "message": "Failed to delete comment",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 41]]
+  },
+  "OdmsFg": {
+    "translation": "Failed to delete item",
+    "message": "Failed to delete item",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 42]]
+  },
+  "wmCoz1": {
+    "translation": "Failed to delete list",
+    "message": "Failed to delete list",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 43]]
+  },
+  "r54klZ": {
+    "translation": "Failed to delete lists",
+    "message": "Failed to delete lists",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 44]]
+  },
+  "L5A2m8": {
+    "translation": "Failed to fetch boards from Trello",
+    "message": "Failed to fetch boards from Trello",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 45]]
+  },
+  "x7lcT4": {
+    "translation": "Failed to fetch GitHub projects (GraphQL Error)",
+    "message": "Failed to fetch GitHub projects (GraphQL Error)",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 46]]
+  },
+  "4Xuat/": {
+    "translation": "Failed to import any boards from Trello",
+    "message": "Failed to import any boards from Trello",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 47]]
+  },
+  "6s+jxr": {
+    "translation": "Failed to remove label from card",
+    "message": "Failed to remove label from card",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 48]]
+  },
+  "WAi6jL": {
+    "translation": "Failed to remove member from card",
+    "message": "Failed to remove member from card",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 49]]
+  },
+  "50eupZ": {
+    "translation": "Failed to set password",
+    "message": "Failed to set password",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 50]]
+  },
+  "vI//tL": {
+    "translation": "Failed to update board",
+    "message": "Failed to update board",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 51]]
+  },
+  "si+cP2": {
+    "translation": "Failed to update card",
+    "message": "Failed to update card",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 52]]
+  },
+  "Nu21A6": {
+    "translation": "Failed to update checklist",
+    "message": "Failed to update checklist",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 53]]
+  },
+  "xf+dLU": {
+    "translation": "Failed to update checklist item",
+    "message": "Failed to update checklist item",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 54]]
+  },
+  "MPKp1A": {
+    "translation": "Failed to update comment",
+    "message": "Failed to update comment",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 55]]
+  },
+  "iwmUnc": {
+    "translation": "Failed to update label",
+    "message": "Failed to update label",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 56]]
+  },
+  "V6Rzs/": {
+    "translation": "Failed to update list",
+    "message": "Failed to update list",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 57]]
+  },
+  "fQBbPi": {
+    "translation": "Failed to update subscription for the new member.",
+    "message": "Failed to update subscription for the new member.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 58]]
+  },
+  "J2eKUI": {
+    "translation": "File",
+    "message": "File",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/card/components/AttachmentThumbnails.tsx", 428]]
+  },
+  "1u/8ZB": {
+    "translation": "GitHub token not found",
+    "message": "GitHub token not found",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 59]]
+  },
+  "lXKZGw": {
+    "translation": "Heading 1",
+    "message": "Heading 1",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/Editor.tsx", 395]]
+  },
+  "El7NbA": {
+    "translation": "Heading 2",
+    "message": "Heading 2",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/Editor.tsx", 401]]
+  },
+  "SFN6dN": {
+    "translation": "Heading 3",
+    "message": "Heading 3",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/Editor.tsx", 407]]
+  },
+  "/EjLSs": {
+    "translation": "I acknowledge that this API key will be permanently revoked and want to proceed.",
+    "message": "I acknowledge that this API key will be permanently revoked and want to proceed.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      ["src/views/settings/components/RevokeApiKeyConfirmation.tsx", 77]
+    ]
+  },
+  "U2Yloq": {
+    "translation": "Integration not found",
+    "message": "Integration not found",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 60]]
+  },
+  "+rM9bB": {
+    "translation": "Invalid or expired invite link",
+    "message": "Invalid or expired invite link",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 61]]
+  },
+  "IodSL/": {
+    "translation": "Invalid provider",
+    "message": "Invalid provider",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 62]]
+  },
+  "l5UsJT": {
+    "translation": "Invite links require a Team or Pro subscription",
+    "message": "Invite links require a Team or Pro subscription",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 63]]
+  },
+  "pzutoc": {
+    "translation": "Italic",
+    "message": "Italic",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/Editor.tsx", 672]]
+  },
+  "HX5SVx": {
+    "translation": "Item",
+    "message": "Item",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      ["src/views/board/index.tsx", 526],
+      ["src/views/board/index.tsx", 537]
+    ]
+  },
+  "SNGBuU": {
+    "translation": "Item released without moving.",
+    "message": "Item released without moving.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/index.tsx", 1084]]
+  },
+  "7sMeHQ": {
+    "translation": "Key",
+    "message": "Key",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/settings/components/ApiKeyList.tsx", 165]]
+  },
+  "tKCBU0": {
+    "translation": "Last Used",
+    "message": "Last Used",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/settings/components/ApiKeyList.tsx", 159]]
+  },
+  "m8uC98": {
+    "translation": "Localhost URLs are not allowed",
+    "message": "Localhost URLs are not allowed",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 64]]
+  },
+  "ePaymt": {
+    "translation": "Member not found",
+    "message": "Member not found",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 65]]
+  },
+  "VZdoAN": {
+    "translation": "Move cancelled.",
+    "message": "Move cancelled.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/index.tsx", 1085]]
+  },
+  "u8ibdL": {
+    "translation": "Moving {0}.",
+    "message": "Moving {0}.",
+    "placeholders": { "0": ["getDragItemName(active.id)"] },
+    "comments": [],
+    "origin": [["src/views/board/index.tsx", 1076]]
+  },
+  "qqeAJM": {
+    "translation": "Never",
+    "message": "Never",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/settings/components/ApiKeyList.tsx", 39]]
+  },
+  "EatZYJ": {
+    "translation": "Next image",
+    "message": "Next image",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/card/components/AttachmentThumbnails.tsx", 301]]
+  },
+  "7Q2weB": {
+    "translation": "No drop destination selected.",
+    "message": "No drop destination selected.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/index.tsx", 1080]]
+  },
+  "dejGov": {
+    "translation": "No items",
+    "message": "No items",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/CheckboxDropdown.tsx", 126]]
+  },
+  "Ev2r9A": {
+    "translation": "No results",
+    "message": "No results",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/Editor.tsx", 274]]
+  },
+  "OJx3wK": {
+    "translation": "Not available",
+    "message": "Not available",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/settings/components/WebhookList.tsx", 35]]
+  },
+  "xHv129": {
+    "translation": "Only HTTPS URLs are allowed",
+    "message": "Only HTTPS URLs are allowed",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 66]]
+  },
+  "Yr9Muf": {
+    "translation": "Only the admin role can manage billing or delete the workspace",
+    "message": "Only the admin role can manage billing or delete the workspace",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 67]]
+  },
+  "aR3Jrq": {
+    "translation": "Open options",
+    "message": "Open options",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/members/components/MemberDropdown.tsx", 14]]
+  },
+  "Uci+Ph": {
+    "translation": "Ordered List",
+    "message": "Ordered List",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/Editor.tsx", 422]]
+  },
+  "QPA/Nf": {
+    "translation": "Password already set; use change password instead",
+    "message": "Password already set; use change password instead",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 68]]
+  },
+  "xHt036": {
+    "translation": "Personal Access Token",
+    "message": "Personal Access Token",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 200]]
+  },
+  "YRK8rp": {
+    "translation": "Press Space to pick up an item. Use the arrow keys to move it, then press Space to drop it. Press Escape to cancel.",
+    "message": "Press Space to pick up an item. Use the arrow keys to move it, then press Space to drop it. Press Escape to cancel.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/index.tsx", 1072]]
+  },
+  "MHk+7g": {
+    "translation": "Previous image",
+    "message": "Previous image",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/card/components/AttachmentThumbnails.tsx", 288]]
+  },
+  "nwkSAV": {
+    "translation": "Private IP addresses are not allowed",
+    "message": "Private IP addresses are not allowed",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 69]]
+  },
+  "GXsAby": {
+    "translation": "Revoke",
+    "message": "Revoke",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/settings/components/ApiKeyList.tsx", 112]]
+  },
+  "Ahezc2": {
+    "translation": "Revoke API key",
+    "message": "Revoke API key",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      ["src/views/settings/components/RevokeApiKeyConfirmation.tsx", 91]
+    ]
+  },
+  "MvTCyk": {
+    "translation": "Role not found",
+    "message": "Role not found",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 70]]
+  },
+  "tO6ep+": {
+    "translation": "SEAT_LIMIT_REACHED",
+    "message": "SEAT_LIMIT_REACHED",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 71]]
+  },
+  "T7vpNd": {
+    "translation": "Source board does not belong to this workspace",
+    "message": "Source board does not belong to this workspace",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 72]]
+  },
+  "WhOsNE": {
+    "translation": "Strikethrough",
+    "message": "Strikethrough",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/Editor.tsx", 679]]
+  },
+  "oMQYJm": {
+    "translation": "Target list must be in the same workspace",
+    "message": "Target list must be in the same workspace",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 73]]
+  },
+  "IDcPjG": {
+    "translation": "Target member not found",
+    "message": "Target member not found",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 74]]
+  },
+  "FsXwZ/": {
+    "translation": "Target workspace not found",
+    "message": "Target workspace not found",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 75]]
+  },
+  "cI8fS/": {
+    "translation": "Task created",
+    "message": "Task created",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/webhook-event-label.ts", 5]]
+  },
+  "zb+aRg": {
+    "translation": "Task deleted",
+    "message": "Task deleted",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/webhook-event-label.ts", 8]]
+  },
+  "vVFup1": {
+    "translation": "Task moved",
+    "message": "Task moved",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/webhook-event-label.ts", 7]]
+  },
+  "LCAgjp": {
+    "translation": "Task updated",
+    "message": "Task updated",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/webhook-event-label.ts", 6]]
+  },
+  "p2sbyZ": {
+    "translation": "Template not found",
+    "message": "Template not found",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/index.tsx", 923]]
+  },
+  "WN7vEz": {
+    "translation": "Templates cannot be moved between workspaces",
+    "message": "Templates cannot be moved between workspaces",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 76]]
+  },
+  "eXYllY": {
+    "translation": "The email address or password is incorrect.",
+    "message": "The email address or password is incorrect.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      ["src/utils/localized-error.ts", 100],
+      ["src/utils/localized-error.ts", 126]
+    ]
+  },
+  "VTpWX6": {
+    "translation": "the workspace",
+    "message": "the workspace",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/components/MoveBoardForm.tsx", 35]]
+  },
+  "5Ma8lB": {
+    "translation": "This item already exists. Check the details and try again.",
+    "message": "This item already exists. Check the details and try again.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 120]]
+  },
+  "EpcAMj": {
+    "translation": "This item is no longer available. Refresh the page and try again.",
+    "message": "This item is no longer available. Refresh the page and try again.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 118]]
+  },
+  "qBb7dW": {
+    "translation": "This link has expired or has already been used.",
+    "message": "This link has expired or has already been used.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 124]]
+  },
+  "J5xAhO": {
+    "translation": "This will result in the permanent revocation of this API key.",
+    "message": "This will result in the permanent revocation of this API key.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      ["src/views/settings/components/RevokeApiKeyConfirmation.tsx", 55]
+    ]
+  },
+  "tzsBOP": {
+    "translation": "Too many attempts. Wait a moment and try again.",
+    "message": "Too many attempts. Wait a moment and try again.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 122]]
+  },
+  "58hODw": {
+    "translation": "Trello API key not found",
+    "message": "Trello API key not found",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 77]]
+  },
+  "+oVRsS": {
+    "translation": "Trello token not found",
+    "message": "Trello token not found",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 78]]
+  },
+  "BqCTQD": {
+    "translation": "Unable to delete list",
+    "message": "Unable to delete list",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/components/DeleteListConfirmation.tsx", 31]]
+  },
+  "tOf0V6": {
+    "translation": "Unable to delete workspace",
+    "message": "Unable to delete workspace",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 81]]
+  },
+  "1OurPU": {
+    "translation": "Unable to sign in. Please try again.",
+    "message": "Unable to sign in. Please try again.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      ["src/components/AuthForm.tsx", 225],
+      ["src/components/AuthForm.tsx", 242],
+      ["src/components/AuthForm.tsx", 256]
+    ]
+  },
+  "S3cQ55": {
+    "translation": "User not authenticated",
+    "message": "User not authenticated",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 84]]
+  },
+  "eW9fDd": {
+    "translation": "User not found",
+    "message": "User not found",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 85]]
+  },
+  "Q4GZ3s": {
+    "translation": "Verify your email address before signing in.",
+    "message": "Verify your email address before signing in.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 111]]
+  },
+  "GUtCZC": {
+    "translation": "Version: {0}",
+    "message": "Version: {0}",
+    "placeholders": { "0": ["env.NEXT_PUBLIC_APP_VERSION"] },
+    "comments": [],
+    "origin": [["src/components/UserMenu.tsx", 263]]
+  },
+  "w7zdWa": {
+    "translation": "Webhook events",
+    "message": "Webhook events",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      ["src/views/settings/components/NewWebhookModal.tsx", 274],
+      ["src/views/settings/components/WebhookList.tsx", 228]
+    ]
+  },
+  "mnANRQ": {
+    "translation": "Webhook not found",
+    "message": "Webhook not found",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 86]]
+  },
+  "JYc1v3": {
+    "translation": "Workspace not found",
+    "message": "Workspace not found",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 87]]
+  },
+  "XliqUv": {
+    "translation": "Workspace slug already taken",
+    "message": "Workspace slug already taken",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 88]]
+  },
+  "7BzP/6": {
+    "translation": "Workspace slug cannot be changed in cloud without upgrading to a paid plan",
+    "message": "Workspace slug cannot be changed in cloud without upgrading to a paid plan",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 89]]
+  },
+  "ohZkO6": {
+    "translation": "You are not a member of this workspace",
+    "message": "You are not a member of this workspace",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 90]]
+  },
+  "/L2dHc": {
+    "translation": "You cannot manage this member due to role hierarchy",
+    "message": "You cannot manage this member due to role hierarchy",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 91]]
+  },
+  "Gy5iF8": {
+    "translation": "You do not have access to this workspace",
+    "message": "You do not have access to this workspace",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 92]]
+  },
+  "q5OVn+": {
+    "translation": "You do not have permission to perform this action.",
+    "message": "You do not have permission to perform this action.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 116]]
+  },
+  "xAMW4N": {
+    "translation": "Your API key: {entityLabel} has been revoked.",
+    "message": "Your API key: {entityLabel} has been revoked.",
+    "placeholders": { "entityLabel": ["entityLabel"] },
+    "comments": [],
+    "origin": [
+      ["src/views/settings/components/RevokeApiKeyConfirmation.tsx", 24]
+    ]
+  },
+  "EkY4+0": {
+    "translation": "Your board is now private.",
+    "message": "Your board is now private.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/components/VisibilityButton.tsx", 50]]
+  },
+  "QNRstv": {
+    "translation": "Your board is now public.",
+    "message": "Your board is now public.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/components/VisibilityButton.tsx", 50]]
+  },
+  "18hajF": {
+    "translation": "Your password is too long. Use no more than 128 characters.",
+    "message": "Your password is too long. Use no more than 128 characters.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 109]]
+  },
+  "PVjM8f": {
+    "translation": "Your password is too short. Use at least 8 characters.",
+    "message": "Your password is too short. Use at least 8 characters.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 107]]
+  },
+  "Z3PAZP": {
+    "translation": "Your session has expired. Please sign in again.",
+    "message": "Your session has expired. Please sign in again.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/utils/localized-error.ts", 114]]
+  },
+  "nTXLMh": {
+    "translation": "YouTube Video",
+    "message": "YouTube Video",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/YouTubeEmbed/YouTubeNodeView.tsx", 75]]
+  },
+  "kfcRb0": {
+    "message": "Avatar",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/settings/components/Avatar.tsx", 229]],
+    "translation": "Avatar"
+  },
+  "if5iGM": {
+    "message": "Avatar to crop",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/settings/components/Avatar.tsx", 274]],
+    "translation": "Avatar to crop"
+  },
+  "QX2iD/": {
+    "message": "Connecting to Trello...",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/pages/settings/trello/authorize.tsx", 23]],
+    "translation": "Connecting to Trello..."
   }
 }

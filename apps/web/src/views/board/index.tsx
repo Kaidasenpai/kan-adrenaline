@@ -48,6 +48,7 @@ import { PageHead } from "~/components/PageHead";
 import { Tooltip } from "~/components/Tooltip";
 import { EditYouTubeModal } from "~/components/YouTubeEmbed/EditYouTubeModal";
 import { useDragToScroll } from "~/hooks/useDragToScroll";
+import { useLocalisation } from "~/hooks/useLocalisation";
 import { usePermissions } from "~/hooks/usePermissions";
 import { useScrollRestore } from "~/hooks/useScrollRestore";
 import { useKeyboardShortcut } from "~/providers/keyboard-shortcuts";
@@ -79,6 +80,7 @@ import { UpdateBoardSlugForm } from "./components/UpdateBoardSlugForm";
 import ViewToggle from "./components/ViewToggle";
 import VisibilityButton from "./components/VisibilityButton";
 import { createBoardCollisionDetection } from "./dnd/collision";
+import { rtlHorizontalListSortingStrategy } from "./dnd/strategies";
 
 type PublicListId = string;
 
@@ -89,6 +91,7 @@ function getEventData(
 }
 
 export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
+  const { locale } = useLocalisation();
   const params = useParams() as { boardId: string | string[] } | null;
   const router = useRouter();
   const utils = api.useUtils();
@@ -138,7 +141,7 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
       description: t`Create new list`,
       group: "ACTIONS" as const,
     }),
-    [boardId, canCreateList],
+    [boardId, canCreateList, locale],
   );
 
   const { tooltipContent: createListShortcutTooltipContent } =
@@ -241,7 +244,7 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
     boardId,
     scrollRef,
     router,
-    !isLoading && (boardData?.lists.length ?? 0) > 0,
+    view === "board" && !isLoading && (boardData?.lists.length ?? 0) > 0,
   );
 
   const updateListMutation = api.list.update.useMutation({
@@ -512,6 +515,27 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
       coordinateGetter: sortableKeyboardCoordinates,
     }),
   );
+
+  const getDragItemName = (id: UniqueIdentifier): string => {
+    const list = lists.find((item) => item.publicId === id);
+    if (list) return list.name;
+    for (const cards of Object.values(cardsByList)) {
+      const card = cards.find((item) => item.publicId === id);
+      if (card) return card.title;
+    }
+    return t`Item`;
+  };
+
+  const getDropTargetName = (target: DragOverEvent["over"]): string => {
+    const targetData = getEventData(target);
+    if (targetData?.type === "LIST_BODY") {
+      return (
+        lists.find((list) => list.publicId === targetData.listPublicId)?.name ??
+        t`List`
+      );
+    }
+    return target ? getDragItemName(target.id) : t`Item`;
+  };
 
   const canScroll = useCallback(
     (element: Element) =>
@@ -886,6 +910,7 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
                   id="name"
                   type="text"
                   aria-label={t`Board name`}
+                  dir="auto"
                   {...register("name")}
                   onBlur={canEditBoard ? handleSubmit(onSubmit) : undefined}
                   readOnly={!canEditBoard}
@@ -895,13 +920,13 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
             )}
             {!boardData && !isLoading && (
               <p className="min-w-0 flex-1 text-2xl font-bold tracking-tight text-neutral-900 dark:text-dark-1000">
-                {t`${isTemplate ? "Template" : "Board"} not found`}
+                {isTemplate ? t`Template not found` : t`Board not found`}
               </p>
             )}
             <div className="flex shrink-0 items-center gap-2">
               {isTemplate && (
                 <div className="inline-flex cursor-default items-center justify-center whitespace-nowrap rounded-md bg-light-200 px-2.5 py-1.5 text-xs font-semibold text-light-950 dark:bg-dark-200 dark:text-dark-950">
-                  <span className="mr-2">
+                  <span className="me-2">
                     <HiOutlineRectangleStack />
                   </span>
                   {t`Template`}
@@ -991,13 +1016,18 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
           <div
             ref={scrollRef}
             onMouseDown={onMouseDown}
-            className={`scrollbar-w-none scrollbar-track-rounded-[4px] scrollbar-thumb-rounded-[4px] scrollbar-h-[8px] z-0 min-h-0 flex-1 snap-x snap-mandatory scroll-pl-5 overflow-y-hidden overflow-x-scroll overscroll-contain pb-6 pt-5 scrollbar scrollbar-track-light-200 scrollbar-thumb-light-400 dark:scrollbar-track-dark-100 dark:scrollbar-thumb-dark-300 md:snap-none md:scroll-pl-8`}
+            dir="ltr"
+            data-board-scroll-direction={locale === "ar" ? "rtl" : "ltr"}
+            className={`scrollbar-w-none scrollbar-track-rounded-[4px] scrollbar-thumb-rounded-[4px] scrollbar-h-[8px] z-0 min-h-0 flex-1 snap-x snap-mandatory overflow-y-hidden overflow-x-scroll overscroll-contain pb-6 pt-5 scrollbar scrollbar-track-light-200 scrollbar-thumb-light-400 dark:scrollbar-track-dark-100 dark:scrollbar-thumb-dark-300 md:snap-none ${locale === "ar" ? "scroll-pe-5 md:scroll-pe-8" : "scroll-ps-5 md:scroll-ps-8"}`}
           >
             {isLoading ? (
-              <div className="ml-5 flex md:ml-8">
-                <div className="mr-4 h-[360px] w-[19rem] animate-pulse rounded-xl bg-light-200 dark:bg-dark-100" />
-                <div className="mr-4 h-[360px] w-[19rem] animate-pulse rounded-xl bg-light-200 dark:bg-dark-100" />
-                <div className="mr-4 h-[360px] w-[19rem] animate-pulse rounded-xl bg-light-200 dark:bg-dark-100" />
+              <div
+                dir={locale === "ar" ? "rtl" : "ltr"}
+                className="ms-5 flex w-max md:ms-8"
+              >
+                <div className="me-4 h-[360px] w-[19rem] animate-pulse rounded-xl bg-light-200 dark:bg-dark-100" />
+                <div className="me-4 h-[360px] w-[19rem] animate-pulse rounded-xl bg-light-200 dark:bg-dark-100" />
+                <div className="me-4 h-[360px] w-[19rem] animate-pulse rounded-xl bg-light-200 dark:bg-dark-100" />
               </div>
             ) : boardData ? (
               <>
@@ -1037,15 +1067,46 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
                     sensors={sensors}
                     collisionDetection={collisionDetectionStrategy}
                     autoScroll={{ canScroll }}
+                    accessibility={{
+                      screenReaderInstructions: {
+                        draggable: t`Press Space to pick up an item. Use the arrow keys to move it, then press Space to drop it. Press Escape to cancel.`,
+                      },
+                      announcements: {
+                        onDragStart: ({ active }) =>
+                          t`Moving ${getDragItemName(active.id)}.`,
+                        onDragOver: ({ active, over }) =>
+                          over
+                            ? t`${getDragItemName(active.id)} is over ${getDropTargetName(over)}.`
+                            : t`No drop destination selected.`,
+                        onDragEnd: ({ active, over }) =>
+                          over
+                            ? t`${getDragItemName(active.id)} was placed at ${getDropTargetName(over)}.`
+                            : t`Item released without moving.`,
+                        onDragCancel: () => t`Move cancelled.`,
+                      },
+                    }}
                     onDragStart={handleDragStart}
                     onDragOver={handleDragOver}
                     onDragEnd={handleDragEnd}
+                    onDragCancel={() => {
+                      setActiveId(null);
+                      setActiveWidth(null);
+                      setDragCardsByList(null);
+                      setDragListOrder(null);
+                    }}
                   >
                     <SortableContext
                       items={listIds}
-                      strategy={horizontalListSortingStrategy}
+                      strategy={
+                        locale === "ar"
+                          ? rtlHorizontalListSortingStrategy
+                          : horizontalListSortingStrategy
+                      }
                     >
-                      <div className="flex h-full min-h-0 w-max items-start">
+                      <div
+                        dir={locale === "ar" ? "rtl" : "ltr"}
+                        className="flex h-full min-h-0 w-max items-start"
+                      >
                         <div className="min-w-5 md:min-w-8" />
                         {lists.map((list) => (
                           <List
@@ -1086,6 +1147,7 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
                     <DragOverlay dropAnimation={activeCard ? undefined : null}>
                       {activeCard ? (
                         <div
+                          dir={locale === "ar" ? "rtl" : "ltr"}
                           style={
                             activeWidth ? { width: activeWidth } : undefined
                           }

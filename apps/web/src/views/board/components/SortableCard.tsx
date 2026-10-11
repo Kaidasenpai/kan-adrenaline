@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { t } from "@lingui/core/macro";
 import { env } from "next-runtime-env";
 
 import type { CardDragData } from "../dnd/types";
@@ -35,6 +36,7 @@ export default function SortableCard({
     isDragging,
   } = useSortable({
     id: card.publicId,
+    attributes: { roleDescription: t`Draggable card` },
     data: { type: "CARD", listPublicId } satisfies CardDragData,
     disabled: !canEditCard || isPlaceholder,
   });

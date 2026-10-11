@@ -8,14 +8,15 @@ import Input from "~/components/Input";
 import { usePopup } from "~/providers/popup";
 import { api } from "~/utils/api";
 
-const schema = z.object({
-  name: z
-    .string()
-    .min(3, { message: t`Workspace name must be at least 3 characters long` })
-    .max(64, { message: t`Workspace name cannot exceed 64 characters` }),
-});
+const schema = () =>
+  z.object({
+    name: z
+      .string()
+      .min(3, { message: t`Workspace name must be at least 3 characters long` })
+      .max(64, { message: t`Workspace name cannot exceed 64 characters` }),
+  });
 
-type FormValues = z.infer<typeof schema>;
+type FormValues = z.infer<ReturnType<typeof schema>>;
 
 const UpdateWorkspaceNameForm = ({
   workspacePublicId,
@@ -33,7 +34,7 @@ const UpdateWorkspaceNameForm = ({
     handleSubmit,
     formState: { isDirty, errors },
   } = useForm<FormValues>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema()),
     values: {
       name: workspaceName,
     },

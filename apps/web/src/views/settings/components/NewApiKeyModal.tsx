@@ -18,12 +18,13 @@ import Input from "~/components/Input";
 import { useClipboard } from "~/hooks/useClipboard";
 import { useModal } from "~/providers/modal";
 
-const newApiKeySchema = z.object({
-  name: z
-    .string()
-    .min(1, { message: t`API key name is required` })
-    .max(30, { message: t`API key name cannot exceed 30 characters` }),
-});
+const newApiKeySchema = () =>
+  z.object({
+    name: z
+      .string()
+      .min(1, { message: t`API key name is required` })
+      .max(30, { message: t`API key name cannot exceed 30 characters` }),
+  });
 
 export default function NewApiKeyModal() {
   const { closeModal } = useModal();
@@ -38,8 +39,8 @@ export default function NewApiKeyModal() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<z.infer<typeof newApiKeySchema>>({
-    resolver: zodResolver(newApiKeySchema),
+  } = useForm<z.infer<ReturnType<typeof newApiKeySchema>>>({
+    resolver: zodResolver(newApiKeySchema()),
     defaultValues: {
       name: "",
     },
@@ -66,7 +67,7 @@ export default function NewApiKeyModal() {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof newApiKeySchema>) => {
+  const onSubmit = (data: z.infer<ReturnType<typeof newApiKeySchema>>) => {
     createApiKeyMutation.mutate({ name: data.name });
   };
 
@@ -107,13 +108,14 @@ export default function NewApiKeyModal() {
           <div className="mb-4">
             <div className="relative">
               <Input
+                dir="ltr"
                 value={createdApiKey.key}
-                className="pr-10 text-sm text-light-900 dark:text-dark-900"
+                className="pe-10 text-sm text-light-900 dark:text-dark-900"
                 readOnly
               />
               <button
                 type="button"
-                className="absolute inset-y-0 right-0 flex items-center pr-3 text-light-900 hover:text-light-950 dark:text-dark-900 dark:hover:text-dark-950"
+                className="absolute inset-y-0 end-0 flex items-center pe-3 text-light-900 hover:text-light-950 dark:text-dark-900 dark:hover:text-dark-950"
                 onClick={() => copy(createdApiKey.key)}
               >
                 {copied ? (

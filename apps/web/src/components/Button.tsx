@@ -94,7 +94,7 @@ const Button = ({
           {iconLeft && (
             <span
               className={twMerge(
-                fullWidth ? "col-start-1 justify-self-start" : "mr-2",
+                fullWidth ? "col-start-1 justify-self-start" : "me-2",
               )}
             >
               {iconLeft}
@@ -110,7 +110,7 @@ const Button = ({
           {iconRight && (
             <span
               className={twMerge(
-                fullWidth ? "col-start-3 justify-self-end" : "ml-1",
+                fullWidth ? "col-start-3 justify-self-end" : "ms-1",
               )}
             >
               {iconRight}

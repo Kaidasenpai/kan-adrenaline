@@ -140,7 +140,7 @@ const CommandsList = forwardRef<
             <span className="text-dark-700 dark:text-dark-800">
               {item.icon}
             </span>
-            <span className="ml-3 text-[12px] font-medium text-dark-900 dark:text-dark-1000">
+            <span className="ms-3 text-[12px] font-medium text-dark-900 dark:text-dark-1000">
               {item.title}
             </span>
           </button>
@@ -263,7 +263,7 @@ const MentionList = forwardRef<
                 imageUrl={item.image ? getAvatarUrl(item.image) : undefined}
                 email={item.label}
               />
-              <span className="ml-3 text-[12px] font-medium text-dark-900 dark:text-dark-1000">
+              <span className="ms-3 text-[12px] font-medium text-dark-900 dark:text-dark-1000">
                 {item.label}
               </span>
             </button>
@@ -271,7 +271,7 @@ const MentionList = forwardRef<
         ) : (
           <div className="flex items-center justify-start p-2">
             <span className="text-[12px] text-dark-900 dark:text-dark-1000">
-              No results
+              {t`No results`}
             </span>
           </div>
         )}
@@ -392,19 +392,19 @@ const getCommandItems = (disableHeadings: boolean): SlashCommandItem[] => {
     ? []
     : [
         {
-          title: "Heading 1",
+          title: t`Heading 1`,
           icon: <HiH1 />,
           command: ({ editor }) =>
             editor.chain().focus().setHeading({ level: 1 }).run(),
         },
         {
-          title: "Heading 2",
+          title: t`Heading 2`,
           icon: <HiH2 />,
           command: ({ editor }) =>
             editor.chain().focus().setHeading({ level: 2 }).run(),
         },
         {
-          title: "Heading 3",
+          title: t`Heading 3`,
           icon: <HiH3 />,
           command: ({ editor }) =>
             editor.chain().focus().setHeading({ level: 3 }).run(),
@@ -414,22 +414,22 @@ const getCommandItems = (disableHeadings: boolean): SlashCommandItem[] => {
   return [
     ...headingCommands,
     {
-      title: "Bullet List",
+      title: t`Bullet List`,
       icon: <HiOutlineListBullet />,
       command: ({ editor }) => editor.chain().focus().toggleBulletList().run(),
     },
     {
-      title: "Ordered List",
+      title: t`Ordered List`,
       icon: <HiOutlineNumberedList />,
       command: ({ editor }) => editor.chain().focus().toggleOrderedList().run(),
     },
     {
-      title: "Blockquote",
+      title: t`Blockquote`,
       icon: <HiOutlineChatBubbleLeftEllipsis />,
       command: ({ editor }) => editor.chain().focus().toggleBlockquote().run(),
     },
     {
-      title: "Code Block",
+      title: t`Code Block`,
       icon: <HiOutlineCodeBracketSquare />,
       command: ({ editor }) => editor.chain().focus().toggleCodeBlock().run(),
     },
@@ -588,6 +588,7 @@ export default function Editor({
       editorProps: {
         attributes: {
           class: "outline-none focus:outline-none focus-visible:ring-0",
+          dir: "auto",
         },
         handleKeyDown: (_view, event) => {
           if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
@@ -628,7 +629,7 @@ export default function Editor({
       <style jsx global>{`
         .tiptap p.is-empty::before {
           content: attr(data-placeholder);
-          float: left;
+          float: inline-start;
           height: 0;
           pointer-events: none;
         }
@@ -661,28 +662,28 @@ function EditorBubbleMenu({ editor }: { editor: TiptapEditor | null }) {
 
   const bubbleMenuItems = [
     {
-      title: "Bold",
+      title: t`Bold`,
       icon: <HiOutlineBold />,
       keys: ["meta", "b"],
       onClick: () => editor?.chain().focus().toggleBold().run(),
       active: editor?.isActive("bold"),
     },
     {
-      title: "Italic",
+      title: t`Italic`,
       icon: <HiOutlineItalic />,
       keys: ["meta", "i"],
       onClick: () => editor?.chain().focus().toggleItalic().run(),
       active: editor?.isActive("italic"),
     },
     {
-      title: "Strikethrough",
+      title: t`Strikethrough`,
       icon: <HiOutlineStrikethrough />,
       keys: ["meta", "shift", "s"],
       onClick: () => editor?.chain().focus().toggleStrike().run(),
       active: editor?.isActive("strike"),
     },
     {
-      title: "Code",
+      title: t`Code`,
       icon: <HiOutlineCodeBracket />,
       keys: ["meta", "e"],
       onClick: () => editor?.chain().focus().toggleCode().run(),

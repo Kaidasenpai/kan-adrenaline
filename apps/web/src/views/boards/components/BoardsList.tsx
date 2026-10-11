@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { t } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react";
 import {
   HiArrowRight,
   HiLockClosed,
@@ -25,6 +26,7 @@ export function BoardsList({
   isTemplate?: boolean;
   archived?: boolean;
 }) {
+  useLingui();
   const { workspace } = useWorkspace();
   const { openModal } = useModal();
   const { showPopup } = usePopup();
@@ -175,12 +177,12 @@ export function BoardsList({
               className="focus-visible:outline-brand-accent dark:focus-visible:outline-brand-lime block h-full rounded-xl p-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 sm:p-6"
             >
               <div className="flex items-start justify-between gap-5">
-                <h2 className="min-w-0 break-words pr-9 text-2xl font-bold leading-tight tracking-[-0.02em] text-light-1000 dark:text-dark-1000">
-                  {board.name}
+                <h2 className="min-w-0 break-words pe-9 text-2xl font-bold leading-tight tracking-[-0.02em] text-light-1000 dark:text-dark-1000">
+                  <bdi>{board.name}</bdi>
                 </h2>
                 <HiArrowRight
                   aria-hidden="true"
-                  className="mt-1 h-5 w-5 shrink-0 text-light-950 dark:text-dark-950"
+                  className="mt-1 h-5 w-5 shrink-0 text-light-950 dark:text-dark-950 rtl:rotate-180"
                 />
               </div>
               <span className="mt-3 inline-flex items-center gap-1.5 rounded-md bg-light-200 px-2.5 py-1 text-xs font-medium text-light-950 dark:bg-dark-300 dark:text-dark-950">
@@ -205,7 +207,7 @@ export function BoardsList({
                       className={`min-w-0 flex-1 flex-col rounded-md bg-light-200 px-2 py-4 dark:bg-dark-300 sm:px-3 ${listIndex > 2 ? "hidden xl:flex" : "flex"}`}
                     >
                       <span className="break-words text-xs font-semibold leading-relaxed text-light-1000 dark:text-dark-1000">
-                        {list.name}
+                        <bdi>{list.name}</bdi>
                       </span>
                       <span
                         aria-hidden="true"
@@ -239,7 +241,9 @@ export function BoardsList({
                       className="inline-flex max-w-full items-center gap-1.5 rounded-full border border-light-400 px-2.5 py-1 text-xs text-light-950 dark:border-dark-500 dark:text-dark-950"
                     >
                       <LabelIcon colourCode={label.colourCode} />
-                      <span className="truncate">{label.name}</span>
+                      <span className="truncate">
+                        <bdi>{label.name}</bdi>
+                      </span>
                     </span>
                   ))}
                   {board.labels.length > 3 && (
@@ -260,7 +264,7 @@ export function BoardsList({
               onClick={(event) =>
                 handleToggleFavorite(event, board.publicId, board.favorite)
               }
-              className={`focus-visible:outline-brand-accent dark:focus-visible:outline-brand-lime absolute right-11 top-3.5 flex h-11 w-11 items-center justify-center rounded-md hover:bg-light-200 focus-visible:outline focus-visible:outline-2 disabled:opacity-50 dark:hover:bg-dark-300 sm:right-12 sm:top-5 ${
+              className={`focus-visible:outline-brand-accent dark:focus-visible:outline-brand-lime absolute end-11 top-3.5 flex h-11 w-11 items-center justify-center rounded-md hover:bg-light-200 focus-visible:outline focus-visible:outline-2 disabled:opacity-50 dark:hover:bg-dark-300 sm:end-12 sm:top-5 ${
                 board.favorite
                   ? "text-brand-accent dark:text-brand-lime"
                   : "text-light-950 dark:text-dark-950 lg:opacity-0 lg:group-focus-within:opacity-100 lg:group-hover:opacity-100"

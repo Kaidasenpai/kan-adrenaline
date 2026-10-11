@@ -16,14 +16,15 @@ import { useWorkspace } from "~/providers/workspace";
 import { api } from "~/utils/api";
 import TemplateBoards from "./TemplateBoards";
 
-const schema = z.object({
-  name: z
-    .string()
-    .min(1, { message: t`Board name is required` })
-    .max(100, { message: t`Board name cannot exceed 100 characters` }),
-  workspacePublicId: z.string(),
-  template: z.custom<Template | null>(),
-});
+const schema = () =>
+  z.object({
+    name: z
+      .string()
+      .min(1, { message: t`Board name is required` })
+      .max(100, { message: t`Board name cannot exceed 100 characters` }),
+    workspacePublicId: z.string(),
+    template: z.custom<Template | null>(),
+  });
 
 interface NewBoardInputWithTemplate {
   name: string;
@@ -58,7 +59,7 @@ export function NewBoardForm({ isTemplate }: { isTemplate?: boolean }) {
     setValue,
     formState: { errors },
   } = useForm<NewBoardInputWithTemplate>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema()),
     defaultValues: {
       name: "",
       workspacePublicId: workspace.publicId || "",
@@ -117,7 +118,9 @@ export function NewBoardForm({ isTemplate }: { isTemplate?: boolean }) {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="px-5 pt-5">
         <div className="text-neutral-9000 flex w-full items-center justify-between pb-4 dark:text-dark-1000">
-          <h2 className="text-sm font-bold">{t`New ${isTemplate ? "template" : "board"}`}</h2>
+          <h2 className="text-sm font-bold">
+            {isTemplate ? t`New template` : t`New board`}
+          </h2>
           <button
             type="button"
             className="hover:bg-li ght-300 rounded p-1 focus:outline-none dark:hover:bg-dark-300"
@@ -148,7 +151,7 @@ export function NewBoardForm({ isTemplate }: { isTemplate?: boolean }) {
         showTemplates={showTemplates}
         customTemplates={formattedTemplates ?? []}
       />
-      <div className="mt-12 flex items-center justify-end space-x-4 border-t border-light-600 px-5 pb-5 pt-5 dark:border-dark-600">
+      <div className="mt-12 flex items-center justify-end space-x-4 border-t border-light-600 px-5 pb-5 pt-5 dark:border-dark-600 rtl:space-x-reverse">
         {!isTemplate && (
           <Toggle
             label={t`Use template`}
@@ -163,7 +166,7 @@ export function NewBoardForm({ isTemplate }: { isTemplate?: boolean }) {
         )}
         <div>
           <Button type="submit" isLoading={createBoard.isPending}>
-            {t`Create ${isTemplate ? "template" : "board"}`}
+            {isTemplate ? t`Create template` : t`Create board`}
           </Button>
         </div>
       </div>

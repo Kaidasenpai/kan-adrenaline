@@ -168,11 +168,11 @@ const Faqs = () => {
                   className="py-5 first:pt-0 last:pb-0"
                 >
                   <dt>
-                    <DisclosureButton className="group flex w-full items-center justify-between text-left text-light-1000 dark:text-dark-1000">
+                    <DisclosureButton className="group flex w-full items-center justify-between text-start text-light-1000 dark:text-dark-1000">
                       <span className="text-[14px] font-semibold">
                         {faq.question}
                       </span>
-                      <span className="ml-6 flex h-7 items-center text-light-800 dark:text-dark-800">
+                      <span className="ms-6 flex h-7 items-center text-light-800 dark:text-dark-800">
                         <HiMiniPlusSmall
                           aria-hidden="true"
                           className="size-6 group-data-[open]:hidden"
@@ -184,7 +184,7 @@ const Faqs = () => {
                       </span>
                     </DisclosureButton>
                   </dt>
-                  <DisclosurePanel as="dd" className="mt-2 pr-12">
+                  <DisclosurePanel as="dd" className="mt-2 pe-12">
                     {faq.answer}
                   </DisclosurePanel>
                 </Disclosure>

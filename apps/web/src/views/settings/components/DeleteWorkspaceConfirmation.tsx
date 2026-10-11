@@ -84,7 +84,7 @@ export function DeleteWorkspaceConfirmation() {
             }
           />
         </div>
-        <div className="ml-3 text-sm leading-6">
+        <div className="ms-3 text-sm leading-6">
           <p
             id="comments-description"
             className="text-light-900 dark:text-dark-1000"
@@ -93,7 +93,7 @@ export function DeleteWorkspaceConfirmation() {
           </p>
         </div>
       </div>
-      <div className="mt-5 flex justify-end space-x-2 sm:mt-6">
+      <div className="mt-5 flex justify-end space-x-2 sm:mt-6 rtl:space-x-reverse">
         <Button variant="secondary" onClick={() => closeModal()}>
           {t`Cancel`}
         </Button>

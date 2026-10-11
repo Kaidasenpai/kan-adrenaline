@@ -5,6 +5,7 @@ import Button from "~/components/Button";
 import { useModal } from "~/providers/modal";
 import { usePopup } from "~/providers/popup";
 import { api } from "~/utils/api";
+import { localizedError } from "~/utils/localized-error";
 
 interface DeleteWebhookConfirmationProps {
   workspacePublicId: string;
@@ -34,7 +35,7 @@ export function DeleteWebhookConfirmation({
     onError: (error) => {
       showPopup({
         header: t`Unable to delete webhook`,
-        message: error.message || t`Failed to delete webhook`,
+        message: localizedError(error, t`Failed to delete webhook`),
         icon: "error",
       });
     },

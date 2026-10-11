@@ -1,5 +1,6 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { t } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react";
 import { env } from "next-runtime-env";
 import { useTheme } from "next-themes";
 import { useEffect, useRef, useState } from "react";
@@ -48,6 +49,7 @@ export default function Dashboard({
   rightPanel,
   hasRightPanel = false,
 }: DashboardProps) {
+  useLingui();
   const { resolvedTheme } = useTheme();
   const { openModal, closeModal, modalContentType } = useModal();
   const { availableWorkspaces, hasLoaded } = useWorkspace();
@@ -194,12 +196,12 @@ export default function Dashboard({
             {isSideNavOpen ? (
               <TbLayoutSidebarLeftCollapse
                 size={20}
-                className="text-light-900 dark:text-dark-900"
+                className="text-light-900 dark:text-dark-900 rtl:rotate-180"
               />
             ) : (
               <TbLayoutSidebarLeftExpand
                 size={20}
-                className="text-light-900 dark:text-dark-900"
+                className="text-light-900 dark:text-dark-900 rtl:rotate-180"
               />
             )}
           </button>
@@ -219,12 +221,12 @@ export default function Dashboard({
               {isRightPanelOpen ? (
                 <TbLayoutSidebarRightCollapse
                   size={20}
-                  className="text-light-900 dark:text-dark-900"
+                  className="text-light-900 dark:text-dark-900 rtl:rotate-180"
                 />
               ) : (
                 <TbLayoutSidebarRightExpand
                   size={20}
-                  className="text-light-900 dark:text-dark-900"
+                  className="text-light-900 dark:text-dark-900 rtl:rotate-180"
                 />
               )}
             </button>
@@ -234,7 +236,7 @@ export default function Dashboard({
         <div className="flex min-h-0 w-full flex-1">
           <div
             ref={sideNavRef}
-            className={`fixed top-[64px] z-40 h-[calc(100dvh-64px)] w-[244px] shrink-0 transform transition-transform duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] md:relative md:top-0 md:h-full md:w-auto md:translate-x-0 ${isSideNavOpen ? "translate-x-0" : "invisible -translate-x-full md:visible md:translate-x-0"} `}
+            className={`fixed start-0 top-[64px] z-40 h-[calc(100dvh-64px)] w-[244px] shrink-0 transform transition-transform duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] md:relative md:top-0 md:h-full md:w-auto md:translate-x-0 ${isSideNavOpen ? "translate-x-0" : "invisible -translate-x-full md:visible md:translate-x-0 rtl:translate-x-full md:rtl:translate-x-0"} `}
           >
             <SideNavigation
               user={{
@@ -255,10 +257,10 @@ export default function Dashboard({
               {hasRightPanel && rightPanel && (
                 <div
                   ref={rightPanelRef}
-                  className={`fixed right-0 top-[64px] z-40 h-[calc(100dvh-64px)] w-80 max-w-full transform border-l border-light-300 bg-light-200 transition-transform duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] dark:border-dark-300 dark:bg-dark-100 md:hidden ${
+                  className={`fixed end-0 top-[64px] z-40 h-[calc(100dvh-64px)] w-80 max-w-full transform border-s border-light-300 bg-light-200 transition-transform duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] dark:border-dark-300 dark:bg-dark-100 md:hidden ${
                     isRightPanelOpen
                       ? "translate-x-0"
-                      : "invisible translate-x-full"
+                      : "invisible translate-x-full rtl:-translate-x-full"
                   }`}
                 >
                   <div className="h-full">{rightPanel}</div>

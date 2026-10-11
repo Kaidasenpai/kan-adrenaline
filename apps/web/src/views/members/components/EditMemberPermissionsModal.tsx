@@ -23,8 +23,7 @@ export function EditMemberPermissionsModal() {
       memberPublicId: entityId,
     },
     {
-      enabled:
-        modalContentType === "EDIT_MEMBER_PERMISSIONS" && !!entityId,
+      enabled: modalContentType === "EDIT_MEMBER_PERMISSIONS" && !!entityId,
     },
   );
 
@@ -168,7 +167,7 @@ export function EditMemberPermissionsModal() {
           <button
             type="button"
             onClick={closeModal}
-            className="ml-2 inline-flex h-6 w-6 items-center justify-center rounded-md text-light-900 hover:bg-light-200 focus:outline-none dark:text-dark-900 dark:hover:bg-dark-200"
+            className="ms-2 inline-flex h-6 w-6 items-center justify-center rounded-md text-light-900 hover:bg-light-200 focus:outline-none dark:text-dark-900 dark:hover:bg-dark-200"
             aria-label={t`Close`}
           >
             <HiXMark className="h-3.5 w-3.5" />
@@ -180,7 +179,7 @@ export function EditMemberPermissionsModal() {
             {t`Loading permissions...`}
           </p>
         ) : (
-          <div className="max-h-80 pb-4 space-y-3 overflow-y-auto pr-1">
+          <div className="max-h-80 space-y-3 overflow-y-auto pb-4 pe-1">
             {Object.values(permissionCategories).map((category, index) => (
               <div
                 key={category.label}
@@ -249,5 +248,3 @@ export function EditMemberPermissionsModal() {
     </div>
   );
 }
-
-

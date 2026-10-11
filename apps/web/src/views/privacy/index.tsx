@@ -17,7 +17,7 @@ export default function PrivacyView() {
   );
 
   const UnorderedList = ({ children }: { children: React.ReactNode }) => (
-    <ul className="list-disc pl-6">{children}</ul>
+    <ul className="list-disc ps-6">{children}</ul>
   );
 
   const ListItem = ({ children }: { children: React.ReactNode }) => (

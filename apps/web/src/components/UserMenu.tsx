@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Menu, Transition } from "@headlessui/react";
 import { t } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react";
 import { useTheme } from "next-themes";
 import { Fragment } from "react";
 import { twMerge } from "tailwind-merge";
@@ -33,6 +34,7 @@ export default function UserMenu({
   isCollapsed = false,
   onCloseSideNav,
 }: UserMenuProps) {
+  useLingui();
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const { openModal } = useModal();
@@ -64,7 +66,7 @@ export default function UserMenu({
   const avatarUrl = imageUrl ? getAvatarUrl(imageUrl) : null;
 
   return (
-    <Menu as="div" className="relative inline-block w-full text-left">
+    <Menu as="div" className="relative inline-block w-full text-start">
       <div>
         {isLoading ? (
           <div className={twMerge(!isCollapsed && "flex")}>
@@ -104,14 +106,16 @@ export default function UserMenu({
             )}
             <span
               className={twMerge(
-                "ml-2.5 min-w-0 text-left text-sm font-medium leading-5",
+                "ms-2.5 min-w-0 text-start text-sm font-medium leading-5",
                 isCollapsed && "md:hidden",
               )}
             >
-              <span className="block truncate">{accountName}</span>
+              <span className="block truncate">
+                <bdi>{accountName}</bdi>
+              </span>
               {displayName && (
                 <span className="block truncate text-xs font-normal text-light-900 dark:text-dark-900">
-                  {email}
+                  <bdi dir="ltr">{email}</bdi>
                 </span>
               )}
             </span>
@@ -132,7 +136,7 @@ export default function UserMenu({
           data-sidebar-menu
           anchor={{ to: "top start", gap: 8, padding: 12 }}
           className={twMerge(
-            "z-[100] max-h-[calc(100dvh-2rem)] origin-bottom-left overflow-y-auto rounded-md border border-light-600 bg-light-50 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-dark-600 dark:bg-dark-300",
+            "z-[100] max-h-[calc(100dvh-2rem)] origin-bottom-left overflow-y-auto rounded-md border border-light-600 bg-light-50 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-dark-600 dark:bg-dark-300 rtl:origin-bottom-right",
             "w-60 max-w-[calc(100vw-1.5rem)]",
           )}
         >
@@ -141,18 +145,18 @@ export default function UserMenu({
               <BrandLogo size="sm" />
             </div>
             <div className="p-1">
-              <div className="flex min-h-11 w-full items-center px-3 py-2 text-left text-sm">
+              <div className="flex min-h-11 w-full items-center px-3 py-2 text-start text-sm">
                 <span>{t`Theme`}</span>
               </div>
               <Menu.Item>
                 <button
                   onClick={() => setTheme("system")}
-                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-left text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
+                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-start text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
                 >
                   <span
                     className={twMerge(
                       theme === "system" ? "visible" : "invisible",
-                      "mr-4 h-[6px] w-[6px] rounded-full bg-light-900 dark:bg-dark-900",
+                      "me-4 h-[6px] w-[6px] rounded-full bg-light-900 dark:bg-dark-900",
                     )}
                   />
                   {t`System`}
@@ -161,12 +165,12 @@ export default function UserMenu({
               <Menu.Item>
                 <button
                   onClick={() => setTheme("dark")}
-                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-left text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
+                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-start text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
                 >
                   <span
                     className={twMerge(
                       theme === "dark" ? "visible" : "invisible",
-                      "mr-4 h-[6px] w-[6px] rounded-full bg-light-900 dark:bg-dark-900",
+                      "me-4 h-[6px] w-[6px] rounded-full bg-light-900 dark:bg-dark-900",
                     )}
                   />
                   {t`Dark`}
@@ -175,12 +179,12 @@ export default function UserMenu({
               <Menu.Item>
                 <button
                   onClick={() => setTheme("light")}
-                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-left text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
+                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-start text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
                 >
                   <span
                     className={twMerge(
                       theme === "light" ? "visible" : "invisible",
-                      "mr-4 h-[6px] w-[6px] rounded-full bg-light-900 dark:bg-dark-900",
+                      "me-4 h-[6px] w-[6px] rounded-full bg-light-900 dark:bg-dark-900",
                     )}
                   />
                   {t`Light`}
@@ -196,7 +200,7 @@ export default function UserMenu({
                     }
                     openLegend();
                   }}
-                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-left text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
+                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-start text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
                 >
                   {t`Shortcuts`}
                 </button>
@@ -207,7 +211,7 @@ export default function UserMenu({
                   target="_blank"
                   rel="noreferrer"
                   onClick={handleLinkClick}
-                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-left text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
+                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-start text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
                 >
                   {t`Support`}
                 </Link>
@@ -218,7 +222,7 @@ export default function UserMenu({
                   target="_blank"
                   rel="noreferrer"
                   onClick={handleLinkClick}
-                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-left text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
+                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-start text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
                 >
                   {t`Upstream documentation`}
                 </Link>
@@ -226,7 +230,7 @@ export default function UserMenu({
               <Menu.Item>
                 <button
                   onClick={() => handleModalOpen("NEW_FEEDBACK")}
-                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-left text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
+                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-start text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
                 >
                   {t`Feedback`}
                 </button>
@@ -236,7 +240,7 @@ export default function UserMenu({
               <Menu.Item>
                 <button
                   onClick={handleLogout}
-                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-left text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
+                  className="flex min-h-11 w-full items-center rounded-[5px] px-3 py-2 text-start text-sm data-[focus]:bg-light-200 hover:bg-light-200 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
                 >
                   {t`Logout`}
                 </button>
@@ -256,7 +260,7 @@ export default function UserMenu({
                     onClick={handleLinkClick}
                     className="flex w-full items-center justify-center rounded-[5px] px-3 py-2 text-center text-xs text-light-900 data-[focus]:bg-light-200 hover:bg-light-200 dark:text-dark-900 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
                   >
-                    Version: {env.NEXT_PUBLIC_APP_VERSION}
+                    {t`Version: ${env.NEXT_PUBLIC_APP_VERSION}`}
                   </Link>
                 </Menu.Item>
               </div>

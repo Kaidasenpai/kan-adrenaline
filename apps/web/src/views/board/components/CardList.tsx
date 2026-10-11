@@ -4,6 +4,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { t } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react";
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import type { ListBodyDragData } from "../dnd/types";
@@ -31,6 +32,7 @@ export default function CardList({
   getCardHref,
   onContextMenu,
 }: CardListProps) {
+  useLingui();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const [minHeightPx, setMinHeightPx] = useState(0);
@@ -87,7 +89,7 @@ export default function CardList({
           setMinHeightPx(0);
         }
       }}
-      className={`scrollbar-track-rounded-[4px] scrollbar-thumb-rounded-[4px] scrollbar-w-[8px] z-10 min-h-0 shrink overflow-y-auto overflow-x-hidden pb-[calc(0.75rem+env(safe-area-inset-bottom))] pr-1 scrollbar dark:scrollbar-track-dark-100 dark:scrollbar-thumb-dark-600 ${isOver && canEditCard ? "ring-brand-accent dark:ring-brand-lime rounded-lg ring-2 ring-inset" : ""}`}
+      className={`scrollbar-track-rounded-[4px] scrollbar-thumb-rounded-[4px] scrollbar-w-[8px] z-10 min-h-0 shrink overflow-y-auto overflow-x-hidden pb-[calc(0.75rem+env(safe-area-inset-bottom))] pe-1 scrollbar dark:scrollbar-track-dark-100 dark:scrollbar-thumb-dark-600 ${isOver && canEditCard ? "ring-brand-accent dark:ring-brand-lime rounded-lg ring-2 ring-inset" : ""}`}
     >
       <div ref={contentRef} className="px-0.5">
         <SortableContext items={cardIds} strategy={verticalListSortingStrategy}>

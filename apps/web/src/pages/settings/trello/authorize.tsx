@@ -1,3 +1,4 @@
+import { t } from "@lingui/core/macro";
 import { useEffect } from "react";
 
 export default function TrelloAuthorize() {
@@ -19,7 +20,7 @@ export default function TrelloAuthorize() {
 
   return (
     <div className="flex h-[200px] items-center justify-center">
-      <p className="text-center">Connecting to Trello...</p>
+      <p className="text-center">{t`Connecting to Trello...`}</p>
     </div>
   );
 }

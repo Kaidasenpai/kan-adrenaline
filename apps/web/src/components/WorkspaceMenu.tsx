@@ -7,6 +7,7 @@ import { HiCheck, HiMagnifyingGlass } from "react-icons/hi2";
 import { TbChevronDown } from "react-icons/tb";
 import { twMerge } from "tailwind-merge";
 
+import { useLocalisation } from "~/hooks/useLocalisation";
 import { useKeyboardShortcut } from "~/providers/keyboard-shortcuts";
 import { useModal } from "~/providers/modal";
 import { useWorkspace } from "~/providers/workspace";
@@ -20,6 +21,7 @@ export default function WorkspaceMenu({
 }: {
   isCollapsed?: boolean;
 }) {
+  const { locale } = useLocalisation();
   const { workspace, isLoading, availableWorkspaces, switchWorkspace } =
     useWorkspace();
   const { openModal } = useModal();
@@ -39,7 +41,9 @@ export default function WorkspaceMenu({
       description: t`Open command menu`,
       group: "GENERAL" as const,
     }),
-    [],
+    // Lingui macros read the active locale indirectly.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [locale],
   );
 
   const { tooltipContent: commandPaletteShortcutTooltipContent } =
@@ -48,14 +52,14 @@ export default function WorkspaceMenu({
   return (
     <>
       <CommandPallette isOpen={isOpen} onClose={() => setIsOpen(false)} />
-      <Menu as="div" className="relative inline-block w-full pb-3 text-left">
+      <Menu as="div" className="relative inline-block w-full pb-3 text-start">
         <div>
           {isLoading ? (
             <div className={twMerge("mb-1 flex", isCollapsed && "md:p-1.5")}>
               <div className="h-6 w-6 animate-pulse rounded-md bg-light-200 dark:bg-dark-200" />
               <div
                 className={twMerge(
-                  "ml-2 h-6 w-[150px] animate-pulse rounded-md bg-light-200 dark:bg-dark-200",
+                  "ms-2 h-6 w-[150px] animate-pulse rounded-md bg-light-200 dark:bg-dark-200",
                   isCollapsed && "md:hidden",
                 )}
               />
@@ -86,16 +90,16 @@ export default function WorkspaceMenu({
                 </span>
                 <span
                   className={twMerge(
-                    "ml-2.5 min-w-0 flex-1 text-left text-sm font-medium leading-5 text-neutral-900 dark:text-dark-1000",
+                    "ms-2.5 min-w-0 flex-1 text-start text-sm font-medium leading-5 text-neutral-900 dark:text-dark-1000",
                     isCollapsed && "md:hidden",
                   )}
                 >
-                  {workspace.name}
+                  <bdi>{workspace.name}</bdi>
                 </span>
                 {workspace.plan === "pro" && (
                   <span
                     className={twMerge(
-                      "ml-2 inline-flex items-center rounded-md bg-indigo-100 px-2 py-1 text-[10px] font-medium text-indigo-700",
+                      "ms-2 inline-flex items-center rounded-md bg-indigo-100 px-2 py-1 text-[10px] font-medium text-indigo-700",
                       isCollapsed && "md:hidden",
                     )}
                   >
@@ -105,7 +109,7 @@ export default function WorkspaceMenu({
                 <TbChevronDown
                   aria-hidden="true"
                   className={twMerge(
-                    "ml-1 h-4 w-4 shrink-0 text-light-900 dark:text-dark-900",
+                    "ms-1 h-4 w-4 shrink-0 text-light-900 dark:text-dark-900",
                     isCollapsed && "md:hidden",
                   )}
                 />
@@ -128,8 +132,9 @@ export default function WorkspaceMenu({
                   >{t`Search`}</span>
                   <span
                     aria-hidden="true"
+                    dir="ltr"
                     className={twMerge(
-                      "ml-auto text-xs text-light-900 dark:text-dark-900",
+                      "ms-auto text-xs text-light-900 dark:text-dark-900",
                       isCollapsed && "md:hidden",
                     )}
                   >
@@ -154,7 +159,7 @@ export default function WorkspaceMenu({
             data-sidebar-menu
             anchor={{ to: "bottom start", gap: 8, padding: 12 }}
             className={twMerge(
-              "z-[100] max-h-[calc(100dvh-2rem)] origin-top-left overflow-y-auto rounded-md border border-light-600 bg-light-50 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-dark-600 dark:bg-dark-300",
+              "z-[100] max-h-[calc(100dvh-2rem)] origin-top-left overflow-y-auto rounded-md border border-light-600 bg-light-50 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-dark-600 dark:bg-dark-300 rtl:origin-top-right",
               isCollapsed
                 ? "w-60 max-w-[calc(100vw-1.5rem)]"
                 : "w-[212px] max-w-[calc(100vw-1.5rem)]",
@@ -166,7 +171,7 @@ export default function WorkspaceMenu({
                   <Menu.Item>
                     <button
                       onClick={() => switchWorkspace(availableWorkspace)}
-                      className="flex w-full items-center justify-between rounded-[5px] px-3 py-2 text-left text-sm text-neutral-900 data-[focus]:bg-light-200 hover:bg-light-200 dark:text-dark-1000 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
+                      className="flex w-full items-center justify-between rounded-[5px] px-3 py-2 text-start text-sm text-neutral-900 data-[focus]:bg-light-200 hover:bg-light-200 dark:text-dark-1000 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
                     >
                       <div className="flex min-w-0 flex-1 items-center">
                         <span className="bg-brand-ink inline-flex h-5 w-5 flex-shrink-0 items-center justify-center rounded">
@@ -180,8 +185,8 @@ export default function WorkspaceMenu({
                             </span>
                           )}
                         </span>
-                        <span className="ml-2 truncate text-sm font-medium">
-                          {availableWorkspace.name}
+                        <span className="ms-2 truncate text-sm font-medium">
+                          <bdi>{availableWorkspace.name}</bdi>
                         </span>
                       </div>
                       {workspace.publicId === availableWorkspace.publicId && (
@@ -210,7 +215,7 @@ export default function WorkspaceMenu({
                       );
                     }
                   }}
-                  className="flex min-h-11 w-full items-center justify-between rounded-[5px] px-3 py-2 text-left text-sm text-neutral-900 data-[focus]:bg-light-200 hover:bg-light-200 dark:text-dark-1000 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
+                  className="flex min-h-11 w-full items-center justify-between rounded-[5px] px-3 py-2 text-start text-sm text-neutral-900 data-[focus]:bg-light-200 hover:bg-light-200 dark:text-dark-1000 dark:data-[focus]:bg-dark-400 dark:hover:bg-dark-400"
                 >
                   {t`Create workspace`}
                 </button>

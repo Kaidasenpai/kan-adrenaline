@@ -9,6 +9,8 @@ import { useLocalisation } from "~/hooks/useLocalisation";
 import { useModal } from "~/providers/modal";
 import { usePopup } from "~/providers/popup";
 import { api } from "~/utils/api";
+import { localizedError } from "~/utils/localized-error";
+import { webhookEventLabel } from "~/utils/webhook-event-label";
 
 interface TableRowProps {
   publicId?: string;
@@ -26,11 +28,11 @@ interface TableRowProps {
 }
 
 function formatEvents(events: string[]) {
-  return events.map((e) => e.replace("card.", "")).join(", ");
+  return events.map((e) => webhookEventLabel(e)).join("، ");
 }
 
 function formatDate(date?: Date | null, locale?: DateFnsLocale) {
-  if (!date) return "Never";
+  if (!date) return t`Not available`;
   return format(date, "MMM d, yyyy", { locale });
 }
 
@@ -50,13 +52,13 @@ function TableRow({
 }: TableRowProps) {
   return (
     <tr className="rounded-b-lg">
-      <td className={twMerge("w-[25%]", isLastRow ? "rounded-bl-lg" : "")}>
+      <td className={twMerge("w-[25%]", isLastRow ? "rounded-es-lg" : "")}>
         <div className="flex items-center p-4">
-          <div className="ml-2 min-w-0 flex-1">
+          <div className="ms-2 min-w-0 flex-1">
             <div className="flex items-center">
               <p
                 className={twMerge(
-                  "mr-2 text-sm font-medium text-light-900 dark:text-dark-900",
+                  "me-2 text-sm font-medium text-light-900 dark:text-dark-900",
                   showSkeleton &&
                     "mb-2 h-3 w-[125px] animate-pulse rounded-sm bg-light-200 dark:bg-dark-200",
                 )}
@@ -116,7 +118,7 @@ function TableRow({
         </p>
       </td>
       <td
-        className={twMerge("w-[5%] min-w-[50px]", isLastRow && "rounded-br-lg")}
+        className={twMerge("w-[5%] min-w-[50px]", isLastRow && "rounded-ee-lg")}
       >
         {!showSkeleton && (
           <div className="flex w-full items-center justify-center px-3">
@@ -175,7 +177,7 @@ export default function WebhookList({ workspacePublicId }: WebhookListProps) {
       } else {
         showPopup({
           header: t`Test failed`,
-          message: result.error || t`Webhook test failed`,
+          message: localizedError(result.error, t`Webhook test failed`),
           icon: "error",
         });
       }
@@ -183,7 +185,7 @@ export default function WebhookList({ workspacePublicId }: WebhookListProps) {
     onError: (error) => {
       showPopup({
         header: t`Unable to test webhook`,
-        message: error.message || t`Failed to test webhook`,
+        message: localizedError(error, t`Failed to test webhook`),
         icon: "error",
       });
     },
@@ -209,37 +211,37 @@ export default function WebhookList({ workspacePublicId }: WebhookListProps) {
                 <tr>
                   <th
                     scope="col"
-                    className="w-[25%] rounded-tl-lg py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-light-900 dark:text-dark-900 sm:pl-6"
+                    className="w-[25%] rounded-ss-lg py-3.5 pe-3 ps-4 text-start text-sm font-semibold text-light-900 dark:text-dark-900 sm:ps-6"
                   >
                     {t`Name`}
                   </th>
                   <th
                     scope="col"
-                    className="w-[30%] px-3 py-3.5 text-left text-sm font-semibold text-light-900 dark:text-dark-900"
+                    className="w-[30%] px-3 py-3.5 text-start text-sm font-semibold text-light-900 dark:text-dark-900"
                   >
                     {t`URL`}
                   </th>
                   <th
                     scope="col"
-                    className="w-[20%] px-3 py-3.5 text-left text-sm font-semibold text-light-900 dark:text-dark-900"
+                    className="w-[20%] px-3 py-3.5 text-start text-sm font-semibold text-light-900 dark:text-dark-900"
                   >
-                    {t`Events`}
+                    {t`Webhook events`}
                   </th>
                   <th
                     scope="col"
-                    className="w-[10%] px-3 py-3.5 text-left text-sm font-semibold text-light-900 dark:text-dark-900"
+                    className="w-[10%] px-3 py-3.5 text-start text-sm font-semibold text-light-900 dark:text-dark-900"
                   >
                     {t`Status`}
                   </th>
                   <th
                     scope="col"
-                    className="w-[10%] px-3 py-3.5 text-left text-sm font-semibold text-light-900 dark:text-dark-900"
+                    className="w-[10%] px-3 py-3.5 text-start text-sm font-semibold text-light-900 dark:text-dark-900"
                   >
                     {t`Created`}
                   </th>
                   <th
                     scope="col"
-                    className="w-[5%] rounded-tr-lg px-3 py-3.5 text-center text-sm font-semibold text-light-900 dark:text-dark-900"
+                    className="w-[5%] rounded-se-lg px-3 py-3.5 text-center text-sm font-semibold text-light-900 dark:text-dark-900"
                   >
                     {/* Actions column */}
                   </th>

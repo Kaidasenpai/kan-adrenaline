@@ -150,11 +150,11 @@ export function LabelForm({
                           style={{ backgroundColor: field.value.code }}
                           className={`inline-block h-2 w-2 flex-shrink-0 rounded-full`}
                         />
-                        <span className="ml-3 block truncate">
+                        <span className="ms-3 block truncate">
                           {field.value.name}
                         </span>
                       </span>
-                      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                      <span className="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-2">
                         <HiChevronUpDown
                           className="h-5 w-5 text-gray-400"
                           aria-hidden="true"
@@ -181,10 +181,10 @@ export function LabelForm({
                                 <div className="flex items-center rounded-[5px] p-2 hover:bg-light-200 dark:hover:bg-dark-400">
                                   <span
                                     style={{ backgroundColor: colour.code }}
-                                    className="ml-2 inline-block h-2 w-2 flex-shrink-0 rounded-full"
+                                    className="ms-2 inline-block h-2 w-2 flex-shrink-0 rounded-full"
                                     aria-hidden="true"
                                   />
-                                  <span className="ml-3 block truncate font-normal">
+                                  <span className="ms-3 block truncate font-normal">
                                     {colour.name}
                                   </span>
                                 </div>
@@ -202,7 +202,7 @@ export function LabelForm({
         />
       </div>
 
-      <div className="mt-12 flex items-center justify-end space-x-4 border-t border-light-600 px-5 pb-5 pt-5 dark:border-dark-600">
+      <div className="mt-12 flex items-center justify-end space-x-4 border-t border-light-600 px-5 pb-5 pt-5 dark:border-dark-600 rtl:space-x-reverse">
         {!isEdit && (
           <Toggle
             label={t`Create another`}
@@ -213,7 +213,7 @@ export function LabelForm({
           />
         )}
 
-        <div className="space-x-2">
+        <div className="space-x-2 rtl:space-x-reverse">
           {isEdit && (
             <Button
               type="button"

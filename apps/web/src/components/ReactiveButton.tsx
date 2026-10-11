@@ -44,7 +44,7 @@ export default function ReactiveButton({
       {current && (
         <span
           aria-hidden="true"
-          className="bg-brand-accent dark:bg-brand-lime absolute -left-1 top-3 h-5 w-[3px] rounded-full"
+          className="bg-brand-accent dark:bg-brand-lime absolute -start-1 top-3 h-5 w-[3px] rounded-full"
         />
       )}
       <span
@@ -57,7 +57,10 @@ export default function ReactiveButton({
         <span className={twMerge(isCollapsed && "md:hidden")}>{name}</span>
       </span>
       {!isCollapsed && (
-        <span className="hidden text-xs text-light-950 group-hover:inline-flex group-focus-visible:inline-flex dark:text-dark-950">
+        <span
+          dir="ltr"
+          className="hidden text-xs text-light-950 group-hover:inline-flex group-focus-visible:inline-flex dark:text-dark-950"
+        >
           {keys}
         </span>
       )}

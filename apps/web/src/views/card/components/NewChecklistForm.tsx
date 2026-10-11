@@ -26,7 +26,7 @@ export function NewChecklistForm({ cardPublicId }: { cardPublicId: string }) {
   const { register, handleSubmit, reset, watch } =
     useForm<NewChecklistFormInput>({
       defaultValues: {
-        name: "Checklist",
+        name: t`Checklist`,
         cardPublicId,
       },
     });

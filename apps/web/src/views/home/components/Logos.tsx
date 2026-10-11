@@ -73,11 +73,11 @@ export default function Logos() {
       </div>
 
       <div className="relative overflow-hidden">
-        <div className="absolute left-0 top-0 z-10 h-full w-8 bg-gradient-to-r from-white/60 to-transparent dark:from-dark-50" />
-        <div className="absolute right-0 top-0 z-10 h-full w-8 bg-gradient-to-l from-white/60 to-transparent dark:from-dark-50" />
+        <div className="absolute start-0 top-0 z-10 h-full w-8 bg-gradient-to-r from-white/60 to-transparent dark:from-dark-50" />
+        <div className="absolute end-0 top-0 z-10 h-full w-8 bg-gradient-to-l from-white/60 to-transparent dark:from-dark-50" />
 
         <div className="flex animate-scroll" style={{ width: "max-content" }}>
-          <div className="flex flex-shrink-0 items-center space-x-12">
+          <div className="flex flex-shrink-0 items-center space-x-12 rtl:space-x-reverse">
             {logos.map((logo) => {
               const LogoComponent: LogoComponent = logo.component;
               return (
@@ -94,7 +94,7 @@ export default function Logos() {
             })}
           </div>
 
-          <div className="ml-12 flex flex-shrink-0 items-center space-x-12">
+          <div className="ms-12 flex flex-shrink-0 items-center space-x-12 rtl:space-x-reverse">
             {logos.map((logo) => {
               const LogoComponent: LogoComponent = logo.component;
               return (

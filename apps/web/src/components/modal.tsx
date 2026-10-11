@@ -75,7 +75,7 @@ const Modal: React.FC<Props> = ({
               leaveTo="opacity-0"
             >
               <Dialog.Panel
-                className={`adrenaline-modal relative w-full overflow-y-auto overscroll-contain rounded-xl border border-light-300 bg-white text-left text-light-1000 shadow-3xl-light dark:border-dark-400 dark:bg-dark-100 dark:text-dark-1000 dark:shadow-3xl-dark ${modalSizeMap[modalSize]}`}
+                className={`adrenaline-modal relative w-full overflow-y-auto overscroll-contain rounded-xl border border-light-300 bg-white text-start text-light-1000 shadow-3xl-light dark:border-dark-400 dark:bg-dark-100 dark:text-dark-1000 dark:shadow-3xl-dark ${modalSizeMap[modalSize]}`}
                 style={{
                   marginTop: centered ? 0 : positionFromTopMap[positionFromTop],
                   maxHeight: centered

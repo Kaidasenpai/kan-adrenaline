@@ -272,13 +272,14 @@ export function InviteMemberForm({
             <div className="my-4">
               <div className="relative">
                 <Input
+                  dir="ltr"
                   value={inviteLink}
-                  className="pr-10 text-sm text-light-900 dark:text-dark-900"
+                  className="pe-10 text-sm text-light-900 dark:text-dark-900"
                   readOnly
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-light-900 hover:text-light-950 dark:text-dark-900 dark:hover:text-dark-950"
+                  className="absolute inset-y-0 end-0 flex items-center pe-3 text-light-900 hover:text-light-950 dark:text-dark-900 dark:hover:text-dark-950"
                   onClick={copyToClipboard}
                 >
                   {copied ? (
@@ -334,7 +335,7 @@ export function InviteMemberForm({
           ) : null)}
       </div>
 
-      <div className="mt-12 flex items-center justify-end space-x-4 border-t border-light-600 px-5 pb-5 pt-5 dark:border-dark-600">
+      <div className="mt-12 flex items-center justify-end space-x-4 border-t border-light-600 px-5 pb-5 pt-5 dark:border-dark-600 rtl:space-x-reverse">
         {!isFreePlan && (
           <Toggle
             label={

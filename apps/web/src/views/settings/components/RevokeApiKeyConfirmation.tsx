@@ -1,3 +1,4 @@
+import { t } from "@lingui/core/macro";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
@@ -19,19 +20,19 @@ export function RevokeApiKeyConfirmation() {
     onSuccess: async () => {
       closeModal();
       showPopup({
-        header: "API key revoked",
-        message: `Your API key: ${entityLabel} has been revoked.`,
+        header: t`API key revoked`,
+        message: t`Your API key: ${entityLabel} has been revoked.`,
         icon: "success",
       });
-      qc.invalidateQueries({
+      await qc.invalidateQueries({
         queryKey: ["apiKeys"],
       });
     },
     onError: () => {
       closeModal();
       showPopup({
-        header: "Error revoking API key",
-        message: "Please try again later, or contact customer support.",
+        header: t`Error revoking API key`,
+        message: t`Please try again later, or contact customer support.`,
         icon: "error",
       });
     },
@@ -45,13 +46,13 @@ export function RevokeApiKeyConfirmation() {
     <div className="p-5">
       <div className="flex w-full flex-col justify-between pb-4">
         <h2 className="text-md pb-4 font-medium text-neutral-900 dark:text-dark-1000">
-          {`Are you sure you want to revoke this API key: ${entityLabel}?`}
+          {t`Are you sure you want to revoke this API key: ${entityLabel}?`}
         </h2>
         <p className="mb-4 text-sm text-light-900 dark:text-dark-900">
-          Keep in mind that this action is irreversible.
+          {t`Keep in mind that this action is irreversible.`}
         </p>
         <p className="text-sm text-light-900 dark:text-dark-900">
-          This will result in the permanent revocation of this API key.
+          {t`This will result in the permanent revocation of this API key.`}
         </p>
       </div>
       <div className="relative flex items-start">
@@ -68,19 +69,18 @@ export function RevokeApiKeyConfirmation() {
             }
           />
         </div>
-        <div className="ml-3 text-sm leading-6">
+        <div className="ms-3 text-sm leading-6">
           <p
             id="comments-description"
             className="text-light-900 dark:text-dark-1000"
           >
-            I acknowledge that this API key will be permanently revoked and want
-            to proceed.
+            {t`I acknowledge that this API key will be permanently revoked and want to proceed.`}
           </p>
         </div>
       </div>
-      <div className="mt-5 flex justify-end space-x-2 sm:mt-6">
+      <div className="mt-5 flex justify-end space-x-2 sm:mt-6 rtl:space-x-reverse">
         <Button variant="secondary" onClick={() => closeModal()}>
-          Cancel
+          {t`Cancel`}
         </Button>
         <Button
           variant="danger"
@@ -88,7 +88,7 @@ export function RevokeApiKeyConfirmation() {
           disabled={!isAcknowledgmentChecked}
           isLoading={deleteApiKeyMutation.isPending}
         >
-          Revoke API key
+          {t`Revoke API key`}
         </Button>
       </div>
     </div>

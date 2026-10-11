@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { t } from "@lingui/core/macro";
 import { twMerge } from "tailwind-merge";
 
 const sizes = {
@@ -50,7 +51,9 @@ export function BrandLogo({
   return (
     <span
       role="img"
-      aria-label="Adrenaline Tasks"
+      aria-label={t`Adrenaline Tasks`}
+      dir="ltr"
+      lang="en"
       className={twMerge(
         "inline-flex shrink-0 items-start gap-2.5 text-light-1000 dark:text-dark-1000",
         className,
@@ -85,11 +88,12 @@ export function BrandLogo({
 export function CompanyLogo({ className }: { className?: string }) {
   return (
     <span
+      dir="ltr"
       className={twMerge("inline-flex rounded bg-black px-4 py-3", className)}
     >
       <Image
         src="/branding/adrenaline-entertainment.png"
-        alt="Adrenaline Entertainment"
+        alt={t`Adrenaline Entertainment`}
         width={283}
         height={68}
         className="h-auto w-[154px]"

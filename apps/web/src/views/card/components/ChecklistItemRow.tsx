@@ -132,7 +132,7 @@ export default function ChecklistItemRow({
   return (
     <div
       className={twMerge(
-        "group relative flex items-start gap-3 rounded-md py-2 pl-4 hover:bg-light-100 dark:hover:bg-dark-100",
+        "group relative flex items-start gap-3 rounded-md py-2 ps-4 hover:bg-light-100 dark:hover:bg-dark-100",
         isDragging && "opacity-80",
       )}
     >
@@ -140,7 +140,7 @@ export default function ChecklistItemRow({
         <div
           {...dragHandleAttributes}
           {...dragHandleListeners}
-          className="absolute left-0 top-1/2 flex h-[20px] w-[20px] -translate-x-full -translate-y-1/2 cursor-grab items-center justify-center pr-1 opacity-0 transition-opacity group-hover:opacity-75 hover:opacity-100 active:cursor-grabbing"
+          className="absolute start-0 top-1/2 flex h-[20px] w-[20px] -translate-x-full -translate-y-1/2 cursor-grab items-center justify-center pe-1 opacity-0 transition-opacity group-hover:opacity-75 hover:opacity-100 active:cursor-grabbing rtl:translate-x-full"
         >
           <RiDraggable className="h-4 w-4 text-light-700 dark:text-dark-700" />
         </div>
@@ -168,7 +168,7 @@ export default function ChecklistItemRow({
         />
       </label>
 
-      <div className="flex-1 pr-7">
+      <div className="flex-1 pe-7">
         <PlainTextEditor
           key={item.clientId ?? item.publicId}
           content={item.title}
@@ -191,7 +191,7 @@ export default function ChecklistItemRow({
         <button
           type="button"
           onClick={handleDelete}
-          className="absolute right-1 top-1/2 hidden -translate-y-1/2 rounded-md p-1 text-light-900 group-hover:block hover:bg-light-200 dark:text-dark-700 dark:hover:bg-dark-200"
+          className="absolute end-1 top-1/2 hidden -translate-y-1/2 rounded-md p-1 text-light-900 group-hover:block hover:bg-light-200 dark:text-dark-700 dark:hover:bg-dark-200"
         >
           <HiXMark size={16} />
         </button>

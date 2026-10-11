@@ -12,14 +12,15 @@ import { useModal } from "~/providers/modal";
 import { usePopup } from "~/providers/popup";
 import { api } from "~/utils/api";
 
-const schema = z.object({
-  name: z
-    .string()
-    .min(1, { message: t`Template name is required` })
-    .max(100, { message: t`Template name cannot exceed 100 characters` }),
-  workspacePublicId: z.string(),
-  sourceBoardPublicId: z.string(),
-});
+const schema = () =>
+  z.object({
+    name: z
+      .string()
+      .min(1, { message: t`Template name is required` })
+      .max(100, { message: t`Template name cannot exceed 100 characters` }),
+    workspacePublicId: z.string(),
+    sourceBoardPublicId: z.string(),
+  });
 
 interface NewBoardInputWithTemplate {
   name: string;
@@ -45,7 +46,7 @@ export function NewTemplateForm({
     handleSubmit,
     formState: { errors },
   } = useForm<NewBoardInputWithTemplate>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema()),
     defaultValues: {
       name: sourceBoardName,
       workspacePublicId,

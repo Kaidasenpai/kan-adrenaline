@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import React from "react";
 import {
   Dialog,
   DialogBackdrop,
@@ -7,7 +6,7 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 import { t } from "@lingui/core/macro";
-import {
+import React, {
   createContext,
   useCallback,
   useContext,
@@ -467,14 +466,14 @@ function FormattedShortcut({ shortcut }: { shortcut: KeyboardShortcut }) {
 
     modifierStrings.forEach((mod, index) => {
       parts.push(
-        <kbd key={`mod-${index}-${mod}`} className={kbdClassName}>
+        <kbd dir="ltr" key={`mod-${index}-${mod}`} className={kbdClassName}>
           {mod}
         </kbd>,
       );
     });
 
     parts.push(
-      <kbd key={`key-${stroke.key}`} className={kbdClassName}>
+      <kbd dir="ltr" key={`key-${stroke.key}`} className={kbdClassName}>
         {stroke.key.toUpperCase()}
       </kbd>,
     );
@@ -497,11 +496,18 @@ function FormattedShortcut({ shortcut }: { shortcut: KeyboardShortcut }) {
       });
       parts.push(...keyedParts);
     });
-    return <span className="flex items-center gap-1 text-[11px]">{parts}</span>;
+    return (
+      <span dir="ltr" className="flex items-center gap-1 text-[11px]">
+        {parts}
+      </span>
+    );
   }
 
   return (
-    <span className="inline-flex flex-shrink-0 items-center gap-1 text-[11px]">
+    <span
+      dir="ltr"
+      className="inline-flex flex-shrink-0 items-center gap-1 text-[11px]"
+    >
       {formatStroke(shortcut.stroke)}
     </span>
   );

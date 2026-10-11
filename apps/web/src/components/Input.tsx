@@ -4,6 +4,8 @@ import ContentEditable from "react-contenteditable";
 import { HiOutlineEye, HiOutlineEyeSlash } from "react-icons/hi2";
 import { twMerge } from "tailwind-merge";
 
+import { useLocalisation } from "~/hooks/useLocalisation";
+
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   contentEditable?: boolean;
   prefix?: string;
@@ -36,6 +38,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     },
     ref,
   ) => {
+    const { isRTL } = useLocalisation();
+    const fieldDirection =
+      props.dir ??
+      (prefix || ["email", "url", "password", "tel", "number"].includes(type)
+        ? "ltr"
+        : "auto");
     const [showPassword, setShowPassword] = useState(false);
     const errorId = useId();
     const describedBy = [
@@ -50,6 +58,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     if (contentEditable) {
       return (
         <ContentEditable
+          dir={fieldDirection}
           placeholder={props.placeholder}
           html={value ?? ""}
           onChange={onChange}
@@ -70,14 +79,15 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <div className="flex w-full min-w-0 flex-col gap-1.5">
-        <div className="relative flex">
+        <div className="relative flex" dir={prefix ? "ltr" : undefined}>
           {prefix && (
-            <div className="flex shrink-0 items-center rounded-l-lg border border-r-0 border-light-300 bg-light-100 px-3 text-sm text-light-950 dark:border-dark-400 dark:bg-dark-200 dark:text-dark-950">
+            <div className="flex shrink-0 items-center rounded-s-lg border border-e-0 border-light-300 bg-light-100 px-3 text-sm text-light-950 dark:border-dark-400 dark:bg-dark-200 dark:text-dark-950">
               {prefix}
             </div>
           )}
           <input
             {...props}
+            dir={fieldDirection}
             ref={ref}
             value={value}
             onChange={onChange}
@@ -85,8 +95,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             className={twMerge(
               inputClasses,
               "h-11 min-w-0 py-2.5",
-              prefix && "rounded-l-none",
-              (type === "password" || iconRight) && "pr-12",
+              prefix && "rounded-s-none",
+              (type === "password" || iconRight) &&
+                (isRTL && !prefix ? "pl-12" : "pr-12"),
               errorMessage &&
                 "border-red-500 focus:border-red-600 focus:ring-red-500/15 dark:border-red-400 dark:focus:border-red-400 dark:focus:ring-red-400/15",
               className,
@@ -98,7 +109,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           {type === "password" && (
             <button
               type="button"
-              className="ease-interface focus-visible:ring-brand-accent dark:focus-visible:ring-brand-lime absolute inset-y-0 right-0 flex w-11 items-center justify-center rounded-r-lg text-light-900 transition-colors duration-150 hover:text-light-1000 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset dark:text-dark-900 dark:hover:text-dark-1000"
+              className="ease-interface focus-visible:ring-brand-accent dark:focus-visible:ring-brand-lime absolute inset-y-0 end-0 flex w-11 items-center justify-center rounded-e-lg text-light-900 transition-colors duration-150 hover:text-light-1000 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset dark:text-dark-900 dark:hover:text-dark-1000"
               aria-label={showPassword ? t`Hide password` : t`Show password`}
               aria-pressed={showPassword}
               disabled={props.disabled}
@@ -113,7 +124,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
           {iconRight && type !== "password" && (
             <div
-              className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 leading-[0]"
+              className="pointer-events-none absolute end-3.5 top-1/2 -translate-y-1/2 leading-[0]"
               aria-hidden="true"
             >
               {iconRight}

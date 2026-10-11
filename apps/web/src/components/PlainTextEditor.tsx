@@ -89,6 +89,7 @@ export default function PlainTextEditor({
         },
         attributes: {
           class: "outline-none focus:outline-none focus-visible:ring-0",
+          dir: "auto",
         },
       },
     },
@@ -112,7 +113,7 @@ export default function PlainTextEditor({
       <style jsx global>{`
         .plain-text-editor p.is-empty::before {
           content: attr(data-placeholder);
-          float: left;
+          float: inline-start;
           height: 0;
           pointer-events: none;
           color: var(--placeholder-color, #9ca3af);

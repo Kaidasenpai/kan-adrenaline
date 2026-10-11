@@ -58,7 +58,6 @@ export default function Avatar({
   const [crop, setCrop] = useState<PercentCrop>();
   const imgRef = useRef<HTMLImageElement | null>(null);
 
-
   const avatarUrl = userImage ? getAvatarUrl(userImage) : undefined;
 
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -166,17 +165,14 @@ export default function Avatar({
       const fileName = `${userId}/avatar-${generateUID()}.${originalExt}`;
 
       const baseUrl = env("NEXT_PUBLIC_BASE_URL") ?? "";
-      const response = await fetch(
-        `${baseUrl}/api/upload/avatar`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": blob.type,
-            "x-original-filename": encodeURIComponent(fileName),
-          },
-          body: blob,
+      const response = await fetch(`${baseUrl}/api/upload/avatar`, {
+        method: "POST",
+        headers: {
+          "Content-Type": blob.type,
+          "x-original-filename": encodeURIComponent(fileName),
         },
-      );
+        body: blob,
+      });
 
       if (!response.ok) {
         throw new Error("Failed to upload profile image");
@@ -184,13 +180,13 @@ export default function Avatar({
 
       // User image is updated in the backend, refresh user data
       await utils.user.getUser.refetch();
-      
+
       showPopup({
         header: t`Profile image updated`,
         message: t`Your profile image has been updated.`,
         icon: "success",
       });
-      
+
       setCropDialogOpen(false);
       resetCropState();
     } catch (error) {
@@ -226,7 +222,7 @@ export default function Avatar({
         {avatarUrl ? (
           <Image
             src={avatarUrl}
-            alt="Avatar"
+            alt={t`Avatar`}
             width={64}
             height={64}
             className="rounded-full"
@@ -271,7 +267,7 @@ export default function Avatar({
                   <img
                     ref={imgRef}
                     src={selectedPreviewUrl ?? undefined}
-                    alt="Avatar to crop"
+                    alt={t`Avatar to crop`}
                     onLoad={onImageLoad}
                     className="h-auto max-h-[50vh] w-full object-contain"
                   />

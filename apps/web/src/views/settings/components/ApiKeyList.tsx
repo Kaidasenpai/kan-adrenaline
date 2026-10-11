@@ -1,3 +1,4 @@
+import { t } from "@lingui/core/macro";
 import { useQuery } from "@tanstack/react-query";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
 import { twMerge } from "tailwind-merge";
@@ -5,10 +6,12 @@ import { twMerge } from "tailwind-merge";
 import { authClient } from "@kan/auth/client";
 
 import Dropdown from "~/components/Dropdown";
+import { useLocalisation } from "~/hooks/useLocalisation";
 import { useModal } from "~/providers/modal";
 
 export default function ApiKeyList() {
   const { openModal } = useModal();
+  const { formatDate: localizedDate } = useLocalisation();
 
   const { data, isLoading } = useQuery({
     queryKey: ["apiKeys"],
@@ -33,25 +36,21 @@ export default function ApiKeyList() {
     showSkeleton?: boolean | undefined;
   }) => {
     const formatDate = (date?: Date | string | null) => {
-      if (!date) return "Never";
+      if (!date) return t`Never`;
       const dateObj = date instanceof Date ? date : new Date(date);
-      return dateObj.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
+      return localizedDate(dateObj);
     };
 
     return (
       <tr className="rounded-b-lg">
-        <td className={twMerge("w-[30%]", isLastRow ? "rounded-bl-lg" : "")}>
+        <td className={twMerge("w-[30%]", isLastRow ? "rounded-es-lg" : "")}>
           <div className="flex items-center p-4">
-            <div className="ml-2 min-w-0 flex-1">
+            <div className="ms-2 min-w-0 flex-1">
               <div>
                 <div className="flex items-center">
                   <p
                     className={twMerge(
-                      "mr-2 text-sm font-medium text-light-900 dark:text-dark-900",
+                      "me-2 text-sm font-medium text-light-900 dark:text-dark-900",
                       showSkeleton &&
                         "md mb-2 h-3 w-[125px] animate-pulse rounded-sm bg-light-200 dark:bg-dark-200",
                     )}
@@ -88,6 +87,7 @@ export default function ApiKeyList() {
         <td className="w-[25%] px-3 py-4">
           <div>
             <span
+              dir="ltr"
               className={twMerge(
                 "inline-flex items-center rounded-md bg-emerald-500/10 px-1.5 py-0.5 text-[11px] font-medium text-emerald-400 ring-1 ring-inset ring-emerald-500/20",
                 showSkeleton &&
@@ -101,7 +101,7 @@ export default function ApiKeyList() {
         <td
           className={twMerge(
             "w-[5%] min-w-[50px]",
-            isLastRow && "rounded-br-lg",
+            isLastRow && "rounded-ee-lg",
           )}
         >
           <div className="flex w-full items-center justify-center px-3">
@@ -109,12 +109,12 @@ export default function ApiKeyList() {
               <Dropdown
                 items={[
                   {
-                    label: "Revoke",
+                    label: t`Revoke`,
                     action: () =>
                       openModal("REVOKE_API_KEY", keyId, keyName ?? ""),
                   },
                 ]}
-                ariaLabel="API key options"
+                ariaLabel={t`API key options`}
               >
                 <HiEllipsisHorizontal
                   size={25}
@@ -142,31 +142,31 @@ export default function ApiKeyList() {
                 <tr>
                   <th
                     scope="col"
-                    className="w-[30%] rounded-tl-lg py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-light-900 dark:text-dark-900 sm:pl-6"
+                    className="w-[30%] rounded-ss-lg py-3.5 pe-3 ps-4 text-start text-sm font-semibold text-light-900 dark:text-dark-900 sm:ps-6"
                   >
-                    Name
+                    {t`Name`}
                   </th>
                   <th
                     scope="col"
-                    className="w-[20%] px-3 py-3.5 text-left text-sm font-semibold text-light-900 dark:text-dark-900"
+                    className="w-[20%] px-3 py-3.5 text-start text-sm font-semibold text-light-900 dark:text-dark-900"
                   >
-                    Created
+                    {t`Created`}
                   </th>
                   <th
                     scope="col"
-                    className="w-[20%] px-3 py-3.5 text-left text-sm font-semibold text-light-900 dark:text-dark-900"
+                    className="w-[20%] px-3 py-3.5 text-start text-sm font-semibold text-light-900 dark:text-dark-900"
                   >
-                    Last Used
+                    {t`Last Used`}
                   </th>
                   <th
                     scope="col"
-                    className="w-[25%] px-3 py-3.5 text-left text-sm font-semibold text-light-900 dark:text-dark-900"
+                    className="w-[25%] px-3 py-3.5 text-start text-sm font-semibold text-light-900 dark:text-dark-900"
                   >
-                    Key
+                    {t`Key`}
                   </th>
                   <th
                     scope="col"
-                    className="w-[5%] rounded-tr-lg px-3 py-3.5 text-center text-sm font-semibold text-light-900 dark:text-dark-900"
+                    className="w-[5%] rounded-se-lg px-3 py-3.5 text-center text-sm font-semibold text-light-900 dark:text-dark-900"
                   >
                     {/* Actions column */}
                   </th>

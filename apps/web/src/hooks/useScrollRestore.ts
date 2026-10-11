@@ -2,6 +2,8 @@ import type { NextRouter } from "next/router";
 import type { RefObject } from "react";
 import { useEffect, useRef } from "react";
 
+import { useLocalisation } from "~/hooks/useLocalisation";
+
 interface BoardScrollPosition {
   left: number;
   lists: Map<string, number>;
@@ -15,42 +17,46 @@ export function useScrollRestore(
   router: NextRouter,
   isReady: boolean,
 ) {
+  const { isRTL } = useLocalisation();
+  const positionKey = boardId ? `${boardId}:${isRTL ? "rtl" : "ltr"}` : null;
   const restored = useRef(false);
 
   useEffect(() => {
-    if (!boardId) return;
+    if (!positionKey || !isReady) return;
+    const container = scrollRef.current;
+    if (!container) return;
 
     restored.current = false;
 
     const saveScrollPosition = () => {
-      if (scrollRef.current) {
-        const lists = new Map<string, number>();
-        scrollRef.current
-          .querySelectorAll<HTMLElement>("[data-list-scroll-id]")
-          .forEach((list) => {
-            const listId = list.dataset.listScrollId;
-            if (listId) lists.set(listId, list.scrollTop);
-          });
-        scrollPositions.set(boardId, {
-          left: scrollRef.current.scrollLeft,
-          lists,
+      const lists = new Map<string, number>();
+      container
+        .querySelectorAll<HTMLElement>("[data-list-scroll-id]")
+        .forEach((list) => {
+          const listId = list.dataset.listScrollId;
+          if (listId) lists.set(listId, list.scrollTop);
         });
-      }
+      scrollPositions.set(positionKey, {
+        left: container.scrollLeft,
+        lists,
+      });
     };
 
     router.events.on("routeChangeStart", saveScrollPosition);
-    return () => router.events.off("routeChangeStart", saveScrollPosition);
-  }, [boardId, router.events, scrollRef]);
+    return () => {
+      saveScrollPosition();
+      router.events.off("routeChangeStart", saveScrollPosition);
+    };
+  }, [positionKey, router.events, scrollRef, isReady]);
 
   useEffect(() => {
-    if (restored.current || !isReady || !boardId) return;
-    restored.current = true;
+    if (restored.current || !isReady || !positionKey) return;
 
-    const saved = scrollPositions.get(boardId);
-    if (saved === undefined) return;
+    const saved = scrollPositions.get(positionKey);
 
     const container = scrollRef.current;
     if (!container) return;
+    restored.current = true;
 
     let frame: number | undefined;
     const restore = () => {
@@ -61,9 +67,13 @@ export function useScrollRestore(
 
       observer.disconnect();
       frame = requestAnimationFrame(() => {
-        container.scrollLeft = saved.left;
+        container.scrollLeft =
+          saved?.left ??
+          (container.dataset.boardScrollDirection === "rtl"
+            ? container.scrollWidth - container.clientWidth
+            : 0);
         lists.forEach((list) => {
-          const top = saved.lists.get(list.dataset.listScrollId ?? "");
+          const top = saved?.lists.get(list.dataset.listScrollId ?? "");
           if (top !== undefined) list.scrollTop = top;
         });
       });
@@ -77,5 +87,5 @@ export function useScrollRestore(
       observer.disconnect();
       if (frame !== undefined) cancelAnimationFrame(frame);
     };
-  }, [isReady, scrollRef, boardId]);
+  }, [isReady, scrollRef, positionKey]);
 }

@@ -1,4 +1,5 @@
 import type { NodeViewProps } from "@tiptap/react";
+import { t } from "@lingui/core/macro";
 import { NodeViewWrapper } from "@tiptap/react";
 
 import { extractVideoId } from "./utils";
@@ -71,7 +72,13 @@ export default function YouTubeNodeView({
       <YouTubeCard
         videoId={videoId}
         url={url}
-        title={title}
+        title={
+          title === "Loading..."
+            ? t`Loading...`
+            : title === "YouTube Video"
+              ? t`YouTube Video`
+              : title
+        }
         showEmbed={showEmbed}
         onConvertToLink={handleConvertToLink}
         onDelete={handleDelete}

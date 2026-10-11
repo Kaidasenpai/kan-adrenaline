@@ -20,6 +20,7 @@ import CircularProgress from "~/components/CircularProgress";
 import { useModal } from "~/providers/modal";
 import { usePopup } from "~/providers/popup";
 import { api } from "~/utils/api";
+import { localizedDragAccessibility } from "~/utils/drag-accessibility";
 import ChecklistNameInput from "./ChecklistNameInput";
 import NewChecklistItemForm from "./NewChecklistItemForm";
 import SortableChecklistItemRow from "./SortableChecklistItemRow";
@@ -146,6 +147,16 @@ export default function Checklists({
 
   return (
     <DndContext
+      accessibility={localizedDragAccessibility(
+        (id) =>
+          checklists
+            .flatMap((checklist) => checklist.items)
+            .find((item) => item.publicId === id)?.title ?? t`Item`,
+        (id) =>
+          checklists
+            .flatMap((checklist) => checklist.items)
+            .find((item) => item.publicId === id)?.title ?? t`Item`,
+      )}
       sensors={sensors}
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
@@ -173,7 +184,7 @@ export default function Checklists({
                     />
                   </div>
                   {!viewOnly && (
-                    <div className="ml-2 flex flex-shrink-0 items-center gap-2">
+                    <div className="ms-2 flex flex-shrink-0 items-center gap-2">
                       <div className="flex items-center gap-1 rounded-full border-[1px] border-light-300 px-2 py-1 dark:border-dark-300">
                         <CircularProgress
                           progress={progress}
@@ -207,7 +218,7 @@ export default function Checklists({
                     </div>
                   )}
                   {viewOnly && (
-                    <div className="ml-2 flex flex-shrink-0 items-center gap-2">
+                    <div className="ms-2 flex flex-shrink-0 items-center gap-2">
                       <div className="flex items-center gap-1 rounded-full border-[1px] border-light-300 px-2 py-1 dark:border-dark-300">
                         <CircularProgress
                           progress={progress}
@@ -226,7 +237,7 @@ export default function Checklists({
                   items={itemIdsByChecklist.get(checklist.publicId) ?? []}
                   strategy={verticalListSortingStrategy}
                 >
-                  <div className="ml-1">
+                  <div className="ms-1">
                     {checklist.items.map((item) => (
                       <SortableChecklistItemRow
                         key={item.clientId ?? item.publicId}
@@ -246,7 +257,7 @@ export default function Checklists({
                   </div>
                 </SortableContext>
                 {activeChecklistForm === checklist.publicId && !viewOnly && (
-                  <div className="ml-1">
+                  <div className="ms-1">
                     <NewChecklistItemForm
                       checklistPublicId={checklist.publicId}
                       cardPublicId={cardPublicId}

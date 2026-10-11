@@ -358,9 +358,9 @@ const getActivityIcon = (
 ): React.ReactNode | null => {
   if (type === "card.updated.list" && fromIndex != null && toIndex != null) {
     return fromIndex > toIndex ? (
-      <HiOutlineArrowLeft />
+      <HiOutlineArrowLeft className="rtl:rotate-180" />
     ) : (
-      <HiOutlineArrowRight />
+      <HiOutlineArrowRight className="rtl:rotate-180" />
     );
   }
   return ACTIVITY_ICON_MAP[type] ?? null;
@@ -507,8 +507,8 @@ const ActivityList = ({
           dateLocale: dateLocale,
           mergedLabels: (activity as ActivityWithMergedLabels).mergedLabels,
           attachmentName:
-            (activity as ActivityWithMergedLabels).attachment?.originalFilename ??
-            null,
+            (activity as ActivityWithMergedLabels).attachment
+              ?.originalFilename ?? null,
         });
 
         if (activity.type === "card.updated.comment.added")
@@ -534,14 +534,16 @@ const ActivityList = ({
         return (
           <div
             key={activity.publicId}
-            className="relative flex items-center space-x-2"
+            className="relative flex items-center space-x-2 rtl:space-x-reverse"
           >
             <div className="relative">
               <Avatar
                 size="sm"
                 name={activity.user?.name ?? ""}
                 email={activity.user?.email ?? ""}
-                imageUrl={getAvatarUrl(activity.user?.image ?? null) || undefined}
+                imageUrl={
+                  getAvatarUrl(activity.user?.image ?? null) || undefined
+                }
                 icon={getActivityIcon(
                   activity.type,
                   activity.fromList?.index,
@@ -554,12 +556,12 @@ const ActivityList = ({
               )}
             </div>
             <p className="text-sm">
-              <span className="font-medium dark:text-dark-1000">{`${getUserDisplayName(activity.user)} `}</span>
-              <span className="space-x-1 text-light-900 dark:text-dark-800">
+              <bdi className="font-medium dark:text-dark-1000">{`${getUserDisplayName(activity.user)} `}</bdi>
+              <span className="space-x-1 text-light-900 dark:text-dark-800 rtl:space-x-reverse">
                 {activityText}
               </span>
               <span className="mx-1 text-light-900 dark:text-dark-800">·</span>
-              <span className="space-x-1 text-light-900 dark:text-dark-800">
+              <span className="space-x-1 text-light-900 dark:text-dark-800 rtl:space-x-reverse">
                 {formatDistanceToNow(new Date(activity.createdAt), {
                   addSuffix: true,
                   locale: dateLocale,

@@ -195,14 +195,14 @@ export default function SelectPlanView() {
                       key={plan.id}
                       type="button"
                       onClick={() => handleSelectPlan(plan.id)}
-                      className={`relative w-full rounded-lg border px-4 py-3 text-left transition-colors ${
+                      className={`relative w-full rounded-lg border px-4 py-3 text-start transition-colors ${
                         selected === plan.id
                           ? "border-light-700 bg-light-300 dark:border-dark-600 dark:bg-dark-200"
                           : "border-light-500 bg-light-200 hover:border-light-600 dark:border-dark-500 dark:bg-dark-100 dark:hover:border-dark-600"
                       }`}
                     >
                       <div className="flex items-start justify-between">
-                        <div className="flex-1 pr-8">
+                        <div className="flex-1 pe-8">
                           <div className="flex items-center gap-2">
                             <span className="text-sm font-semibold text-light-1000 dark:text-dark-1000">
                               {plan.name}

@@ -105,11 +105,11 @@ const SelectSource = ({
                     <Listbox.Button className="focus-ring-light-700 block w-full rounded-md border-0 bg-dark-300 bg-white/5 px-4 py-1.5 text-neutral-900 shadow-sm ring-1 ring-inset ring-light-600 focus:ring-2 focus:ring-inset dark:text-dark-1000 dark:ring-dark-700 dark:focus:ring-dark-700 sm:text-sm sm:leading-6">
                       <span className="flex items-center">
                         {integrationProviders[field.value]?.icon}
-                        <span className="ml-2 block truncate text-sm">
+                        <span className="ms-2 block truncate text-sm">
                           {integrationProviders[field.value]?.name}
                         </span>
                       </span>
-                      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                      <span className="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-2">
                         <HiChevronUpDown
                           className="h-5 w-5 text-gray-400"
                           aria-hidden="true"
@@ -137,7 +137,7 @@ const SelectSource = ({
                                   integrationProviders[integration.provider]
                                     ?.icon
                                 }
-                                <span className="ml-2 block truncate text-sm font-normal">
+                                <span className="ms-2 block truncate text-sm font-normal">
                                   {
                                     integrationProviders[integration.provider]
                                       ?.name
@@ -155,7 +155,7 @@ const SelectSource = ({
                             >
                               <div className="flex items-center rounded-[5px] p-1 text-sm hover:bg-light-200 dark:hover:bg-dark-400">
                                 {integrationProviders.trello?.icon}
-                                <span className="ml-2 block truncate text-sm">
+                                <span className="ms-2 block truncate text-sm">
                                   {integrationProviders.trello?.name}
                                 </span>
                               </div>
@@ -167,7 +167,7 @@ const SelectSource = ({
                             >
                               <div className="flex items-center rounded-[5px] p-1 text-sm hover:bg-light-200 dark:hover:bg-dark-400">
                                 {integrationProviders.github?.icon}
-                                <span className="ml-2 block truncate text-sm">
+                                <span className="ms-2 block truncate text-sm">
                                   {integrationProviders.github?.name}
                                 </span>
                               </div>
@@ -184,7 +184,7 @@ const SelectSource = ({
         />
       </div>
 
-      <div className="mt-12 flex items-center justify-end space-x-4 border-t border-light-600 px-5 pb-5 pt-5 dark:border-dark-600">
+      <div className="mt-12 flex items-center justify-end space-x-4 border-t border-light-600 px-5 pb-5 pt-5 dark:border-dark-600 rtl:space-x-reverse">
         <div>
           <Button
             type="submit"
@@ -298,7 +298,7 @@ const ImportGithub: React.FC = () => {
             className="h-[14px] w-[14px] rounded bg-transparent ring-0 focus:outline-none focus:ring-0 focus:ring-offset-0"
             {...registerProjects(project.id)}
           />
-          <span className="ml-3 text-sm text-neutral-900 dark:text-dark-1000">
+          <span className="ms-3 text-sm text-neutral-900 dark:text-dark-1000">
             {project.name}
           </span>
         </label>
@@ -310,7 +310,7 @@ const ImportGithub: React.FC = () => {
     <form onSubmit={handleSubmitProjects(onSubmitProjects)}>
       <div className="h-[105px] overflow-auto px-5">{renderContent()}</div>
 
-      <div className="mt-12 flex items-center justify-end space-x-4 border-t border-light-600 px-5 pb-5 pt-5 dark:border-dark-600">
+      <div className="mt-12 flex items-center justify-end space-x-4 border-t border-light-600 px-5 pb-5 pt-5 dark:border-dark-600 rtl:space-x-reverse">
         <Toggle
           label={t`Select all`}
           isChecked={!!isSelectAllEnabled}
@@ -323,7 +323,7 @@ const ImportGithub: React.FC = () => {
             }
           }}
         />
-        <div className="space-x-2">
+        <div className="space-x-2 rtl:space-x-reverse">
           <Button
             type="submit"
             isLoading={importProjects.isPending}
@@ -447,7 +447,7 @@ const ImportTrello: React.FC = () => {
             className="h-[14px] w-[14px] rounded bg-transparent ring-0 focus:outline-none focus:ring-0 focus:ring-offset-0"
             {...registerBoards(board.id)}
           />
-          <span className="ml-3 text-sm text-neutral-900 dark:text-dark-1000">
+          <span className="ms-3 text-sm text-neutral-900 dark:text-dark-1000">
             {board.name}
           </span>
         </label>
@@ -459,7 +459,7 @@ const ImportTrello: React.FC = () => {
     <form onSubmit={handleSubmitBoards(onSubmitBoards)}>
       <div className="h-[105px] overflow-auto px-5">{renderContent()}</div>
 
-      <div className="mt-12 flex items-center justify-end space-x-4 border-t border-light-600 px-5 pb-5 pt-5 dark:border-dark-600">
+      <div className="mt-12 flex items-center justify-end space-x-4 border-t border-light-600 px-5 pb-5 pt-5 dark:border-dark-600 rtl:space-x-reverse">
         <Toggle
           label={t`Select all`}
           isChecked={!!isSelectAllEnabled}
@@ -472,7 +472,7 @@ const ImportTrello: React.FC = () => {
             }
           }}
         />
-        <div className="space-x-2">
+        <div className="space-x-2 rtl:space-x-reverse">
           <Button
             type="submit"
             isLoading={importBoards.isPending}
@@ -515,7 +515,7 @@ export function ImportBoardsForm() {
           <Link
             href="https://docs.kan.bn/imports/trello"
             target="_blank"
-            className="ml-2 text-neutral-500 hover:text-neutral-700 dark:text-dark-900 dark:hover:text-dark-700"
+            className="ms-2 text-neutral-500 hover:text-neutral-700 dark:text-dark-900 dark:hover:text-dark-700"
           >
             <HiOutlineQuestionMarkCircle className="h-4.5 w-4.5" />
           </Link>

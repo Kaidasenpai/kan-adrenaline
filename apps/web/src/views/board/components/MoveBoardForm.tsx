@@ -7,12 +7,9 @@ import { useModal } from "~/providers/modal";
 import { usePopup } from "~/providers/popup";
 import { useWorkspace } from "~/providers/workspace";
 import { api } from "~/utils/api";
+import { localizedError } from "~/utils/localized-error";
 
-export function MoveBoardForm({
-  boardPublicId,
-}: {
-  boardPublicId: string;
-}) {
+export function MoveBoardForm({ boardPublicId }: { boardPublicId: string }) {
   const router = useRouter();
   const { closeModal } = useModal();
   const { showPopup } = usePopup();
@@ -31,7 +28,7 @@ export function MoveBoardForm({
       closeModal();
       showPopup({
         header: t`Board moved`,
-        message: t`The board has been moved to ${targetWorkspace?.name ?? "the workspace"}.`,
+        message: t`The board has been moved to ${targetWorkspace?.name ?? t`the workspace`}.`,
         icon: "success",
       });
       if (targetWorkspace) {
@@ -43,7 +40,10 @@ export function MoveBoardForm({
     onError: (error) => {
       showPopup({
         header: t`Unable to move board`,
-        message: error.message,
+        message: localizedError(
+          error,
+          t`Please try again later, or contact customer support.`,
+        ),
         icon: "error",
       });
     },
@@ -94,7 +94,7 @@ export function MoveBoardForm({
           </>
         )}
       </div>
-      <div className="mt-5 flex justify-end space-x-2 sm:mt-6">
+      <div className="mt-5 flex justify-end space-x-2 sm:mt-6 rtl:space-x-reverse">
         <Button onClick={() => closeModal()} variant="secondary">
           {t`Cancel`}
         </Button>

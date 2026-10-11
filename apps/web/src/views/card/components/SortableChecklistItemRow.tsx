@@ -1,5 +1,6 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { t } from "@lingui/core/macro";
 
 import ChecklistItemRow from "./ChecklistItemRow";
 
@@ -32,6 +33,7 @@ export default function SortableChecklistItemRow({
     isDragging,
   } = useSortable({
     id: item.publicId,
+    attributes: { roleDescription: t`Item` },
     disabled: viewOnly,
   });
 

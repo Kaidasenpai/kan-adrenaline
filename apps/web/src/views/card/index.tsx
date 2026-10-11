@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { t } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiXMark } from "react-icons/hi2";
@@ -48,6 +49,7 @@ interface FormValues {
 }
 
 export function CardRightPanel({ isTemplate }: { isTemplate?: boolean }) {
+  useLingui();
   const router = useRouter();
   const { canEditCard } = usePermissions();
   const { data: session } = authClient.useSession();
@@ -120,7 +122,7 @@ export function CardRightPanel({ isTemplate }: { isTemplate?: boolean }) {
     }) ?? [];
 
   return (
-    <aside className="h-full w-full overflow-y-auto border-l border-light-300 bg-light-100 px-6 py-8 text-light-900 dark:border-dark-300 dark:bg-dark-100 md:w-[280px] xl:w-[300px]">
+    <aside className="h-full w-full overflow-y-auto border-s border-light-300 bg-light-100 px-6 py-8 text-light-900 dark:border-dark-300 dark:bg-dark-100 md:w-[280px] xl:w-[300px]">
       <h2 className="mb-7 text-sm font-bold text-light-1000 dark:text-dark-1000">{t`Details`}</h2>
       <div className="mb-6 flex w-full flex-col items-start gap-2">
         <p className="text-xs font-semibold text-light-800 dark:text-dark-800">{t`List`}</p>
@@ -165,6 +167,7 @@ export function CardRightPanel({ isTemplate }: { isTemplate?: boolean }) {
 }
 
 export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
+  useLingui();
   const router = useRouter();
   const utils = api.useUtils();
   const {
@@ -330,7 +333,7 @@ export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
         {/* Full-width top strip with board link and dropdown */}
         <div className="flex w-full shrink-0 items-center justify-between gap-3 border-b border-light-300 bg-white px-5 py-4 dark:border-dark-300 dark:bg-dark-50 md:px-8">
           {!card && isLoading && (
-            <div className="flex space-x-2">
+            <div className="flex gap-2">
               <div className="h-[1.5rem] w-[150px] animate-pulse rounded-[5px] bg-light-300 dark:bg-dark-300" />
             </div>
           )}
@@ -344,7 +347,7 @@ export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
                   {workspace.name}
                 </Link>
                 <IoChevronForwardSharp
-                  className="hidden h-2.5 w-2.5 shrink-0 text-light-700 dark:text-dark-700 lg:block"
+                  className="hidden h-2.5 w-2.5 shrink-0 text-light-700 dark:text-dark-700 lg:block rtl:rotate-180"
                   aria-hidden="true"
                 />
                 <Link
@@ -357,11 +360,14 @@ export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
                   card.list.board.workspace.cardPrefix && (
                     <>
                       <IoChevronForwardSharp
-                        className="h-2.5 w-2.5 shrink-0 text-light-700 dark:text-dark-700"
+                        className="h-2.5 w-2.5 shrink-0 text-light-700 dark:text-dark-700 rtl:rotate-180"
                         aria-hidden="true"
                       />
                       <span className="shrink-0 text-[11px] font-medium tabular-nums text-light-800 dark:text-dark-800">
-                        {card.list.board.workspace.cardPrefix}-{card.cardNumber}
+                        <bdi dir="ltr">
+                          {card.list.board.workspace.cardPrefix}-
+                          {card.cardNumber}
+                        </bdi>
                       </span>
                     </>
                   )}
@@ -402,7 +408,7 @@ export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
             <div className="px-5 pb-12 pt-7 md:px-8 md:pt-9 xl:px-10">
               <div className="mb-9">
                 {!card && isLoading && (
-                  <div className="flex space-x-2">
+                  <div className="flex gap-2">
                     <div className="h-[2.3rem] w-[300px] animate-pulse rounded-[5px] bg-light-300 dark:bg-dark-300" />
                   </div>
                 )}
@@ -413,6 +419,7 @@ export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
                       <textarea
                         id="title"
                         aria-label={t`Card title`}
+                        dir="auto"
                         {...register("title")}
                         onBlur={canEdit ? handleSubmit(onSubmit) : undefined}
                         rows={1}

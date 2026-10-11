@@ -1,10 +1,10 @@
 import type { Locale as DateFnsLocale } from "date-fns";
 import { useLingui } from "@lingui/react";
-import { de, enGB, es, fr, it, nl, pl, ptBR, ru } from "date-fns/locale";
+import { ar, de, enGB, es, fr, it, nl, pl, ptBR, ru } from "date-fns/locale";
 
 import type { Locale } from "~/locales";
+import { localeDirection } from "~/locales";
 import { useLinguiContext } from "~/providers/lingui";
-import { activateLocale } from "~/utils/i18n";
 
 export function useLocalisation() {
   const { i18n } = useLingui();
@@ -12,6 +12,7 @@ export function useLocalisation() {
 
   const dateLocaleMap: Partial<Record<Locale, DateFnsLocale>> = {
     en: enGB,
+    ar,
     fr,
     de,
     es,
@@ -24,16 +25,21 @@ export function useLocalisation() {
 
   const currentDateLocale = dateLocaleMap[locale] ?? enGB;
 
-  const handleSetLocale = async (newLocale: Locale) => {
-    await activateLocale(newLocale);
-    setLocale(newLocale);
-  };
-
   return {
     locale,
     dateLocale: currentDateLocale,
-    setLocale: handleSetLocale,
+    setLocale,
     availableLocales,
-    formatNumber: i18n.number,
+    isRTL: localeDirection(locale) === "rtl",
+    formatNumber: (value: number, options?: Intl.NumberFormatOptions) =>
+      i18n.number(value, options),
+    formatDate: (
+      date: Date,
+      options: Intl.DateTimeFormatOptions = {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      },
+    ) => i18n.date(date, { calendar: "gregory", ...options }),
   };
 }

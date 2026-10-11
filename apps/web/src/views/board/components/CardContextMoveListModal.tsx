@@ -79,7 +79,7 @@ export function CardContextMoveListModal() {
           ))}
         </div>
       ) : (
-        <div className="max-h-[60vh] overflow-y-auto pr-1 scrollbar scrollbar-track-rounded-[4px] scrollbar-thumb-rounded-[4px] scrollbar-w-[8px] scrollbar-track-light-200 scrollbar-thumb-light-400 dark:scrollbar-track-dark-100 dark:scrollbar-thumb-dark-600">
+        <div className="scrollbar-track-rounded-[4px] scrollbar-thumb-rounded-[4px] scrollbar-w-[8px] max-h-[60vh] overflow-y-auto pe-1 scrollbar scrollbar-track-light-200 scrollbar-thumb-light-400 dark:scrollbar-track-dark-100 dark:scrollbar-thumb-dark-600">
           <ul className="space-y-1">
             {lists.map((list) => (
               <li key={list.publicId}>
@@ -87,7 +87,7 @@ export function CardContextMoveListModal() {
                   type="button"
                   onClick={() => handleSelectList(list.publicId)}
                   disabled={list.publicId === currentListPublicId}
-                  className="w-full rounded-md px-3 py-2 text-left text-sm hover:bg-light-200 disabled:opacity-50 dark:hover:bg-dark-400"
+                  className="w-full rounded-md px-3 py-2 text-start text-sm hover:bg-light-200 disabled:opacity-50 dark:hover:bg-dark-400"
                 >
                   {list.name}
                 </button>

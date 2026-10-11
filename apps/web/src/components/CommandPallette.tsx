@@ -101,7 +101,7 @@ export default function CommandPallette({
               <div className="grid grid-cols-1">
                 <ComboboxInput
                   autoFocus
-                  className="col-start-1 row-start-1 h-12 w-full border-0 bg-transparent pl-11 pr-4 text-sm text-light-900 placeholder:text-light-700 focus:outline-none focus:ring-0 dark:text-dark-900 dark:placeholder:text-dark-700"
+                  className="col-start-1 row-start-1 h-12 w-full border-0 bg-transparent pe-4 ps-11 text-sm text-light-900 placeholder:text-light-700 focus:outline-none focus:ring-0 dark:text-dark-900 dark:placeholder:text-dark-700"
                   placeholder={t`Search boards and cards...`}
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
@@ -122,7 +122,7 @@ export default function CommandPallette({
                   }}
                 />
                 <HiMagnifyingGlass
-                  className="pointer-events-none col-start-1 row-start-1 ml-4 size-5 self-center text-light-700 dark:text-dark-700"
+                  className="pointer-events-none col-start-1 row-start-1 ms-4 size-5 self-center text-light-700 dark:text-dark-700"
                   aria-hidden="true"
                 />
               </div>
@@ -159,7 +159,7 @@ export default function CommandPallette({
                               <HiDocumentText className="h-4 w-4 text-light-600 dark:text-dark-600" />
                             )}
                           </div>
-                          <div className="min-w-0 flex-1 text-left">
+                          <div className="min-w-0 flex-1 text-start">
                             <div className="flex items-center gap-2">
                               <div className="truncate text-sm font-bold text-light-900 dark:text-dark-900">
                                 {result.title}

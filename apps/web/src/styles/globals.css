@@ -102,3 +102,26 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Preserve paragraph direction without reversing URLs or code samples. */
+.tiptap :where(p, h1, h2, h3, li) {
+  unicode-bidi: plaintext;
+  text-align: start;
+}
+.tiptap :where(pre, code),
+[data-machine-value] {
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: left;
+}
+:lang(ar)
+  :where(.tracking-tight, .tracking-wide, .tracking-wider, .tracking-widest) {
+  letter-spacing: normal;
+}
+html:lang(ar) select {
+  background-position: left 0.5rem center;
+}
+
+html:lang(ar) input:is([type="email"], [type="password"]):placeholder-shown {
+  text-align: right;
+}

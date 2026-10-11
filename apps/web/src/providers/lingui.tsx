@@ -1,14 +1,29 @@
 import type { ReactNode } from "react";
 import { I18nProvider } from "@lingui/react";
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import type { Locale } from "~/locales";
-import { defaultLocale, locales } from "~/locales";
-import { activateLocale, i18n, initializeI18n } from "~/utils/i18n";
+import {
+  defaultLocale,
+  isLocale,
+  localeDirection,
+  localeFormattingTag,
+  locales,
+  localeTag,
+  matchBrowserLocale,
+} from "~/locales";
+import { i18n, initializeI18n, loadLocale } from "~/utils/i18n";
 
 interface LinguiContextType {
   locale: Locale;
-  setLocale: (locale: Locale) => void;
+  setLocale: (locale: Locale) => Promise<void>;
   availableLocales: Locale[];
 }
 
@@ -16,65 +31,64 @@ const LinguiContext = createContext<LinguiContextType | undefined>(undefined);
 
 export function useLinguiContext() {
   const context = useContext(LinguiContext);
-  if (!context) {
+  if (!context)
     throw new Error("useLinguiContext must be used within a LinguiProvider");
-  }
   return context;
-}
-
-interface LinguiProviderProps {
-  children: ReactNode;
-  initialLocale?: Locale;
-}
-
-function detectBrowserLocale(availableLocales: readonly string[]): Locale {
-  if (typeof navigator === "undefined") {
-    return defaultLocale;
-  }
-
-  const browserLanguages = navigator.languages || [navigator.language];
-
-  for (const browserLang of browserLanguages) {
-    const langCode = browserLang.split("-")[0];
-
-    if (langCode && availableLocales.includes(langCode.toLowerCase())) {
-      return langCode.toLowerCase() as Locale;
-    }
-  }
-
-  return defaultLocale;
 }
 
 export function LinguiProviderWrapper({
   children,
   initialLocale = defaultLocale,
-}: LinguiProviderProps) {
-  const [locale, setLocale] = useState<Locale>(defaultLocale);
-  const [isHydrated, setIsHydrated] = useState(false);
-
+}: {
+  children: ReactNode;
+  initialLocale?: Locale;
+}) {
+  const [locale, setActiveLocale] = useState<Locale>(defaultLocale);
+  const request = useRef(0);
   initializeI18n();
 
-  useEffect(() => {
-    const savedLocale = localStorage.getItem("locale") as Locale;
-
-    if (savedLocale && locales.includes(savedLocale)) {
-      setLocale(savedLocale);
-    } else {
-      const detectedLocale = detectBrowserLocale(locales);
-      setLocale(detectedLocale);
+  const setLocale = useCallback(async (nextLocale: Locale) => {
+    const currentRequest = ++request.current;
+    // Load first so direction, copy and selected language change together.
+    try {
+      await loadLocale(nextLocale);
+    } catch (error) {
+      if (currentRequest !== request.current) return;
+      throw error;
     }
-    setIsHydrated(true);
-  }, [initialLocale]);
+    if (currentRequest !== request.current) return;
+    i18n.activate(nextLocale, localeFormattingTag(nextLocale));
+    document.documentElement.lang = localeTag(nextLocale);
+    document.documentElement.dir = localeDirection(nextLocale);
+    setActiveLocale(nextLocale);
+    try {
+      localStorage.setItem("locale", nextLocale);
+    } catch {
+      // Language selection also works when browser storage is unavailable.
+    }
+  }, []);
 
   useEffect(() => {
-    if (isHydrated && locale !== defaultLocale) {
-      activateLocale(locale).then(() => {
-        localStorage.setItem("locale", locale);
-      });
-    } else if (isHydrated) {
-      localStorage.setItem("locale", locale);
+    let savedLocale: string | null = null;
+    try {
+      savedLocale = localStorage.getItem("locale");
+    } catch {
+      // Fall back to the browser preference in private/restricted contexts.
     }
-  }, [locale, isHydrated]);
+    const preferredLocale = isLocale(savedLocale)
+      ? savedLocale
+      : initialLocale !== defaultLocale
+        ? initialLocale
+        : matchBrowserLocale(
+            navigator.languages.length
+              ? navigator.languages
+              : [navigator.language],
+          );
+    void setLocale(preferredLocale).catch(() => setLocale(defaultLocale));
+    return () => {
+      request.current += 1;
+    };
+  }, [initialLocale, setLocale]);
 
   return (
     <LinguiContext.Provider

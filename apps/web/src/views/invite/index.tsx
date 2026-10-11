@@ -10,6 +10,7 @@ import LoadingSpinner from "~/components/LoadingSpinner";
 import { PageHead } from "~/components/PageHead";
 import PatternedBackground from "~/components/PatternedBackground";
 import { api } from "~/utils/api";
+import { localizedError } from "~/utils/localized-error";
 
 export default function InvitePage() {
   const router = useRouter();
@@ -46,8 +47,10 @@ export default function InvitePage() {
       }
 
       setError(
-        error.message ||
+        localizedError(
+          error,
           t`Failed to accept invitation. Please try again later, or contact customer support.`,
+        ),
       );
       setIsProcessing(false);
     },

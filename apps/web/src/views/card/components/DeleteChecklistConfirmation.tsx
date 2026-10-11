@@ -59,7 +59,7 @@ export function DeleteChecklistConfirmation({
           {t`This action can't be undone.`}
         </p>
       </div>
-      <div className="mt-5 flex justify-end space-x-2 sm:mt-6">
+      <div className="mt-5 flex justify-end space-x-2 sm:mt-6 rtl:space-x-reverse">
         <Button variant="secondary" onClick={() => closeModal()}>
           {t`Cancel`}
         </Button>

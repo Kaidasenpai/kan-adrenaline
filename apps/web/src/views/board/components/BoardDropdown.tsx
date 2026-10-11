@@ -60,8 +60,8 @@ export default function BoardDropdown({
             ? t`Added to favorites`
             : t`Removed from favorites`,
           message: variables.favorite
-            ? t`${boardName ?? "Board"} has been added to your favorites.`
-            : t`${boardName ?? "Board"} has been removed from your favorites.`,
+            ? t`${boardName ?? t`Board`} has been added to your favorites.`
+            : t`${boardName ?? t`Board`} has been removed from your favorites.`,
           icon: "success",
         });
       }

@@ -34,6 +34,7 @@ import { authClient } from "@kan/auth/client";
 import Button from "~/components/Button";
 import Input from "~/components/Input";
 import { usePopup } from "~/providers/popup";
+import { localizedError } from "~/utils/localized-error";
 
 type AuthProvider = SocialProvider | "oidc";
 
@@ -49,11 +50,12 @@ interface AuthProps {
   callbackURL?: string;
 }
 
-const EmailSchema = z.object({
-  name: z.string().optional(),
-  email: z.string().email(),
-  password: z.string().optional(),
-});
+const EmailSchema = () =>
+  z.object({
+    name: z.string().optional(),
+    email: z.string().email(t`Please enter a valid email address`),
+    password: z.string().optional(),
+  });
 
 const availableSocialProviders = {
   google: {
@@ -190,7 +192,7 @@ export function Auth({
     formState: { errors },
     watch,
   } = useForm<FormValues>({
-    resolver: zodResolver(EmailSchema),
+    resolver: zodResolver(EmailSchema()),
   });
 
   const { data: socialProviders } = useQuery({
@@ -221,7 +223,10 @@ export function Auth({
                 message: t`You have been signed up successfully.`,
                 icon: "success",
               }),
-            onError: ({ error }) => setLoginError(error.message),
+            onError: ({ error }) =>
+              setLoginError(
+                localizedError(error, t`Unable to sign in. Please try again.`),
+              ),
           },
         );
       } else {
@@ -238,7 +243,10 @@ export function Auth({
                 message: t`You have been logged in successfully.`,
                 icon: "success",
               }),
-            onError: ({ error }) => setLoginError(error.message),
+            onError: ({ error }) =>
+              setLoginError(
+                localizedError(error, t`Unable to sign in. Please try again.`),
+              ),
           },
         );
       }
@@ -252,7 +260,10 @@ export function Auth({
           },
           {
             onSuccess: () => setIsMagicLinkSent(true, email),
-            onError: ({ error }) => setLoginError(error.message),
+            onError: ({ error }) =>
+              setLoginError(
+                localizedError(error, t`Unable to sign in. Please try again.`),
+              ),
           },
         );
       } else {
@@ -330,7 +341,10 @@ export function Auth({
     let needsPassword = false;
     if (isSignUp && pwdEmpty) {
       needsPassword = true;
-    } else if (loginError?.toLowerCase().includes("password")) {
+    } else if (
+      loginError?.toLowerCase().includes("password") ||
+      loginError?.includes("كلمة المرور")
+    ) {
       needsPassword = true;
     } else if (errors.password) {
       needsPassword = true;
@@ -377,7 +391,7 @@ export function Auth({
           </div>
         )}
       {(isCredentialsEnabled || isMagicLinkAvailable) && (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form noValidate onSubmit={handleSubmit(onSubmit)}>
           {(socialProviders?.length ?? 0) > 0 && (
             <div className="mb-[1.5rem] flex w-full items-center gap-4">
               <div className="h-[1px] w-full bg-light-600 dark:bg-dark-600" />
@@ -464,7 +478,7 @@ export function Auth({
               variant="primary"
               iconRight={
                 <TbArrowRight
-                  className="h-[18px] w-[18px]"
+                  className="h-[18px] w-[18px] rtl:rotate-180"
                   aria-hidden="true"
                 />
               }

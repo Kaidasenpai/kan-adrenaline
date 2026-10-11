@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { t } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react";
 import { env } from "next-runtime-env";
 import {
   HiBolt,
@@ -35,6 +36,7 @@ import { EditMemberPermissionsModal } from "./components/EditMemberPermissionsMo
 import { InviteMemberForm } from "./components/InviteMemberForm";
 
 export default function MembersPage() {
+  useLingui();
   const { modalContentType, openModal, isOpen } = useModal();
   const { workspace } = useWorkspace();
   const { showPopup } = usePopup();
@@ -135,7 +137,7 @@ export default function MembersPage() {
         <td
           className={twMerge(
             "w-[58%] sm:w-[60%]",
-            isLastRow ? "rounded-bl-lg" : "",
+            isLastRow ? "rounded-es-lg" : "",
           )}
         >
           <div className="flex items-center gap-3 px-4 py-5 sm:px-6">
@@ -161,7 +163,9 @@ export default function MembersPage() {
                       showPendingIcon && "text-light-800 dark:text-dark-900",
                     )}
                   >
-                    {memberName ?? (showPendingIcon ? t`Pending` : t`Member`)}
+                    <bdi>
+                      {memberName ?? (showPendingIcon ? t`Pending` : t`Member`)}
+                    </bdi>
                   </p>
                 </div>
                 {(workspace.role === "admin" ||
@@ -174,7 +178,7 @@ export default function MembersPage() {
                         "h-3 w-[175px] animate-pulse rounded-sm bg-light-200 dark:bg-dark-200",
                     )}
                   >
-                    {memberEmail}
+                    <bdi dir="ltr">{memberEmail}</bdi>
                   </p>
                 )}
               </div>
@@ -184,7 +188,7 @@ export default function MembersPage() {
         <td
           className={twMerge(
             "w-[42%] overflow-visible sm:w-[40%]",
-            isLastRow && "rounded-br-lg",
+            isLastRow && "rounded-ee-lg",
           )}
         >
           <div className="flex w-full items-center justify-between gap-2 px-3 sm:px-6">
@@ -337,7 +341,7 @@ export default function MembersPage() {
                     className="hidden items-center rounded-full border border-emerald-300 bg-emerald-50 px-3 py-1 text-center text-xs text-emerald-400 dark:border-emerald-700 dark:bg-emerald-950 dark:text-emerald-400 lg:flex"
                   >
                     <HiBolt />
-                    <span className="ml-1 font-medium">{t`Upgrade`}</span>
+                    <span className="ms-1 font-medium">{t`Upgrade`}</span>
                   </Link>
                 )}
                 <div
@@ -387,13 +391,13 @@ export default function MembersPage() {
                     <tr>
                       <th
                         scope="col"
-                        className="w-[58%] rounded-tl-xl py-4 pl-4 pr-3 text-left text-xs font-semibold text-light-800 dark:text-dark-800 sm:w-[60%] sm:pl-6"
+                        className="w-[58%] rounded-ss-xl py-4 pe-3 ps-4 text-start text-xs font-semibold text-light-800 dark:text-dark-800 sm:w-[60%] sm:ps-6"
                       >
                         {t`User`}
                       </th>
                       <th
                         scope="col"
-                        className="w-[42%] whitespace-nowrap rounded-tr-xl px-3 py-4 text-left text-xs font-semibold text-light-800 dark:text-dark-800 sm:w-[40%] sm:px-6"
+                        className="w-[42%] whitespace-nowrap rounded-se-xl px-3 py-4 text-start text-xs font-semibold text-light-800 dark:text-dark-800 sm:w-[40%] sm:px-6"
                       >
                         {t`Role`}
                       </th>

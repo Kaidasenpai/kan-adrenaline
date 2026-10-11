@@ -7,6 +7,7 @@ import {
   ListboxOptions,
 } from "@headlessui/react";
 import { t } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react";
 import { env } from "next-runtime-env";
 import {
   HiChevronDown,
@@ -28,6 +29,7 @@ interface SettingsLayoutProps {
 }
 
 export function SettingsLayout({ children, currentTab }: SettingsLayoutProps) {
+  useLingui();
   const router = useRouter();
   const { workspace } = useWorkspace();
   const { canViewWorkspace, canEditWorkspace } = usePermissions();
@@ -112,7 +114,7 @@ export function SettingsLayout({ children, currentTab }: SettingsLayoutProps) {
             >
               <ListboxButton
                 aria-label={t`Settings navigation`}
-                className="ease-interface focus-visible:ring-brand-accent dark:focus-visible:ring-brand-lime relative flex h-11 w-full items-center gap-3 rounded-lg border border-light-300 bg-white px-3.5 pr-10 text-left text-sm font-medium text-light-1000 shadow-sm transition-colors duration-150 focus:outline-none focus-visible:ring-2 dark:border-dark-400 dark:bg-dark-100 dark:text-dark-1000"
+                className="ease-interface focus-visible:ring-brand-accent dark:focus-visible:ring-brand-lime relative flex h-11 w-full items-center gap-3 rounded-lg border border-light-300 bg-white px-3.5 pe-10 text-start text-sm font-medium text-light-1000 shadow-sm transition-colors duration-150 focus:outline-none focus-visible:ring-2 dark:border-dark-400 dark:bg-dark-100 dark:text-dark-1000"
               >
                 <span
                   aria-hidden="true"
@@ -123,7 +125,7 @@ export function SettingsLayout({ children, currentTab }: SettingsLayoutProps) {
                 {availableTabs[selectedTabIndex]?.label ?? t`Choose a section`}
                 <HiChevronDown
                   aria-hidden="true"
-                  className="absolute right-3.5 h-4 w-4 text-light-900 dark:text-dark-900"
+                  className="absolute end-3.5 h-4 w-4 text-light-900 dark:text-dark-900"
                 />
               </ListboxButton>
               <ListboxOptions

@@ -20,7 +20,7 @@ export default function Dropdown({
   menuGap?: "sm" | "md";
 }) {
   return (
-    <Menu as="div" className="relative inline-block text-left">
+    <Menu as="div" className="relative inline-block text-start">
       <div>
         <Menu.Button
           disabled={disabled}
@@ -54,7 +54,7 @@ export default function Dropdown({
                 <button
                   onClick={item.action}
                   disabled={item.disabled ?? !item.action}
-                  className="ease-interface flex min-h-11 w-full items-center gap-3 rounded-md px-3 py-2 text-left text-sm text-light-1000 transition-colors duration-150 data-[focus]:bg-light-100 hover:bg-light-100 focus:bg-light-100 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:text-dark-1000 dark:data-[focus]:bg-dark-200 dark:hover:bg-dark-200 dark:focus:bg-dark-200"
+                  className="ease-interface flex min-h-11 w-full items-center gap-3 rounded-md px-3 py-2 text-start text-sm text-light-1000 transition-colors duration-150 data-[focus]:bg-light-100 hover:bg-light-100 focus:bg-light-100 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:text-dark-1000 dark:data-[focus]:bg-dark-200 dark:hover:bg-dark-200 dark:focus:bg-dark-200"
                 >
                   {item.icon}
                   {item.label}

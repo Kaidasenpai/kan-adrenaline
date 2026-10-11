@@ -50,7 +50,7 @@ export function DeleteMemberConfirmation() {
           {t`They won't be able to access this workspace.`}
         </p>
       </div>
-      <div className="mt-5 flex justify-end space-x-2 sm:mt-6">
+      <div className="mt-5 flex justify-end space-x-2 sm:mt-6 rtl:space-x-reverse">
         <Button onClick={() => closeModal()} variant="secondary">
           {t`Cancel`}
         </Button>

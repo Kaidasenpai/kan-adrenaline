@@ -131,7 +131,7 @@ const Comment = ({
       className="group relative flex w-full flex-col rounded-xl border border-light-600 bg-light-200 p-4 text-light-900 focus-visible:outline-none dark:border-dark-400 dark:bg-dark-100 dark:text-dark-1000 sm:text-sm sm:leading-6"
     >
       <div className="flex justify-between">
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 rtl:space-x-reverse">
           <Avatar
             size="sm"
             name={name ?? ""}
@@ -143,7 +143,7 @@ const Comment = ({
           <p className="text-sm">
             <span className="font-medium dark:text-dark-1000">{`${name} `}</span>
             <span className="mx-1 text-light-900 dark:text-dark-800">·</span>
-            <span className="space-x-1 text-light-900 dark:text-dark-800">
+            <span className="space-x-1 text-light-900 dark:text-dark-800 rtl:space-x-reverse">
               {formatDistanceToNow(new Date(createdAt), {
                 addSuffix: true,
               })}
@@ -157,7 +157,7 @@ const Comment = ({
         </div>
 
         {dropdownItems.length > 0 && !isViewOnly && (
-          <div className="absolute right-4 top-4">
+          <div className="absolute end-4 top-4">
             <Dropdown items={dropdownItems} ariaLabel={t`Comment options`}>
               <HiEllipsisHorizontal className="h-5 w-5 text-light-900 dark:text-dark-800" />
             </Dropdown>
@@ -186,7 +186,7 @@ const Comment = ({
               disableHeadings={true}
             />
           </div>
-          <div className="mt-2 flex justify-end space-x-2">
+          <div className="mt-2 flex justify-end space-x-2 rtl:space-x-reverse">
             <Button
               size="sm"
               variant="ghost"

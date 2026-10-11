@@ -1,6 +1,5 @@
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { format } from "date-fns";
 import { env } from "next-runtime-env";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -23,6 +22,7 @@ import Editor from "~/components/Editor";
 import Input from "~/components/Input";
 import LabelIcon from "~/components/LabelIcon";
 import Toggle from "~/components/Toggle";
+import { useLocalisation } from "~/hooks/useLocalisation";
 import { useModalFormState } from "~/hooks/useModalFormState";
 import { useModal } from "~/providers/modal";
 import { usePopup } from "~/providers/popup";
@@ -57,6 +57,7 @@ export function NewCardForm({
   queryParams,
   initialDueDate = null,
 }: NewCardFormProps) {
+  const { formatDate } = useLocalisation();
   const { showPopup } = usePopup();
   const { workspace } = useWorkspace();
   const { closeModal, openModal, modalStates, clearModalState } = useModal();
@@ -487,7 +488,7 @@ export function NewCardForm({
               items={formattedLists}
               handleSelect={(_groupKey, item) => handleSelectList(item.key)}
             >
-              <div className="flex min-h-9 w-full items-center rounded-md border border-light-300 bg-light-100 px-3 py-2 text-left text-xs font-medium text-light-900 hover:bg-light-200 dark:border-dark-300 dark:bg-dark-200 dark:text-dark-1000 dark:hover:bg-dark-300">
+              <div className="flex min-h-9 w-full items-center rounded-md border border-light-300 bg-light-100 px-3 py-2 text-start text-xs font-medium text-light-900 hover:bg-light-200 dark:border-dark-300 dark:bg-dark-200 dark:text-dark-1000 dark:hover:bg-dark-300">
                 {selectedList?.value}
               </div>
             </CheckboxDropdown>
@@ -500,11 +501,11 @@ export function NewCardForm({
                   handleSelectMembers(item.key)
                 }
               >
-                <div className="flex min-h-9 w-full items-center rounded-md border border-light-300 bg-light-100 px-3 py-2 text-left text-xs font-medium text-light-900 hover:bg-light-200 dark:border-dark-300 dark:bg-dark-200 dark:text-dark-1000 dark:hover:bg-dark-300">
+                <div className="flex min-h-9 w-full items-center rounded-md border border-light-300 bg-light-100 px-3 py-2 text-start text-xs font-medium text-light-900 hover:bg-light-200 dark:border-dark-300 dark:bg-dark-200 dark:text-dark-1000 dark:hover:bg-dark-300">
                   {!memberPublicIds.length ? (
                     t`Members`
                   ) : (
-                    <div className="flex -space-x-1 overflow-hidden">
+                    <div className="flex -space-x-1 overflow-hidden rtl:space-x-reverse">
                       {memberPublicIds.map((memberPublicId) => {
                         const member = formattedMembers.find(
                           (member) => member.key === memberPublicId,
@@ -542,7 +543,7 @@ export function NewCardForm({
               handleCreate={() => openModal("NEW_LABEL")}
               createNewItemLabel={t`Create new label`}
             >
-              <div className="flex min-h-9 w-full items-center rounded-md border border-light-300 bg-light-100 px-3 py-2 text-left text-xs font-medium text-light-900 hover:bg-light-200 dark:border-dark-300 dark:bg-dark-200 dark:text-dark-1000 dark:hover:bg-dark-300">
+              <div className="flex min-h-9 w-full items-center rounded-md border border-light-300 bg-light-100 px-3 py-2 text-start text-xs font-medium text-light-900 hover:bg-light-200 dark:border-dark-300 dark:bg-dark-200 dark:text-dark-1000 dark:hover:bg-dark-300">
                 {!labelPublicIds.length ? (
                   t`Labels`
                 ) : (
@@ -550,7 +551,7 @@ export function NewCardForm({
                     <div
                       className={
                         labelPublicIds.length > 1
-                          ? "flex -space-x-[2px] overflow-hidden"
+                          ? "flex -space-x-[2px] overflow-hidden rtl:space-x-reverse"
                           : "flex items-center"
                       }
                     >
@@ -570,14 +571,14 @@ export function NewCardForm({
                               <circle cx={3} cy={3} r={3} />
                             </svg>
                             {labelPublicIds.length === 1 && (
-                              <div className="ml-1">{label?.name}</div>
+                              <div className="ms-1">{label?.name}</div>
                             )}
                           </>
                         );
                       })}
                     </div>
                     {labelPublicIds.length > 1 && (
-                      <div className="ml-1">
+                      <div className="ms-1">
                         <Trans>{`${labelPublicIds.length} labels`}</Trans>
                       </div>
                     )}
@@ -590,10 +591,10 @@ export function NewCardForm({
             <button
               type="button"
               onClick={() => setIsDateSelectorOpen(!isDateSelectorOpen)}
-              className="flex min-h-9 w-full items-center rounded-md border border-light-300 bg-light-100 px-3 py-2 text-left text-xs font-medium text-light-900 hover:bg-light-200 dark:border-dark-300 dark:bg-dark-200 dark:text-dark-1000 dark:hover:bg-dark-300"
+              className="flex min-h-9 w-full items-center rounded-md border border-light-300 bg-light-100 px-3 py-2 text-start text-xs font-medium text-light-900 hover:bg-light-200 dark:border-dark-300 dark:bg-dark-200 dark:text-dark-1000 dark:hover:bg-dark-300"
             >
               {dueDate ? (
-                <span>{format(dueDate, "MMM d, yyyy")}</span>
+                <span>{formatDate(dueDate)}</span>
               ) : (
                 <>{t`Due date`}</>
               )}
@@ -605,7 +606,7 @@ export function NewCardForm({
                   onClick={() => setIsDateSelectorOpen(false)}
                 />
                 <div
-                  className="absolute left-0 top-full z-20 mt-2 rounded-md border border-light-200 bg-light-50 shadow-lg dark:border-dark-200 dark:bg-dark-100"
+                  className="absolute start-0 top-full z-20 mt-2 rounded-md border border-light-200 bg-light-50 shadow-lg dark:border-dark-200 dark:bg-dark-100"
                   onClick={(e) => {
                     e.stopPropagation();
                   }}
@@ -641,7 +642,7 @@ export function NewCardForm({
               e.preventDefault();
               setValue("position", position === "start" ? "end" : "start");
             }}
-            className="focus-visible:outline-brand-accent dark:focus-visible:outline-brand-lime flex h-9 min-w-9 items-center justify-center rounded-md border border-light-300 bg-light-100 px-2 text-left text-xs text-light-900 hover:bg-light-200 focus-visible:outline focus-visible:outline-2 dark:border-dark-300 dark:bg-dark-200 dark:text-dark-1000 dark:hover:bg-dark-300"
+            className="focus-visible:outline-brand-accent dark:focus-visible:outline-brand-lime flex h-9 min-w-9 items-center justify-center rounded-md border border-light-300 bg-light-100 px-2 text-start text-xs text-light-900 hover:bg-light-200 focus-visible:outline focus-visible:outline-2 dark:border-dark-300 dark:bg-dark-200 dark:text-dark-1000 dark:hover:bg-dark-300"
           >
             {position === "start" ? (
               <HiOutlineBarsArrowUp size={14} />
@@ -654,7 +655,7 @@ export function NewCardForm({
             onClick={() => fileInputRef.current?.click()}
             aria-label={t`Attach files`}
             title={t`Attach files`}
-            className="focus-visible:outline-brand-accent dark:focus-visible:outline-brand-lime flex h-9 min-w-9 items-center justify-center rounded-md border border-light-300 bg-light-100 px-2 text-left text-xs text-light-900 hover:bg-light-200 focus-visible:outline focus-visible:outline-2 dark:border-dark-300 dark:bg-dark-200 dark:text-dark-1000 dark:hover:bg-dark-300"
+            className="focus-visible:outline-brand-accent dark:focus-visible:outline-brand-lime flex h-9 min-w-9 items-center justify-center rounded-md border border-light-300 bg-light-100 px-2 text-start text-xs text-light-900 hover:bg-light-200 focus-visible:outline focus-visible:outline-2 dark:border-dark-300 dark:bg-dark-200 dark:text-dark-1000 dark:hover:bg-dark-300"
           >
             <HiOutlinePaperClip size={14} />
           </button>

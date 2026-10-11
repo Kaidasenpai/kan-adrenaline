@@ -235,7 +235,7 @@ export function AttachmentThumbnails({
           <div className="fixed inset-0 z-10 overflow-y-auto">
             {selectedIndex !== null && selectedAttachment && (
               <div
-                className="fixed left-2 top-2 z-20 flex gap-1"
+                className="fixed start-2 top-2 z-20 flex gap-1"
                 onMouseDown={(e) => e.stopPropagation()}
                 onClick={(e) => e.stopPropagation()}
               >
@@ -253,7 +253,7 @@ export function AttachmentThumbnails({
                       });
                     }}
                     className="rounded-full bg-light-50 p-1.5 text-light-1000 transition-colors hover:bg-light-100 focus:outline-none dark:bg-dark-50 dark:text-dark-1000 dark:hover:bg-dark-100"
-                    aria-label="Delete image"
+                    aria-label={t`Delete image`}
                     disabled={deleteAttachment.isPending}
                   >
                     <HiOutlineTrash className="h-4 w-4" />
@@ -270,14 +270,14 @@ export function AttachmentThumbnails({
                     handleDownload(selectedAttachment);
                   }}
                   className="rounded-full bg-light-50 p-1.5 text-light-1000 transition-colors hover:bg-light-100 focus:outline-none dark:bg-dark-50 dark:text-dark-1000 dark:hover:bg-dark-100"
-                  aria-label="Download image"
+                  aria-label={t`Download image`}
                 >
                   <HiArrowDownTray className="h-4 w-4" />
                 </button>
               </div>
             )}
 
-            <div className="fixed right-2 top-2 z-20 flex gap-1">
+            <div className="fixed end-2 top-2 z-20 flex gap-1">
               {imageAttachments.length > 1 && selectedIndex !== null && (
                 <button
                   onClick={(e) => {
@@ -285,9 +285,9 @@ export function AttachmentThumbnails({
                     goToPrevious();
                   }}
                   className="rounded-full bg-light-50 p-1.5 text-light-1000 transition-colors hover:bg-light-100 focus:outline-none dark:bg-dark-50 dark:text-dark-1000 dark:hover:bg-dark-100"
-                  aria-label="Previous image"
+                  aria-label={t`Previous image`}
                 >
-                  <HiChevronLeft className="h-4 w-4" />
+                  <HiChevronLeft className="h-4 w-4 rtl:rotate-180" />
                 </button>
               )}
 
@@ -298,9 +298,9 @@ export function AttachmentThumbnails({
                     goToNext();
                   }}
                   className="rounded-full bg-light-50 p-1.5 text-light-1000 transition-colors hover:bg-light-100 focus:outline-none dark:bg-dark-50 dark:text-dark-1000 dark:hover:bg-dark-100"
-                  aria-label="Next image"
+                  aria-label={t`Next image`}
                 >
-                  <HiChevronRight className="h-4 w-4" />
+                  <HiChevronRight className="h-4 w-4 rtl:rotate-180" />
                 </button>
               )}
 
@@ -311,7 +311,7 @@ export function AttachmentThumbnails({
                     closeViewer();
                   }}
                   className="rounded-full bg-light-50 p-1.5 text-light-1000 transition-colors hover:bg-light-100 focus:outline-none dark:bg-dark-50 dark:text-dark-1000 dark:hover:bg-dark-100"
-                  aria-label="Close"
+                  aria-label={t`Close`}
                 >
                   <HiXMark className="h-4 w-4" />
                 </button>
@@ -338,7 +338,7 @@ export function AttachmentThumbnails({
                         <Image
                           src={selectedAttachment.url}
                           alt={
-                            selectedAttachment.originalFilename ?? "Attachment"
+                            selectedAttachment.originalFilename ?? t`Attachment`
                           }
                           width={1920}
                           height={1080}
@@ -425,7 +425,7 @@ function FileListItem({
         <HiDocumentText className="h-5 w-5 text-light-700 dark:text-dark-700" />
       </div>
       <div className="min-w-0 flex-1 truncate text-sm text-light-1000 dark:text-dark-1000">
-        {attachment.originalFilename ?? "File"}
+        {attachment.originalFilename ?? t`File`}
       </div>
       <div className="flex items-center gap-2 opacity-0 transition-opacity group-hover:opacity-100">
         <div className="text-xs text-light-500 dark:text-dark-900">

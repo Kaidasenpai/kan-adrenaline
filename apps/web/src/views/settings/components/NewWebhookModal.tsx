@@ -12,28 +12,31 @@ import Input from "~/components/Input";
 import { useModal } from "~/providers/modal";
 import { usePopup } from "~/providers/popup";
 import { api } from "~/utils/api";
+import { localizedError } from "~/utils/localized-error";
+import { webhookEventLabel } from "~/utils/webhook-event-label";
 
-const newWebhookSchema = z.object({
-  name: z
-    .string()
-    .min(1, { message: t`Webhook name is required` })
-    .max(255, { message: t`Webhook name cannot exceed 255 characters` }),
-  url: z
-    .string()
-    .min(1, { message: t`Webhook URL is required` })
-    .url({ message: t`Please enter a valid URL` })
-    .max(2048, { message: t`URL cannot exceed 2048 characters` }),
-  secret: z
-    .string()
-    .max(512, { message: t`Secret cannot exceed 512 characters` })
-    .optional(),
-  events: z
-    .array(z.enum(webhookEvents))
-    .min(1, { message: t`Select at least one event` }),
-  active: z.boolean(),
-});
+const newWebhookSchema = () =>
+  z.object({
+    name: z
+      .string()
+      .min(1, { message: t`Webhook name is required` })
+      .max(255, { message: t`Webhook name cannot exceed 255 characters` }),
+    url: z
+      .string()
+      .min(1, { message: t`Webhook URL is required` })
+      .url({ message: t`Please enter a valid URL` })
+      .max(2048, { message: t`URL cannot exceed 2048 characters` }),
+    secret: z
+      .string()
+      .max(512, { message: t`Secret cannot exceed 512 characters` })
+      .optional(),
+    events: z
+      .array(z.enum(webhookEvents))
+      .min(1, { message: t`Select at least one event` }),
+    active: z.boolean(),
+  });
 
-type WebhookFormData = z.infer<typeof newWebhookSchema>;
+type WebhookFormData = z.infer<ReturnType<typeof newWebhookSchema>>;
 
 interface NewWebhookModalProps {
   workspacePublicId: string;
@@ -64,7 +67,7 @@ export function NewWebhookModal({
     reset,
     formState: { errors },
   } = useForm<WebhookFormData>({
-    resolver: zodResolver(newWebhookSchema),
+    resolver: zodResolver(newWebhookSchema()),
     defaultValues: {
       name: "",
       url: "",
@@ -116,7 +119,7 @@ export function NewWebhookModal({
     onError: (error) => {
       showPopup({
         header: t`Unable to create webhook`,
-        message: error.message || t`Failed to create webhook`,
+        message: localizedError(error, t`Failed to create webhook`),
         icon: "error",
       });
     },
@@ -135,7 +138,7 @@ export function NewWebhookModal({
     onError: (error) => {
       showPopup({
         header: t`Unable to update webhook`,
-        message: error.message || t`Failed to update webhook`,
+        message: localizedError(error, t`Failed to update webhook`),
         icon: "error",
       });
     },
@@ -152,7 +155,7 @@ export function NewWebhookModal({
       } else {
         showPopup({
           header: t`Test failed`,
-          message: result.error || t`Webhook test failed`,
+          message: localizedError(result.error, t`Webhook test failed`),
           icon: "error",
         });
       }
@@ -161,7 +164,7 @@ export function NewWebhookModal({
     onError: (error) => {
       showPopup({
         header: t`Unable to test webhook`,
-        message: error.message || t`Failed to test webhook`,
+        message: localizedError(error, t`Failed to test webhook`),
         icon: "error",
       });
       setIsTestingWebhook(false);
@@ -240,6 +243,7 @@ export function NewWebhookModal({
             </label>
             <Input
               id="url"
+              type="url"
               placeholder="https://example.com/webhook"
               {...register("url")}
               errorMessage={errors.url?.message}
@@ -268,7 +272,7 @@ export function NewWebhookModal({
 
           <div>
             <label className="mb-2 block text-sm font-medium text-light-900 dark:text-dark-900">
-              {t`Events`}
+              {t`Webhook events`}
             </label>
             <Controller
               name="events"
@@ -277,8 +281,8 @@ export function NewWebhookModal({
                 <div className="space-y-2">
                   {webhookEvents.map((event) => (
                     <label
-                      key={event}
-                      className="flex cursor-pointer items-center space-x-2"
+                      key={webhookEventLabel(event)}
+                      className="flex cursor-pointer items-center space-x-2 rtl:space-x-reverse"
                     >
                       <input
                         type="checkbox"
@@ -295,7 +299,7 @@ export function NewWebhookModal({
                         className="text-primary-600 focus:ring-primary-500 h-4 w-4 rounded border-light-400 dark:border-dark-400"
                       />
                       <span className="text-sm text-light-900 dark:text-dark-900">
-                        {event}
+                        {webhookEventLabel(event)}
                       </span>
                     </label>
                   ))}
@@ -311,7 +315,7 @@ export function NewWebhookModal({
 
           {isEdit && (
             <div>
-              <label className="flex cursor-pointer items-center space-x-2">
+              <label className="flex cursor-pointer items-center space-x-2 rtl:space-x-reverse">
                 <input
                   type="checkbox"
                   {...register("active")}

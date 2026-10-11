@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { t } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react";
 import { useForm } from "react-hook-form";
 import {
   HiEllipsisHorizontal,
@@ -46,6 +47,7 @@ export default function List({
   cardCount = 0,
   setSelectedPublicListId,
 }: ListProps) {
+  useLingui();
   const { openModal } = useModal();
   const { canCreateCard, canEditList, canDeleteList } = usePermissions();
   const { data: session } = authClient.useSession();
@@ -95,6 +97,7 @@ export default function List({
     isDragging,
   } = useSortable({
     id: list.publicId,
+    attributes: { roleDescription: t`Draggable list` },
     data: { type: "LIST" } satisfies ListDragData,
     disabled: { draggable: !canDrag, droppable: false },
   });
@@ -111,7 +114,7 @@ export default function List({
       style={style}
       {...attributes}
       {...listeners}
-      className={`mr-4 flex h-fit max-h-full min-h-0 min-w-[19rem] max-w-[19rem] snap-start flex-col rounded-xl border border-light-300 bg-light-100 p-3 text-neutral-900 dark:border-dark-300 dark:bg-dark-100 md:snap-align-none ${
+      className={`me-4 flex h-fit max-h-full min-h-0 min-w-[19rem] max-w-[19rem] snap-start flex-col rounded-xl border border-light-300 bg-light-100 p-3 text-neutral-900 dark:border-dark-300 dark:bg-dark-100 md:snap-align-none rtl:snap-end ${
         canDrag ? (isDragging ? "cursor-grabbing" : "cursor-grab") : ""
       }`}
     >
@@ -124,6 +127,7 @@ export default function List({
             id={`list-name-${list.publicId}`}
             type="text"
             aria-label={t`List name`}
+            dir="auto"
             {...register("name")}
             onBlur={handleSubmit(onSubmit)}
             readOnly={!canEdit || isOptimistic}

@@ -15,11 +15,12 @@ import { useModal } from "~/providers/modal";
 import { usePopup } from "~/providers/popup";
 import { api } from "~/utils/api";
 
-const githubTokenSchema = z.object({
-  token: z.string().min(1, { message: t`Token is required` }),
-});
+const githubTokenSchema = () =>
+  z.object({
+    token: z.string().min(1, { message: t`Token is required` }),
+  });
 
-type GitHubTokenFormValues = z.infer<typeof githubTokenSchema>;
+type GitHubTokenFormValues = z.infer<ReturnType<typeof githubTokenSchema>>;
 
 export default function IntegrationsSettings() {
   const { modalContentType, isOpen } = useModal();
@@ -31,7 +32,7 @@ export default function IntegrationsSettings() {
     formState: { isDirty, errors },
     reset,
   } = useForm<GitHubTokenFormValues>({
-    resolver: zodResolver(githubTokenSchema),
+    resolver: zodResolver(githubTokenSchema()),
     defaultValues: {
       token: "",
     },
@@ -197,7 +198,7 @@ export default function IntegrationsSettings() {
               <div className="mb-4 flex w-full max-w-[325px] items-center gap-2">
                 <Input
                   type="password"
-                  placeholder="Personal Access Token"
+                  placeholder={t`Personal Access Token`}
                   {...register("token")}
                   errorMessage={errors.token?.message}
                 />

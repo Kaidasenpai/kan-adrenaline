@@ -420,7 +420,7 @@ const FeatureComparisonTable = ({
                     <div
                       key={`fixed-${plan.id}`}
                       className={twMerge(
-                        "flex items-center px-6 py-3 text-left text-base font-semibold",
+                        "flex items-center px-6 py-3 text-start text-base font-semibold",
                         isMostPopular
                           ? "bg-light-200 text-light-1000 dark:bg-dark-100 dark:text-dark-1000"
                           : "bg-light-50 text-dark-50 dark:bg-dark-50 dark:text-dark-1000",
@@ -443,7 +443,7 @@ const FeatureComparisonTable = ({
                       key={plan.id}
                       scope="col"
                       className={twMerge(
-                        "w-1/3 px-6 py-4 text-left text-base font-semibold",
+                        "w-1/3 px-6 py-4 text-start text-base font-semibold",
                         isMostPopular
                           ? "bg-light-200 text-light-1000 dark:bg-dark-100 dark:text-dark-1000"
                           : "bg-light-50 text-dark-50 dark:bg-dark-50 dark:text-dark-1000",
@@ -466,7 +466,7 @@ const FeatureComparisonTable = ({
                           <td
                             key={plan.id}
                             className={twMerge(
-                              "border-t px-6 py-3 text-left text-sm font-semibold text-dark-900 dark:text-dark-900",
+                              "border-t px-6 py-3 text-start text-sm font-semibold text-dark-900 dark:text-dark-900",
                               isMostPopular
                                 ? "border-light-400 bg-light-200 dark:border-dark-400 dark:bg-dark-100"
                                 : "border-light-300 bg-light-50 dark:border-dark-400 dark:bg-dark-50",
@@ -486,7 +486,7 @@ const FeatureComparisonTable = ({
                           <td
                             key={plan.id}
                             className={twMerge(
-                              "w-1/3 border-t px-6 py-3 text-left",
+                              "w-1/3 border-t px-6 py-3 text-start",
                               isMostPopular
                                 ? "border-light-400 bg-light-200 dark:border-dark-400 dark:bg-dark-100"
                                 : "border-light-300 dark:border-dark-400",

@@ -142,7 +142,7 @@ const NewChecklistItemForm = ({
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
-      <div className="group relative flex h-9 items-center gap-3 rounded-md pl-4 hover:bg-light-100 dark:hover:bg-dark-100">
+      <div className="group relative flex h-9 items-center gap-3 rounded-md ps-4 hover:bg-light-100 dark:hover:bg-dark-100">
         <label className="relative inline-flex h-[16px] w-[16px] flex-shrink-0 cursor-default items-center justify-center">
           <input
             type="checkbox"
@@ -150,7 +150,7 @@ const NewChecklistItemForm = ({
             className="peer h-[16px] w-[16px] appearance-none rounded-md border border-light-500 bg-transparent outline-none ring-0 hover:border-light-500 hover:bg-transparent focus:outline-none focus:ring-0 focus-visible:outline-none dark:border-dark-500 dark:hover:border-dark-500"
           />
         </label>
-        <div className="flex-1 pr-7">
+        <div className="flex-1 pe-7">
           <ContentEditable
             id={`checklist-item-input-${checklistPublicId}`}
             tabIndex={readOnly ? -1 : 0}

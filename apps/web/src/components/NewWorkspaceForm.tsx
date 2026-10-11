@@ -16,25 +16,26 @@ import { useWorkspace } from "~/providers/workspace";
 import { api } from "~/utils/api";
 import LoadingSpinner from "./LoadingSpinner";
 
-const schema = z.object({
-  name: z
-    .string()
-    .min(1, { message: t`Workspace name is required` })
-    .max(64, { message: t`Workspace name cannot exceed 64 characters` }),
-  slug: z
-    .string()
-    .min(3, {
-      message: t`URL must be at least 3 characters long`,
-    })
-    .max(64, { message: t`URL cannot exceed 64 characters` })
-    .regex(/^(?![-]+$)[a-zA-Z0-9-]+$/, {
-      message: t`URL can only contain letters, numbers, and hyphens`,
-    })
-    .optional()
-    .or(z.literal("")),
-});
+const schema = () =>
+  z.object({
+    name: z
+      .string()
+      .min(1, { message: t`Workspace name is required` })
+      .max(64, { message: t`Workspace name cannot exceed 64 characters` }),
+    slug: z
+      .string()
+      .min(3, {
+        message: t`URL must be at least 3 characters long`,
+      })
+      .max(64, { message: t`URL cannot exceed 64 characters` })
+      .regex(/^(?![-]+$)[a-zA-Z0-9-]+$/, {
+        message: t`URL can only contain letters, numbers, and hyphens`,
+      })
+      .optional()
+      .or(z.literal("")),
+  });
 
-type FormValues = z.infer<typeof schema>;
+type FormValues = z.infer<ReturnType<typeof schema>>;
 
 export function NewWorkspaceForm() {
   const { closeModal } = useModal();
@@ -48,7 +49,7 @@ export function NewWorkspaceForm() {
     trigger,
     clearErrors,
   } = useForm<FormValues>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema()),
     defaultValues: {
       name: "",
       slug: "",

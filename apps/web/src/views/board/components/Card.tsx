@@ -1,4 +1,5 @@
 import { t } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react";
 import { format, isBefore, isSameYear, startOfDay } from "date-fns";
 import { HiOutlinePaperClip } from "react-icons/hi";
 import {
@@ -49,6 +50,7 @@ const Card = ({
   attachments?: { publicId: string }[];
   dueDate?: Date | null;
 }) => {
+  useLingui();
   const { dateLocale } = useLocalisation();
   const showYear = dueDate ? !isSameYear(dueDate, new Date()) : false;
   const isOverdue = dueDate ? isBefore(dueDate, startOfDay(new Date())) : false;
@@ -72,10 +74,12 @@ const Card = ({
     <div className="flex min-h-[76px] flex-col overflow-hidden rounded-lg border border-light-300 bg-white px-4 py-3.5 text-sm text-neutral-900 hover:border-light-500 dark:border-dark-300 dark:bg-dark-200 dark:text-dark-1000 dark:hover:border-dark-500">
       {ticketNumber && (
         <span className="mb-1.5 text-[10px] font-medium tabular-nums tracking-[0.04em] text-light-800 dark:text-dark-800">
-          {ticketNumber}
+          <bdi dir="ltr">{ticketNumber}</bdi>
         </span>
       )}
-      <span className="break-words font-semibold leading-6">{title}</span>
+      <span className="break-words font-semibold leading-6">
+        <bdi>{title}</bdi>
+      </span>
       {labels.length > 0 && (
         <div className="mt-3 flex flex-wrap gap-1.5">
           {labels.map((label) => (
@@ -148,7 +152,7 @@ const Card = ({
                 </div>
               )}
             </div>
-            <div className="ml-auto flex items-center justify-end gap-2">
+            <div className="ms-auto flex items-center justify-end gap-2">
               {checklists.length > 0 && (
                 <div className="flex items-center gap-1.5 rounded-md bg-light-200 px-1.5 py-1 dark:bg-dark-300">
                   <CircularProgress
@@ -162,7 +166,7 @@ const Card = ({
                 </div>
               )}
               {members.length > 0 && (
-                <div className="isolate flex justify-end -space-x-1 overflow-hidden">
+                <div className="isolate flex justify-end -space-x-1 overflow-hidden rtl:space-x-reverse">
                   {members.map(({ publicId, user, email }) => {
                     const avatarUrl = user?.image
                       ? getAvatarUrl(user.image)

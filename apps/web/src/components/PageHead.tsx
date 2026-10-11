@@ -6,7 +6,7 @@ export const PageHead = ({ title }: { title: string }) => {
     <Head>
       <title>{title}</title>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <meta name="application-name" content="Adrenaline Tasks" />
+      <meta name="application-name" content={t`Adrenaline Tasks`} />
       <meta
         name="description"
         content={t`Projects, events, and production at Adrenaline Entertainment.`}
