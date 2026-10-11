@@ -24,6 +24,14 @@ export default function SetupPage() {
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
+    if (password.length < 12) {
+      setError(t`Use at least 12 characters. This setup link works once.`);
+      return;
+    }
+    if (password.length > 128) {
+      setError(t`Your password is too long. Use no more than 128 characters.`);
+      return;
+    }
     if (password !== confirmation) {
       setError(t`Passwords must match.`);
       return;
@@ -64,7 +72,7 @@ export default function SetupPage() {
           ) : !token ? (
             <p>{t`Open your private setup link to activate your account.`}</p>
           ) : (
-            <form onSubmit={submit} className="space-y-5">
+            <form noValidate onSubmit={submit} className="space-y-5">
               <p>{t`Use at least 12 characters. This setup link works once.`}</p>
               <div>
                 <label

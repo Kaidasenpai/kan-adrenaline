@@ -1,7 +1,6 @@
-import type { Locale as DateFnsLocale } from "date-fns";
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { format, formatDistanceToNow, isSameYear } from "date-fns";
+import { formatDistanceToNow, isSameYear } from "date-fns";
 import { useEffect, useRef, useState } from "react";
 import {
   HiOutlineArrowLeft,
@@ -66,7 +65,7 @@ const getActivityText = ({
   label,
   fromTitle,
   toDueDate,
-  dateLocale,
+  formatDate,
   mergedLabels,
   attachmentName,
 }: {
@@ -81,7 +80,7 @@ const getActivityText = ({
   fromTitle?: string | null;
   fromDueDate?: Date | null;
   toDueDate?: Date | null;
-  dateLocale: DateFnsLocale;
+  formatDate: (date: Date, options?: Intl.DateTimeFormatOptions) => string;
   mergedLabels?: string[];
   attachmentName?: string | null;
 }) => {
@@ -294,11 +293,11 @@ const getActivityText = ({
 
   if (type === "card.updated.dueDate.added" && toDueDate) {
     const showYear = !isSameYear(toDueDate, new Date());
-    const formattedDate = format(
-      toDueDate,
-      showYear ? "do MMM yyyy" : "do MMM",
-      { locale: dateLocale },
-    );
+    const formattedDate = formatDate(toDueDate, {
+      day: "numeric",
+      month: "short",
+      ...(showYear ? { year: "numeric" } : {}),
+    });
     return (
       <Trans>
         changed the due date to <TextHighlight>{formattedDate}</TextHighlight>
@@ -308,11 +307,11 @@ const getActivityText = ({
 
   if (type === "card.updated.dueDate.updated" && toDueDate) {
     const showYear = !isSameYear(toDueDate, new Date());
-    const formattedDate = format(
-      toDueDate,
-      showYear ? "do MMM yyyy" : "do MMM",
-      { locale: dateLocale },
-    );
+    const formattedDate = formatDate(toDueDate, {
+      day: "numeric",
+      month: "short",
+      ...(showYear ? { year: "numeric" } : {}),
+    });
     return (
       <Trans>
         changed the due date to <TextHighlight>{formattedDate}</TextHighlight>
@@ -379,7 +378,7 @@ const ActivityList = ({
   isAdmin?: boolean;
   isViewOnly?: boolean;
 }) => {
-  const { dateLocale } = useLocalisation();
+  const { dateLocale, formatDate, formatNumber, locale } = useLocalisation();
   const { data: sessionData } = authClient.useSession();
   const utils = api.useUtils();
   const [allActivities, setAllActivities] = useState<
@@ -504,7 +503,7 @@ const ActivityList = ({
           fromTitle: activity.fromTitle ?? null,
           fromDueDate: activity.fromDueDate ?? null,
           toDueDate: activity.toDueDate ?? null,
-          dateLocale: dateLocale,
+          formatDate,
           mergedLabels: (activity as ActivityWithMergedLabels).mergedLabels,
           attachmentName:
             (activity as ActivityWithMergedLabels).attachment
@@ -565,7 +564,9 @@ const ActivityList = ({
                 {formatDistanceToNow(new Date(activity.createdAt), {
                   addSuffix: true,
                   locale: dateLocale,
-                })}
+                }).replace(/\d+/g, (digits) =>
+                  locale === "ar" ? formatNumber(Number(digits)) : digits,
+                )}
               </span>
             </p>
           </div>

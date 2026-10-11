@@ -522,7 +522,11 @@ const CalendarView = ({
             <div className="border-t border-light-300 px-6 py-4 dark:border-dark-300 lg:hidden">
               <div className="mb-3 flex items-center justify-between">
                 <h3 className="text-xs font-semibold text-light-900 dark:text-dark-900">
-                  {format(selectedDate, "EEEE d MMMM", { locale: dateLocale })}
+                  {formatDate(selectedDate, {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                  })}
                 </h3>
                 {canCreateCard && (
                   <button
