@@ -13,6 +13,7 @@ import {
 import Button from "~/components/Button";
 import LabelIcon from "~/components/LabelIcon";
 import { Tooltip } from "~/components/Tooltip";
+import { useLocalisation } from "~/hooks/useLocalisation";
 import { usePermissions } from "~/hooks/usePermissions";
 import { useModal } from "~/providers/modal";
 import { usePopup } from "~/providers/popup";
@@ -27,6 +28,7 @@ export function BoardsList({
   archived?: boolean;
 }) {
   useLingui();
+  const { formatNumber } = useLocalisation();
   const { workspace } = useWorkspace();
   const { openModal } = useModal();
   const { showPopup } = usePopup();
@@ -248,7 +250,7 @@ export function BoardsList({
                   ))}
                   {board.labels.length > 3 && (
                     <span className="text-xs text-light-950 dark:text-dark-950">
-                      {t`+${board.labels.length - 3} more`}
+                      {t`+${formatNumber(board.labels.length - 3)} more`}
                     </span>
                   )}
                 </div>

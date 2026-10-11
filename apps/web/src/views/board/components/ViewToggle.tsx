@@ -21,6 +21,8 @@ const ViewToggle = ({ view, onChange }: ViewToggleProps) => {
     <div className="flex items-center gap-0.5 rounded-md border-[1px] border-light-600 bg-light-50 p-0.5 dark:border-dark-600 dark:bg-dark-50">
       <button
         type="button"
+        aria-label={t`Lists`}
+        aria-pressed={view === "board"}
         onClick={() => onChange("board")}
         className={twMerge(
           baseButtonClasses,
@@ -32,6 +34,8 @@ const ViewToggle = ({ view, onChange }: ViewToggleProps) => {
       </button>
       <button
         type="button"
+        aria-label={t`Calendar`}
+        aria-pressed={view === "calendar"}
         onClick={() => onChange("calendar")}
         className={twMerge(
           baseButtonClasses,

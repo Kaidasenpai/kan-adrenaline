@@ -9,6 +9,8 @@ import {
 } from "react-icons/hi2";
 import { twMerge } from "tailwind-merge";
 
+import { useLocalisation } from "~/hooks/useLocalisation";
+
 interface Item {
   key: string;
   value: string;
@@ -58,6 +60,7 @@ export default function CheckboxDropdown({
   backLabel = "Back",
   footer,
 }: CheckboxDropdownProps) {
+  const { formatNumber } = useLocalisation();
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
 
   const selectedGroupDetails = groups?.find(
@@ -67,7 +70,7 @@ export default function CheckboxDropdown({
   const renderSelectedCount = (count?: number) =>
     count ? (
       <span className="min-w-5 rounded-full bg-light-300 px-1.5 py-0.5 text-center text-[10px] font-semibold leading-4 dark:bg-dark-400">
-        {count}
+        {formatNumber(count)}
       </span>
     ) : null;
 

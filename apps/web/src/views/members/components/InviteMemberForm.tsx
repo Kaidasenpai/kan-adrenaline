@@ -18,6 +18,7 @@ import { getSubscriptionByPlan } from "@kan/shared/utils";
 import Button from "~/components/Button";
 import Input from "~/components/Input";
 import Toggle from "~/components/Toggle";
+import { useLocalisation } from "~/hooks/useLocalisation";
 import { useModal } from "~/providers/modal";
 import { usePopup } from "~/providers/popup";
 import { useWorkspace } from "~/providers/workspace";
@@ -34,6 +35,7 @@ export function InviteMemberForm({
   memberCount: number;
   seatLimit: number | null;
 }) {
+  const { formatNumber } = useLocalisation();
   const utils = api.useUtils();
   const [isShareInviteLinkEnabled, setIsShareInviteLinkEnabled] =
     useState(false);
@@ -306,7 +308,10 @@ export function InviteMemberForm({
                   {hasTeamSubscription ? t`Team Plan` : t`Pro Plan`}
                 </span>
                 <span className="text-light-900 dark:text-dark-900">
-                  {memberCount} / {seatLimit} {t`seats`}
+                  <bdi dir="ltr">
+                    {formatNumber(memberCount)} / {formatNumber(seatLimit ?? 0)}
+                  </bdi>{" "}
+                  {t`seats`}
                 </span>
               </div>
             </div>

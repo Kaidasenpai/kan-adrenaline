@@ -16,6 +16,7 @@ import { authClient } from "@kan/auth/client";
 import type { ListDragData } from "../dnd/types";
 import Dropdown from "~/components/Dropdown";
 import { Tooltip } from "~/components/Tooltip";
+import { useLocalisation } from "~/hooks/useLocalisation";
 import { usePermissions } from "~/hooks/usePermissions";
 import { useModal } from "~/providers/modal";
 import { api } from "~/utils/api";
@@ -48,6 +49,7 @@ export default function List({
   setSelectedPublicListId,
 }: ListProps) {
   useLingui();
+  const { formatNumber } = useLocalisation();
   const { openModal } = useModal();
   const { canCreateCard, canEditList, canDeleteList } = usePermissions();
   const { data: session } = authClient.useSession();
@@ -135,7 +137,7 @@ export default function List({
           />
         </form>
         <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-md bg-light-300 px-1.5 text-xs font-semibold tabular-nums text-light-800 dark:bg-dark-200 dark:text-dark-900">
-          {cardCount}
+          {formatNumber(cardCount)}
         </span>
         <div className="flex shrink-0 items-center gap-0.5">
           <Tooltip

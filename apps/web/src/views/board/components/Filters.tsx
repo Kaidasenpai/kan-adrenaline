@@ -13,6 +13,7 @@ import Avatar from "~/components/Avatar";
 import Button from "~/components/Button";
 import CheckboxDropdown from "~/components/CheckboxDropdown";
 import LabelIcon from "~/components/LabelIcon";
+import { useLocalisation } from "~/hooks/useLocalisation";
 import {
   formatMemberDisplayName,
   formatToArray,
@@ -53,6 +54,7 @@ const Filters = ({
   isLoading: boolean;
 }) => {
   const router = useRouter();
+  const { formatNumber } = useLocalisation();
 
   const clearFilters = async () => {
     try {
@@ -231,7 +233,7 @@ const Filters = ({
           ) : undefined
         }
       >
-        <Button variant="secondary" disabled={isLoading}>
+        <Button variant="secondary" disabled={isLoading} aria-label={t`Filter`}>
           <span className="flex items-center gap-2">
             <IoFilterOutline />
             <span className="hidden sm:inline">{t`Filter`}</span>
@@ -242,7 +244,7 @@ const Filters = ({
             aria-hidden="true"
             className="pointer-events-none absolute -end-2.5 -top-2.5 flex h-5 w-5 items-center justify-center rounded-full border-2 border-light-100 bg-light-1000 text-[8px] font-[700] leading-none text-light-600 dark:border-dark-50 dark:bg-dark-1000 dark:text-dark-600"
           >
-            {numOfFilters}
+            {formatNumber(numOfFilters)}
           </span>
         )}
       </CheckboxDropdown>

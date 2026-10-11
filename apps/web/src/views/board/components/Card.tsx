@@ -1,6 +1,6 @@
 import { t } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
-import { format, isBefore, isSameYear, startOfDay } from "date-fns";
+import { isBefore, isSameYear, startOfDay } from "date-fns";
 import { HiOutlinePaperClip } from "react-icons/hi";
 import {
   HiBars3BottomLeft,
@@ -51,7 +51,7 @@ const Card = ({
   dueDate?: Date | null;
 }) => {
   useLingui();
-  const { dateLocale } = useLocalisation();
+  const { formatDate, formatNumber } = useLocalisation();
   const showYear = dueDate ? !isSameYear(dueDate, new Date()) : false;
   const isOverdue = dueDate ? isBefore(dueDate, startOfDay(new Date())) : false;
   const completedItems = checklists.reduce((acc, checklist) => {
@@ -121,8 +121,10 @@ const Card = ({
                   <HiOutlineClock className="h-3.5 w-3.5" aria-hidden="true" />
                   <span className="sr-only">{t`Due date`}</span>
                   <span className="text-[11px]">
-                    {format(dueDate, showYear ? "do MMM yyyy" : "do MMM", {
-                      locale: dateLocale,
+                    {formatDate(dueDate, {
+                      day: "numeric",
+                      month: "short",
+                      ...(showYear ? { year: "numeric" as const } : {}),
                     })}
                   </span>
                 </div>
@@ -134,7 +136,7 @@ const Card = ({
                     aria-hidden="true"
                   />
                   <span className="text-[11px] tabular-nums">
-                    {comments.length}
+                    {formatNumber(comments.length)}
                   </span>
                   <span className="sr-only">{t`Comments`}</span>
                 </div>
@@ -146,7 +148,7 @@ const Card = ({
                     aria-hidden="true"
                   />
                   <span className="text-[11px] tabular-nums">
-                    {attachments.length}
+                    {formatNumber(attachments.length)}
                   </span>
                   <span className="sr-only">{t`Attachments`}</span>
                 </div>
@@ -160,8 +162,11 @@ const Card = ({
                     size="sm"
                     className="flex-shrink-0"
                   />
-                  <span className="text-[11px] tabular-nums text-light-900 dark:text-dark-950">
-                    {completedItems}/{totalItems}
+                  <span
+                    dir="ltr"
+                    className="text-[11px] tabular-nums text-light-900 dark:text-dark-950"
+                  >
+                    {formatNumber(completedItems)}/{formatNumber(totalItems)}
                   </span>
                 </div>
               )}

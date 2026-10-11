@@ -17,6 +17,7 @@ import { useMemo } from "react";
 import { HiPlus, HiXMark } from "react-icons/hi2";
 
 import CircularProgress from "~/components/CircularProgress";
+import { useLocalisation } from "~/hooks/useLocalisation";
 import { useModal } from "~/providers/modal";
 import { usePopup } from "~/providers/popup";
 import { api } from "~/utils/api";
@@ -53,6 +54,7 @@ export default function Checklists({
   setActiveChecklistForm,
   viewOnly = false,
 }: ChecklistsProps) {
+  const { formatNumber } = useLocalisation();
   const { openModal } = useModal();
   const { showPopup } = usePopup();
 
@@ -191,8 +193,12 @@ export default function Checklists({
                           size="sm"
                           className="flex-shrink-0"
                         />
-                        <span className="text-[11px] text-light-900 dark:text-dark-700">
-                          {completedItems.length}/{checklist.items.length}
+                        <span
+                          dir="ltr"
+                          className="text-[11px] text-light-900 dark:text-dark-700"
+                        >
+                          {formatNumber(completedItems.length)}/
+                          {formatNumber(checklist.items.length)}
                         </span>
                       </div>
                       <div>
@@ -225,8 +231,12 @@ export default function Checklists({
                           size="sm"
                           className="flex-shrink-0"
                         />
-                        <span className="text-[11px] text-light-900 dark:text-dark-700">
-                          {completedItems.length}/{checklist.items.length}
+                        <span
+                          dir="ltr"
+                          className="text-[11px] text-light-900 dark:text-dark-700"
+                        >
+                          {formatNumber(completedItems.length)}/
+                          {formatNumber(checklist.items.length)}
                         </span>
                       </div>
                     </div>

@@ -25,6 +25,7 @@ import FeedbackModal from "~/components/FeedbackModal";
 import Modal from "~/components/modal";
 import { NewWorkspaceForm } from "~/components/NewWorkspaceForm";
 import { PageHead } from "~/components/PageHead";
+import { useLocalisation } from "~/hooks/useLocalisation";
 import { usePermissions } from "~/hooks/usePermissions";
 import { useModal } from "~/providers/modal";
 import { usePopup } from "~/providers/popup";
@@ -37,6 +38,7 @@ import { InviteMemberForm } from "./components/InviteMemberForm";
 
 export default function MembersPage() {
   useLingui();
+  const { formatNumber } = useLocalisation();
   const { modalContentType, openModal, isOpen } = useModal();
   const { workspace } = useWorkspace();
   const { showPopup } = usePopup();
@@ -326,7 +328,7 @@ export default function MembersPage() {
               </h1>
               {!isLoading && (
                 <span className="rounded-md bg-light-200 px-2.5 py-1 text-xs font-semibold tabular-nums text-light-800 dark:bg-dark-200 dark:text-dark-900">
-                  {data?.members.length ?? 0}
+                  {formatNumber(data?.members.length ?? 0)}
                 </span>
               )}
             </div>
@@ -363,9 +365,17 @@ export default function MembersPage() {
                 {isPaidPlan && (unlimitedSeats || totalSeats !== null) && (
                   <div className="flex items-center rounded-full border border-light-300 bg-light-50 px-3 py-1 text-center text-xs text-light-1000 dark:border-dark-300 dark:bg-dark-50 dark:text-dark-900">
                     <span className="font-medium">
-                      {unlimitedSeats
-                        ? t`Unlimited seats`
-                        : `${activeMembers}/${totalSeats} ${t`seats`}`}
+                      {unlimitedSeats ? (
+                        t`Unlimited seats`
+                      ) : (
+                        <>
+                          <bdi dir="ltr">
+                            {formatNumber(activeMembers)}/
+                            {formatNumber(totalSeats ?? 0)}
+                          </bdi>{" "}
+                          {t`seats`}
+                        </>
+                      )}
                     </span>
                   </div>
                 )}

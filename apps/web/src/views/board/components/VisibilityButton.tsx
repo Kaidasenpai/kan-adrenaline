@@ -96,7 +96,11 @@ const VisibilityButton = ({
             });
           }}
         >
-          <Button variant="secondary" disabled={isLoading || !canEdit}>
+          <Button
+            aria-label={t`Visibility`}
+            variant="secondary"
+            disabled={isLoading || !canEdit}
+          >
             <span className="flex items-center gap-2">
               {isPublic ? <HiOutlineEye /> : <HiOutlineEyeSlash />}
               <span className="hidden sm:inline">{t`Visibility`}</span>

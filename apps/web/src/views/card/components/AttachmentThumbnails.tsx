@@ -11,6 +11,7 @@ import {
   HiXMark,
 } from "react-icons/hi2";
 
+import { useLocalisation } from "~/hooks/useLocalisation";
 import { usePopup } from "~/providers/popup";
 import { api } from "~/utils/api";
 import { invalidateCard } from "~/utils/cardInvalidation";
@@ -33,6 +34,7 @@ export function AttachmentThumbnails({
   cardPublicId: string;
   isReadOnly?: boolean;
 }) {
+  const { formatNumber } = useLocalisation();
   const { showPopup } = usePopup();
   const utils = api.useUtils();
   const imageAttachments =
@@ -348,9 +350,13 @@ export function AttachmentThumbnails({
                       </div>
 
                       {imageAttachments.length > 1 && (
-                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/50 px-3 py-1.5 text-[10px] text-white">
-                          {selectedIndex !== null && selectedIndex + 1} /{" "}
-                          {imageAttachments.length}
+                        <div
+                          dir="ltr"
+                          className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/50 px-3 py-1.5 text-[10px] text-white"
+                        >
+                          {selectedIndex !== null &&
+                            formatNumber(selectedIndex + 1)}{" "}
+                          / {formatNumber(imageAttachments.length)}
                         </div>
                       )}
                     </div>
