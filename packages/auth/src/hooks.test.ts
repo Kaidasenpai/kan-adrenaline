@@ -4,6 +4,9 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import * as memberRepo from "@kan/db/repository/member.repo";
 
 import { createDatabaseHooks } from "./hooks";
+import { hasWorkerInvitation } from "./worker-invites";
+
+vi.mock("./worker-invites", () => ({ hasWorkerInvitation: vi.fn() }));
 
 vi.mock("next-runtime-env", () => ({
   env: vi.fn(),
@@ -56,6 +59,46 @@ describe("createDatabaseHooks", () => {
   });
 
   describe("user.create.before", () => {
+    it("allows closed Worker registration only with a validated link", async () => {
+      const context = { body: { callbackURL: "/invite/abcdefgh1234" } };
+      mockEnv.mockImplementation(
+        (key: string) =>
+          (
+            ({
+              NEXT_PUBLIC_DISABLE_SIGN_UP: "true",
+              ADRENALINE_WORKERS: "true",
+              NEXT_PUBLIC_BASE_URL: "https://task.adrenaent.com",
+            }) as Record<string, string>
+          )[key],
+      );
+      mockGetByEmailAndStatus.mockResolvedValue(undefined);
+      vi.mocked(hasWorkerInvitation).mockResolvedValue(true);
+      expect(await hooks.user.create.before(fakeUser, context)).toBe(true);
+      expect(hasWorkerInvitation).toHaveBeenCalledWith(
+        db,
+        context,
+        "https://task.adrenaent.com",
+      );
+    });
+    it("keeps closed Worker registration blocked for an invalid link", async () => {
+      mockEnv.mockImplementation(
+        (key: string) =>
+          (
+            ({
+              NEXT_PUBLIC_DISABLE_SIGN_UP: "true",
+              ADRENALINE_WORKERS: "true",
+              NEXT_PUBLIC_BASE_URL: "https://task.adrenaent.com",
+            }) as Record<string, string>
+          )[key],
+      );
+      mockGetByEmailAndStatus.mockResolvedValue(undefined);
+      vi.mocked(hasWorkerInvitation).mockResolvedValue(false);
+      expect(
+        await hooks.user.create.before(fakeUser, {
+          body: { callbackURL: "/invite/abcdefgh1234" },
+        }),
+      ).toBe(false);
+    });
     it("allows sign-up when DISABLE_SIGN_UP is not set", async () => {
       mockEnv.mockReturnValue(undefined);
 

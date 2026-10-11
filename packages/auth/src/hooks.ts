@@ -10,6 +10,7 @@ import { createLogger } from "@kan/logger";
 import { createS3Client } from "@kan/shared";
 
 import { downloadImage } from "./utils";
+import { hasWorkerInvitation } from "./worker-invites";
 
 const log = createLogger("auth");
 
@@ -28,7 +29,7 @@ export function createDatabaseHooks(db: dbClient) {
   return {
     user: {
       create: {
-        async before(user: BetterAuthUser, _context: unknown) {
+        async before(user: BetterAuthUser, context: unknown) {
           if (env("NEXT_PUBLIC_DISABLE_SIGN_UP")?.toLowerCase() === "true") {
             const pendingInvitation = await memberRepo.getByEmailAndStatus(
               db,
@@ -37,7 +38,14 @@ export function createDatabaseHooks(db: dbClient) {
             );
 
             if (!pendingInvitation) {
-              return Promise.resolve(false);
+              const validLink =
+                env("ADRENALINE_WORKERS") === "true" &&
+                (await hasWorkerInvitation(
+                  db,
+                  context,
+                  env("NEXT_PUBLIC_BASE_URL"),
+                ));
+              if (!validLink) return false;
             }
 
             // Fall through to any additional checks below

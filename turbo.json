@@ -141,7 +141,8 @@
     "AXIOM_TOKEN",
     "AXIOM_DATASET",
     "KAN_BASE_URL",
-    "KAN_API_TOKEN"
+    "KAN_API_TOKEN",
+    "ADRENALINE_WORKERS"
   ],
   "globalPassThroughEnv": [
     "NODE_ENV",

@@ -29,6 +29,7 @@ services:
     env_file:
       - .env
     environment:
+      - ADRENALINE_WORKERS=${ADRENALINE_WORKERS:-false}
       # Required environment variables
       - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
       - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}

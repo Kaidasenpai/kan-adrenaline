@@ -66,10 +66,15 @@ export const createInnerTRPCContext = (opts: CreateContextOptions) => {
   };
 };
 
-const db = createDrizzleClient();
-const baseAuth = initAuth(db);
+let nodeDatabase: dbClient | undefined;
+const getDatabase = () =>
+  process.env.ADRENALINE_WORKERS === "true"
+    ? createDrizzleClient()
+    : (nodeDatabase ??= createDrizzleClient());
 
 export const createTRPCContext = async ({ req }: CreateNextContextOptions) => {
+  const db = getDatabase();
+  const baseAuth = initAuth(db);
   const headers = new Headers(req.headers as Record<string, string>);
   const auth = createAuthWithHeaders(baseAuth, headers);
 
@@ -85,6 +90,8 @@ export const createTRPCContext = async ({ req }: CreateNextContextOptions) => {
 };
 
 export const createNextApiContext = async (req: NextApiRequest) => {
+  const db = getDatabase();
+  const baseAuth = initAuth(db);
   const headers = new Headers(req.headers as Record<string, string>);
   const auth = createAuthWithHeaders(baseAuth, headers);
 
@@ -111,6 +118,8 @@ const isRateLimitedApiKeyError = (
 };
 
 export const createRESTContext = async ({ req }: CreateNextContextOptions) => {
+  const db = getDatabase();
+  const baseAuth = initAuth(db);
   const headers = new Headers(req.headers as Record<string, string>);
   const auth = createAuthWithHeaders(baseAuth, headers);
 

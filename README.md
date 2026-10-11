@@ -1,8 +1,8 @@
 # Adrenaline Entertainment — Kan
 
-Adrenaline Entertainment's fork of [Kan](https://github.com/kanbn/kan) for internal projects, events, and production tasks. Intended address: `https://kan.adrenaent.com`.
+Adrenaline Entertainment's fork of [Kan](https://github.com/kanbn/kan) for internal projects, events, and production tasks. Address: `https://task.adrenaent.com`.
 
-Cloudflare Containers configuration is in [`deploy/cloudflare`](deploy/cloudflare/README.md). Container startup is disabled by default. Containers requires Workers Paid and can incur usage charges; this configuration does **not** guarantee zero extra Cloudflare cost. No automatic Cloudflare deployment is configured.
+Runs on **Cloudflare Workers Free** with **Neon Free PostgreSQL**. Setup, quota behavior, and local deployment instructions are in [`deploy/cloudflare`](deploy/cloudflare/README.md). No Containers, R2, Durable Objects, paid Workers plan, or automatic plan upgrades are used. Free quotas may interrupt service; do not upgrade either service without explicit owner authorization.
 
 Original copyright and AGPLv3 terms are preserved. Upstream features and documentation follow below.
 
@@ -177,6 +177,11 @@ pnpm dev
 ```
 
 ## Environment Variables 🔐
+
+| Variable | Purpose |
+| --- | --- |
+| `ADRENALINE_WORKERS` | Set to `true` only for the Workers build; uses request-local PostgreSQL connections and PostgreSQL password hashing. Leave unset for the original Node deployment. |
+
 
 | Variable                                  | Description                                               | Required                                    | Example                                                     |
 | ----------------------------------------- | --------------------------------------------------------- | ------------------------------------------- | ----------------------------------------------------------- |

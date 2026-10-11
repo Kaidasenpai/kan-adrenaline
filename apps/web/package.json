@@ -16,7 +16,10 @@
     "with-env": "dotenv -e ../../.env --",
     "lingui:extract": "lingui extract",
     "lingui:compile": "lingui compile --typescript",
-    "lingui:extract:watch": "lingui extract --watch"
+    "lingui:extract:watch": "lingui extract --watch",
+    "workers:build": "pnpm lingui:compile && NEXT_TELEMETRY_DISABLED=1 ADRENALINE_WORKERS=true CI=true NEXT_PUBLIC_BASE_URL=https://task.adrenaent.com NEXT_PUBLIC_ALLOW_CREDENTIALS=true NEXT_PUBLIC_DISABLE_SIGN_UP=true NEXT_PUBLIC_DISABLE_EMAIL=true opennextjs-cloudflare build",
+    "workers:preview": "wrangler dev --port 18787 --inspector-port 18788",
+    "workers:check": "wrangler deploy --dry-run --outdir .open-next/bundled"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.802.0",
@@ -58,7 +61,7 @@
     "framer-motion": "^12.26.2",
     "geist": "^1.3.1",
     "jose": "^6.1.2",
-    "next": "15.5.9",
+    "next": "15.5.27",
     "next-runtime-env": "^1.7.2",
     "next-themes": "^0.4.6",
     "nextjs-cors": "^2.2.0",
@@ -87,6 +90,7 @@
     "@lingui/format-json": "^5.9.1",
     "@lingui/loader": "^5.3.2",
     "@lingui/swc-plugin": "^5.5.2",
+    "@opennextjs/cloudflare": "1.20.10",
     "@svgr/webpack": "^8.1.0",
     "@types/node": "^20.17.7",
     "@types/react": "catalog:react18",
@@ -97,7 +101,8 @@
     "prettier": "catalog:",
     "tailwindcss": "catalog:",
     "typescript": "catalog:",
-    "vitest": "^3.0.0"
+    "vitest": "^3.0.0",
+    "wrangler": "4.149.0"
   },
   "prettier": "@kan/prettier-config"
 }

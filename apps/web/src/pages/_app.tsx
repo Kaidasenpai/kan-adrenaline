@@ -6,6 +6,7 @@ import type { AppProps, AppType } from "next/app";
 import type { ReactElement, ReactNode } from "react";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
+import { t } from "@lingui/core/macro";
 import { env } from "next-runtime-env";
 import { ThemeProvider } from "next-themes";
 import posthog from "posthog-js";
@@ -25,8 +26,8 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata = {
-  title: "Kan",
-  description: "The open source Trello alternative",
+  title: "Adrenaline Tasks",
+  description: "Projects, events, and production at Adrenaline Entertainment",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
@@ -85,7 +86,11 @@ const MyApp: AppType = ({ Component, pageProps }: AppPropsWithLayout) => {
         <KeyboardShortcutProvider>
           <LinguiProviderWrapper>
             <FontSizeProvider>
-              <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+              >
                 <ModalProvider>
                   <PopupProvider>
                     {posthogKey ? (
@@ -102,6 +107,12 @@ const MyApp: AppType = ({ Component, pageProps }: AppPropsWithLayout) => {
           </LinguiProviderWrapper>
         </KeyboardShortcutProvider>
       </main>
+      <a
+        href="https://github.com/Kaidasenpai/kan-adrenaline"
+        className="fixed bottom-2 right-3 z-50 rounded bg-light-100 px-2 py-1 text-xs text-light-900 underline underline-offset-2 focus-visible:outline focus-visible:outline-2 dark:bg-dark-50 dark:text-dark-900"
+      >
+        {t`Source code`}
+      </a>
     </>
   );
 };

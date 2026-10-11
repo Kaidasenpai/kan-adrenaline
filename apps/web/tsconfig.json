@@ -7,9 +7,13 @@
     "paths": {
       "~/*": ["./src/*"]
     },
-    "plugins": [{ "name": "next" }],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "module": "esnext"
   },
   "include": [".", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", ".open-next", "bootstrap.cjs", "public/__ENV.js"]
 }

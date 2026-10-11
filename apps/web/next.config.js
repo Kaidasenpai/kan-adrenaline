@@ -15,6 +15,23 @@ const config = {
       ? "standalone"
       : undefined,
   reactStrictMode: true,
+  webpack(webpackConfig) {
+    if (process.env.ADRENALINE_WORKERS === "true") {
+      webpackConfig.resolve.alias["@kan/db/client$"] = fileURLToPath(
+        new URL("../../packages/db/src/worker-client.ts", import.meta.url),
+      );
+    }
+    webpackConfig.module.rules.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"],
+    });
+    const imageRule = webpackConfig.module.rules.find(
+      /** @param {{ test?: RegExp; exclude?: RegExp }} rule */ (rule) =>
+        rule.test?.test?.("file.svg"),
+    );
+    if (imageRule) imageRule.exclude = /\.svg$/;
+    return webpackConfig;
+  },
 
   /** Exclude build tools and dev-only packages from the standalone output */
   outputFileTracingExcludes: {
@@ -27,6 +44,20 @@ const config = {
       "terser/**",
     ],
   },
+
+  // Next's default trace excludes alternative Worker export files. Include
+  // these dependencies so OpenNext can select their workerd exports safely.
+  outputFileTracingIncludes:
+    process.env.ADRENALINE_WORKERS === "true"
+      ? {
+          "/*": [
+            "../../node_modules/pg-cloudflare/**/*",
+            "../../node_modules/uncrypto/**/*",
+            "../../node_modules/stripe/**/*",
+            "../../node_modules/@react-email/render/**/*",
+          ],
+        }
+      : {},
 
   /** Enables hot reloading for local packages without a build step */
   transpilePackages: [
@@ -45,6 +76,7 @@ const config = {
   eslint: { ignoreDuringBuilds: true },
 
   images: {
+    unoptimized: process.env.ADRENALINE_WORKERS === "true",
     remotePatterns: (() => {
       /** @type {Array<{protocol: "http" | "https", hostname: string}>} */
       const patterns = [

@@ -9,6 +9,7 @@ import { sendEmail } from "@kan/email";
 import { createDatabaseHooks, createMiddlewareHooks } from "./hooks";
 import { createPlugins } from "./plugins";
 import { configuredProviders } from "./providers";
+import { workerPasswords } from "./worker-passwords";
 
 export const initAuth = (db: dbClient) => {
   const baseURL = env("NEXT_PUBLIC_BASE_URL") || env("BETTER_AUTH_URL");
@@ -35,6 +36,13 @@ export const initAuth = (db: dbClient) => {
       ? { rateLimit: { enabled: false } }
       : {}),
     emailAndPassword: {
+      ...(process.env.ADRENALINE_WORKERS === "true"
+        ? {
+            password: workerPasswords(db),
+            minPasswordLength: 12,
+            maxPasswordLength: 128,
+          }
+        : {}),
       enabled: env("NEXT_PUBLIC_ALLOW_CREDENTIALS")?.toLowerCase() === "true",
       // Sign-up restriction is handled by the user.create.before database
       // hook which checks for pending invitations, allowing invited users

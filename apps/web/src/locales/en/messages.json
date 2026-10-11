@@ -13174,5 +13174,122 @@
       ]
     ],
     "translation": "YouTube URL"
-  }
+  },
+  "QeXxn3": {
+    "translation": "Back to sign in",
+    "message": "Back to sign in",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/pages/setup.tsx", 75]]
+  },
+  "Wk8hkn": {
+    "translation": "Choose your password",
+    "message": "Choose your password",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/pages/setup.tsx", 51]]
+  },
+  "xnWESi": {
+    "translation": "Confirm password",
+    "message": "Confirm password",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/pages/setup.tsx", 68]]
+  },
+  "L8vmLR": {
+    "translation": "Login | Adrenaline Tasks",
+    "message": "Login | Adrenaline Tasks",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/auth/login/index.tsx", 33]]
+  },
+  "786+nw": {
+    "translation": "Open your private setup link to activate your account.",
+    "message": "Open your private setup link to activate your account.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/pages/setup.tsx", 59]]
+  },
+  "8ZsakT": {
+    "translation": "Password",
+    "message": "Password",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/pages/setup.tsx", 64]]
+  },
+  "EATxN/": {
+    "translation": "Passwords must match.",
+    "message": "Passwords must match.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/pages/setup.tsx", 24]]
+  },
+  "2SOFq+": {
+    "translation": "Save password",
+    "message": "Save password",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/pages/setup.tsx", 72]]
+  },
+  "3rmJz6": {
+    "translation": "Set up your account | Adrenaline Tasks",
+    "message": "Set up your account | Adrenaline Tasks",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/pages/setup.tsx", 46]]
+  },
+  "qq5JSg": {
+    "translation": "Sign in to start managing your projects, events, and production tasks.",
+    "message": "Sign in to start managing your projects, events, and production tasks.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/pages/setup.tsx", 55]]
+  },
+  "joolK7": {
+    "translation": "Source code",
+    "message": "Source code",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/pages/_app.tsx", 107]]
+  },
+  "GtlneA": {
+    "translation": "This setup link has expired or has already been used.",
+    "message": "This setup link has expired or has already been used.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/pages/setup.tsx", 31]]
+  },
+  "ZwUqht": {
+    "translation": "Use at least 12 characters. This setup link works once.",
+    "message": "Use at least 12 characters. This setup link works once.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/pages/setup.tsx", 62]]
+  },
+  "7JYB8n": {
+    "translation": "We could not save your password. Please try again.",
+    "message": "We could not save your password. Please try again.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/pages/setup.tsx", 38]]
+  },
+  "LORPsz": {
+    "translation": "Your account is ready",
+    "message": "Your account is ready",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/pages/setup.tsx", 51]]
+  },
+"XtSlCA": {
+  "message": "Sign up | Adrenaline Tasks",
+  "translation": "Sign up | Adrenaline Tasks",
+  "placeholders": {},
+  "comments": [],
+  "origin": [
+    [
+      "src/views/auth/signup/index.tsx",
+      41
+    ]
+  ]
+}
 }

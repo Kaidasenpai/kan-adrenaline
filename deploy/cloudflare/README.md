@@ -1,54 +1,52 @@
-# Adrenaline Kan deployment preparation
+# Adrenaline Tasks on Workers Free
 
-Target: `https://kan.adrenaent.com`. Fork: https://github.com/Kaidasenpai/kan-adrenaline.
+Address: https://task.adrenaent.com. Source: https://github.com/Kaidasenpai/kan-adrenaline.
 
-## Status and cost constraint
+This deployment uses Cloudflare Workers **Free** and Neon PostgreSQL **Free**. It does not use Containers, R2, Durable Objects, KV, paid image processing, or paid email. Cloudflare's existing account subscriptions are separate; this project must not change them. Keep both services on Free. Free quotas can stop requests or suspend database availability; never upgrade plans automatically to restore service.
 
-This is a prepared configuration, **not a live deployment**. `ENABLE_CONTAINER_START` is `false`; requests are rejected before retrieving a Durable Object or starting a container. No automatic deployment workflow or deploy package script is included.
+Workers Free currently allows 100,000 dynamic requests/day, 10 ms CPU/request, and 128 MB memory. Static assets are served through the ASSETS binding. Neon Free imposes database storage and compute limits. Check the providers' current Free quotas before future changes: https://developers.cloudflare.com/workers/platform/limits/ and https://neon.com/pricing. Quota exhaustion means an interruption, not approval to spend money. This is suitable for a small internal team, with no paid availability guarantee.
 
-Cloudflare Containers requires Workers Paid. The plan currently includes 25 GiB-hours of memory, 375 vCPU-minutes, and 200 GB-hours of disk per month, shared with account usage. Usage above allowances is billed, as are applicable Workers, Durable Objects, logs, and egress. One `basic` instance provisions 1 GiB RAM and 4 GB disk: the memory allowance alone covers about 25 active hours per month if no other containers use it. Sleeping after 30 seconds of inactivity and limiting instances to one reduces consumption but does not impose a monetary cap.
+## Setup
 
-**Do not deploy or enable container startup under a strict zero-extra-cost requirement.** Turning off startup prevents this Worker from starting containers; it does not make deploying Workers/Containers free or protect against charges from other account resources.
+The application preserves Kan's board, task, activity, membership, and permission system. The initial private workspace has Projects, Events, and Production boards. Public registration is closed; an active, unexpired administrator-created workspace invitation link permits registration. Email delivery and attachments requiring external object storage are not configured. For onboarding, the administrator can share invitation links directly. Keep boards private unless sharing is intentional.
 
-Pricing: https://developers.cloudflare.com/containers/platform/pricing/.
+Use Node 22+ and pnpm 9.14.2. The deploy configuration is `apps/web/wrangler.jsonc`. Verify Cloudflare's billing dashboard says **Workers Free**, and the Neon project's owner is on **Free**, before deployment. Do not deploy this configuration from a Workers Paid account if zero additional charges is required.
 
-An existing Docker server behind Cloudflare Tunnel is an alternative with no additional Cloudflare hosting charge, subject to its plan and service limits. It still needs an always-on host. No host has been selected.
+Create an ignored `apps/web/.dev.vars` file with two secrets:
 
-## Check without deploying
-
-From this directory:
-
-```sh
-npm ci
-npm run typecheck
-npm test
-npm run check
+```dotenv
+POSTGRES_URL="postgresql://USER:PASSWORD@POOLED_HOST/tasks?sslmode=verify-full"
+BETTER_AUTH_SECRET="A_CRYPTOGRAPHICALLY_RANDOM_SECRET"
 ```
 
-The last command is Wrangler's **dry run** with container rollout skipped: it bundles the Worker and validates configuration without uploading resources or building the Docker image. To also build the image locally with Docker running, use `npm run check:image`. Neither command proves production logins, email, or storage work.
+Keep this file private (permission 0600). Never commit passwords, connection strings, or setup tokens. Use a Neon pooled connection. Password hashing runs PostgreSQL pgcrypto bcrypt with SHA-256 prehashing, avoiding expensive hashing in the Worker and bcrypt's input truncation. Database connections are isolated per Worker request and closed after the request.
 
-The existing `apps/web/Dockerfile` is built from the repository root. Its final `web` stage serves port 3000. Cloudflare requires Linux/AMD64 images. The Worker routes app requests to one named container and forwards only application settings, not Cloudflare credentials or object bindings.
+For a **fresh empty database only**, initialize once:
 
-## Before a live deployment
+```sh
+node deploy/cloudflare/bootstrap-workers.mjs OWNER_EMAIL
+```
 
-1. Resolve the hosting/cost choice. Workers Paid or another Cloudflare subscription does not mean unlimited included container usage.
-2. Provide external PostgreSQL. Local PGLite data would be lost when a container is replaced, so startup rejects missing database configuration.
-3. Run Kan's migrations against that database (`pnpm db:migrate` with `POSTGRES_URL` set securely) before enabling traffic. Containers does not run the repository's Docker Compose migration service.
-4. Set `POSTGRES_URL` and a random, 32-character-or-longer `BETTER_AUTH_SECRET` as Worker secrets. Configure SMTP for invitations/password recovery. Keep credentials outside source control and Docker build arguments.
-5. For uploads, configure private S3-compatible storage, access, and CORS. R2 can incur charges; no bucket is provisioned here. Harden the upstream attachment downloader, including rejection when storage is unconfigured and validation of redirects, before exposing uploads.
-6. Keep signup disabled except during controlled first-admin provisioning. Confirm invited users can join with signup disabled. Restrict access while provisioning the first admin.
-7. Set `SOURCE_URL` to the fork revision matching the deployed image. Preserve copyright/license notices and add a prominent in-app source link for AGPLv3 compliance. `/source` redirects to the configured source location but is not a substitute for the visible offer.
-8. Check existing DNS records for `kan.adrenaent.com` before attaching the custom domain. No DNS records have been changed by this preparation.
-9. Build the image and test migrations, login, invitations, permissions, calendars, restarts, and backup restoration in staging. Adjust `basic` if memory testing requires it; that affects cost.
+This runs Kan's existing migrations, enables pgcrypto, creates the owner and workspace, and writes an ignored `.owner-setup.local` file with a one-use password setup link valid for 24 hours. The owner chooses their password. The script refuses to initialize a database containing users. Protect this link like a password.
 
-After these requirements and the cost decision are resolved, Wrangler can deploy this configuration. Leave startup disabled until the database and secrets are ready. The account ID and domain identify the intended account; they are not credentials.
+## Build and deploy
 
-## Adrenaline workspace setup
+```sh
+pnpm install --ignore-scripts
+pnpm --filter @kan/web workers:build
+pnpm --filter @kan/web workers:check
+pnpm --filter @kan/web workers:preview
+```
 
-Create an **Adrenaline Entertainment** workspace and reusable boards for:
+Check the existing DNS record for `task.adrenaent.com` before attaching it. After confirming the Free plans and testing the local Worker, deploy locally:
 
-- **Events:** Planning → Ready → In progress → Review → Complete. Checklist: venue, permits, suppliers, crew, artwork, rehearsal, event-day checks, closeout.
-- **Production:** Brief → Pre-production → Shoot → Post-production → Review → Delivered. Checklist: brief, script, shot list, equipment, crew, shoot, edit, sound, final delivery.
-- **Marketing:** Ideas → Scheduled → Creating → Approval → Published. Checklist: copy, artwork, channel, approval, publishing, results.
+```sh
+cd apps/web
+pnpm exec wrangler deploy --secrets-file .dev.vars
+```
 
-Use department labels (Production, Creative, Marketing, Operations), one board per project/event, and assigned members with due dates. These are setup instructions; no live workspace or user accounts have been created.
+No automatic cloud deployment is configured. The custom Worker wrapper provides request-scoped PostgreSQL access and a `/source` link. The application displays a visible source-code link to comply with AGPLv3; retain the license and publish the corresponding source for every deployed modification.
+
+## Operational limits
+
+The database is hosted by Neon, not Cloudflare. Free compute may sleep, causing a slower first request. A deployment succeeds only if the current Free bundle and CPU limits permit it. If the provider rejects a deployment or requests exceed quotas, reduce resource use or accept temporary unavailability; do not enable billable services. Protect the database with routine exports appropriate to its Free storage limits. This configuration cannot prevent charges from unrelated account resources or later manual plan changes.
