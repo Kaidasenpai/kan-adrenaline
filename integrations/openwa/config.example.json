@@ -1,0 +1,25 @@
+{
+  "host": "127.0.0.1",
+  "port": 18878,
+  "databasePath": "",
+  "webhookSecret": "",
+  "sessionId": "",
+  "allowedGroupIds": [],
+  "allowedSenderIds": [],
+  "allowFromMe": false,
+  "selfSenderId": "",
+  "maxAttempts": 5,
+  "tasks": {
+    "baseUrl": "https://task.adrenaent.com",
+    "apiKey": "",
+    "workspacePublicId": "",
+    "boardPublicId": "",
+    "inboxListPublicId": "",
+    "doneListPublicId": "",
+    "ownerMemberPublicId": ""
+  },
+  "openwa": {
+    "baseUrl": "http://127.0.0.1:3000",
+    "apiKey": ""
+  }
+}

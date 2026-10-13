@@ -1,0 +1,87 @@
+name: adrenaline-openwa
+services:
+  openwa:
+    image: rmyndharis/openwa:0.24.0
+    platform: linux/arm64
+    container_name: adrenaline-openwa
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:2785:2785"
+    volumes:
+      - openwa-data:/app/data
+    mem_limit: 2g
+    pids_limit: 2048
+    stop_grace_period: 75s
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      NODE_ENV: production
+      PORT: "2785"
+      ENGINE_TYPE: whatsapp-web.js
+      DATABASE_TYPE: sqlite
+      DATABASE_SYNCHRONIZE: "false"
+      STORAGE_TYPE: local
+      AUTO_START_SESSIONS: "true"
+      NODE_ID: adrenaline-mac
+      CSP_UPGRADE_INSECURE_REQUESTS: "false"
+      CORS_ORIGINS: http://localhost:2785,http://127.0.0.1:2785
+      STATUS_SEED_ON_READY: "false"
+      MEDIA_DOWNLOAD_ENABLED: "false"
+      CHAT_MEDIA_ARCHIVE_ENABLED: "false"
+      MEDIA_CONVERSION_ENABLED: "false"
+      SEARCH_ENABLED: "false"
+      MCP_ENABLED: "false"
+      MESSAGE_RETENTION_DAYS: "7"
+      DATABASE_LOGGING: "false"
+      LOG_LEVEL: warn
+      WEBHOOK_SHUTDOWN_DRAIN_MS: "15000"
+      SSRF_ALLOWED_HOSTS: bridge
+      WWEBJS_WEB_VERSION: "off"
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
+  bridge:
+    image: node:24.13.1-slim
+    platform: linux/arm64
+    container_name: adrenaline-tasks-bridge
+    restart: unless-stopped
+    command: ["node", "/app/integrations/openwa/bridge.ts"]
+    environment:
+      ADRENALINE_OPENWA_CONFIG: /runtime/bridge-config.json
+    ports:
+      - "127.0.0.1:18878:18878"
+    volumes:
+      - ./code/integrations/openwa:/app/integrations/openwa:ro
+      - ./bridge-config.json:/runtime/bridge-config.json:ro
+      - ./bridge-data:/runtime/data
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 384m
+    pids_limit: 64
+    stop_grace_period: 75s
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:18878/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: "2m"
+        max-file: "2"
+volumes:
+  openwa-data:

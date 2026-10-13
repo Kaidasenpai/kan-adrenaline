@@ -1,0 +1,13 @@
+{
+  "name": "adrenaline-openwa-bridge",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node bridge.ts",
+    "test": "node --test bridge.test.ts",
+    "typecheck": "tsc --project tsconfig.json"
+  }
+}
