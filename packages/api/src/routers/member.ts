@@ -471,31 +471,21 @@ export const memberRouter = createTRPCRouter({
         }
       }
 
-      // Deactivate any existing active invite links
-      await inviteLinkRepo.deactivateAllActiveForWorkspace(ctx.db, {
-        workspaceId: workspace.id,
-        updatedBy: userId,
-      });
-
       // Generate new invite code
       const inviteCode = generateUID();
       const expiresAt = new Date();
       expiresAt.setDate(expiresAt.getDate() + 7);
 
-      // Create new invite link
-      const inviteLink = await inviteLinkRepo.createInviteLink(ctx.db, {
-        workspaceId: workspace.id,
-        code: inviteCode,
-        expiresAt,
-        createdBy: userId,
-      });
-
-      if (!inviteLink) {
-        throw new TRPCError({
-          message: `Failed to create invite link`,
-          code: "INTERNAL_SERVER_ERROR",
-        });
-      }
+      // Replace the active link atomically; a failed insert must not revoke it.
+      const inviteLink = await inviteLinkRepo.replaceActiveForWorkspace(
+        ctx.db,
+        {
+          workspaceId: workspace.id,
+          code: inviteCode,
+          expiresAt,
+          createdBy: userId,
+        },
+      );
 
       return {
         publicId: inviteLink.publicId,

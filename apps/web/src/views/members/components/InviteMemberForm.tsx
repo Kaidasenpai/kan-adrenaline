@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { t } from "@lingui/core/macro";
 import { env } from "next-runtime-env";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   HiInformationCircle,
@@ -40,7 +40,8 @@ export function InviteMemberForm({
   const [isShareInviteLinkEnabled, setIsShareInviteLinkEnabled] =
     useState(false);
   const [inviteLink, setInviteLink] = useState<string>("");
-  const [_isLoadingInviteLink, setIsLoadingInviteLink] = useState(false);
+  const [isLoadingInviteLink, setIsLoadingInviteLink] = useState(false);
+  const inviteLinkOperation = useRef(false);
   const [copied, setCopied] = useState(false);
   const { closeModal } = useModal();
   const { workspace } = useWorkspace();
@@ -69,7 +70,7 @@ export function InviteMemberForm({
   const refetchBoards = () => utils.board.all.refetch();
 
   // Fetch active invite link on component mount
-  const { data: activeInviteLink, refetch: _refetchInviteLink } =
+  const { data: activeInviteLink, isLoading: isLoadingActiveInviteLink } =
     api.member.getActiveInviteLink.useQuery(
       { workspacePublicId: workspace.publicId || "" },
       { enabled: !!workspace.publicId },
@@ -77,7 +78,7 @@ export function InviteMemberForm({
 
   // Set initial state based on active invite link
   useEffect(() => {
-    if (activeInviteLink) {
+    if (activeInviteLink && !inviteLinkOperation.current) {
       setIsShareInviteLinkEnabled(activeInviteLink.isActive);
       setInviteLink(activeInviteLink.inviteLink ?? "");
     }
@@ -121,13 +122,25 @@ export function InviteMemberForm({
   const createInviteLink = api.member.createInviteLink.useMutation({
     onSuccess: (data) => {
       setInviteLink(data.inviteLink);
+      utils.member.getActiveInviteLink.setData(
+        { workspacePublicId: workspace.publicId },
+        {
+          isActive: true,
+          inviteCode: data.inviteCode,
+          inviteLink: data.inviteLink,
+          expiresAt: data.expiresAt ?? undefined,
+        },
+      );
       setIsLoadingInviteLink(false);
     },
     onError: (error) => {
       setIsLoadingInviteLink(false);
       setIsShareInviteLinkEnabled(false);
 
-      if (error.data?.code === "FORBIDDEN") {
+      if (
+        error.data?.code === "FORBIDDEN" &&
+        env("NEXT_PUBLIC_KAN_ENV") === "cloud"
+      ) {
         showPopup({
           header: t`Subscription Required`,
           message: t`Invite links require a Team or Pro subscription. Please upgrade your workspace.`,
@@ -136,7 +149,10 @@ export function InviteMemberForm({
       } else {
         showPopup({
           header: t`Error creating invite link`,
-          message: t`Please try again later.`,
+          message:
+            error.data?.code === "UNAUTHORIZED"
+              ? t`Your session has expired. Please sign in again.`
+              : t`Please try again later.`,
           icon: "error",
         });
       }
@@ -146,6 +162,10 @@ export function InviteMemberForm({
   const deactivateInviteLink = api.member.deactivateInviteLink.useMutation({
     onSuccess: () => {
       setInviteLink("");
+      utils.member.getActiveInviteLink.setData(
+        { workspacePublicId: workspace.publicId },
+        { isActive: false },
+      );
       setIsLoadingInviteLink(false);
     },
     onError: () => {
@@ -194,26 +214,39 @@ export function InviteMemberForm({
     !hasProSubscription;
 
   const handleInviteLinkToggle = async () => {
-    if (isFreePlan) return;
+    if (
+      isFreePlan ||
+      !workspace.publicId ||
+      isLoadingActiveInviteLink ||
+      inviteLinkOperation.current
+    )
+      return;
 
+    inviteLinkOperation.current = true;
     setIsLoadingInviteLink(true);
 
-    if (isShareInviteLinkEnabled && workspace.publicId) {
-      // Deactivate invite link
-      await deactivateInviteLink.mutateAsync({
-        workspacePublicId: workspace.publicId,
-      });
-      setIsShareInviteLinkEnabled(false);
-    } else {
-      // Create new invite link
-      await createInviteLink.mutateAsync({
-        workspacePublicId: workspace.publicId,
-      });
-      setIsShareInviteLinkEnabled(true);
+    try {
+      if (isShareInviteLinkEnabled) {
+        await deactivateInviteLink.mutateAsync({
+          workspacePublicId: workspace.publicId,
+        });
+        setIsShareInviteLinkEnabled(false);
+      } else {
+        await createInviteLink.mutateAsync({
+          workspacePublicId: workspace.publicId,
+        });
+        setIsShareInviteLinkEnabled(true);
+      }
+    } catch {
+      // Mutation callbacks show the error; contain the rejected event handler.
+    } finally {
+      inviteLinkOperation.current = false;
+      setIsLoadingInviteLink(false);
     }
   };
 
   const copyToClipboard = async () => {
+    if (!inviteLink || isLoadingInviteLink) return;
     try {
       await navigator.clipboard.writeText(inviteLink);
       setCopied(true);
@@ -274,6 +307,7 @@ export function InviteMemberForm({
             <div className="my-4">
               <div className="relative">
                 <Input
+                  aria-label={t`Invite link`}
                   dir="ltr"
                   value={inviteLink}
                   className="pe-10 text-sm text-light-900 dark:text-dark-900"
@@ -281,7 +315,9 @@ export function InviteMemberForm({
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 end-0 flex items-center pe-3 text-light-900 hover:text-light-950 dark:text-dark-900 dark:hover:text-dark-950"
+                  aria-label={t`Copy invite link`}
+                  disabled={!inviteLink || isLoadingInviteLink}
+                  className="absolute inset-y-0 end-0 flex items-center pe-3 text-light-900 hover:text-light-950 disabled:cursor-not-allowed disabled:opacity-50 dark:text-dark-900 dark:hover:text-dark-950"
                   onClick={copyToClipboard}
                 >
                   {copied ? (
@@ -309,7 +345,7 @@ export function InviteMemberForm({
                 </span>
                 <span className="text-light-900 dark:text-dark-900">
                   <bdi dir="ltr">
-                    {formatNumber(memberCount)} / {formatNumber(seatLimit ?? 0)}
+                    {formatNumber(memberCount)} / {formatNumber(seatLimit)}
                   </bdi>{" "}
                   {t`seats`}
                 </span>
@@ -340,7 +376,7 @@ export function InviteMemberForm({
           ) : null)}
       </div>
 
-      <div className="mt-12 flex items-center justify-end space-x-4 border-t border-light-600 px-5 pb-5 pt-5 dark:border-dark-600 rtl:space-x-reverse">
+      <div className="mt-12 flex flex-wrap items-center justify-end gap-4 border-t border-light-600 px-5 pb-5 pt-5 dark:border-dark-600">
         {!isFreePlan && (
           <Toggle
             label={
@@ -350,6 +386,11 @@ export function InviteMemberForm({
             }
             isChecked={isShareInviteLinkEnabled}
             onChange={handleInviteLinkToggle}
+            disabled={
+              isLoadingInviteLink ||
+              isLoadingActiveInviteLink ||
+              !workspace.publicId
+            }
           />
         )}
         <div>
@@ -359,6 +400,15 @@ export function InviteMemberForm({
               href={`/upgrade/select-plan?plan=team&workspacePublicId=${workspace.publicId}&returnUrl=${encodeURIComponent("/members")}`}
             >
               {t`Choose plan`}
+            </Button>
+          ) : !isEmailEnabled ? (
+            <Button
+              type="button"
+              disabled={isLoadingActiveInviteLink || !workspace.publicId}
+              isLoading={isLoadingInviteLink}
+              onClick={inviteLink ? copyToClipboard : handleInviteLinkToggle}
+            >
+              {inviteLink ? t`Copy invite link` : t`Create invite link`}
             </Button>
           ) : (
             <Button

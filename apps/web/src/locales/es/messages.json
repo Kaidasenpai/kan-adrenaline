@@ -9759,5 +9759,33 @@
     "comments": [],
     "origin": [["src/pages/settings/trello/authorize.tsx", 23]],
     "translation": ""
+  },
+  "x7uIlL": {
+    "translation": "Copiar enlace de invitación",
+    "message": "Copy invite link",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/members/components/InviteMemberForm.tsx",
+        305
+      ],
+      [
+        "src/views/members/components/InviteMemberForm.tsx",
+        400
+      ]
+    ]
+  },
+  "qsqt0w": {
+    "translation": "Enlace de invitación",
+    "message": "Invite link",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/members/components/InviteMemberForm.tsx",
+        297
+      ]
+    ]
   }
 }

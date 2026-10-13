@@ -1,8 +1,15 @@
-import { and, count, eq } from "drizzle-orm";
+import { and, count, eq, isNull } from "drizzle-orm";
 
 import type { dbClient } from "@kan/db/client";
-import { workspaceInviteLinks } from "@kan/db/schema";
+import { workspaceInviteLinks, workspaces } from "@kan/db/schema";
 import { generateUID } from "@kan/shared/utils";
+
+interface CreateInviteLinkArgs {
+  workspaceId: number;
+  code: string;
+  expiresAt: Date | null;
+  createdBy: string;
+}
 
 export const getActiveCount = async (db: dbClient) => {
   const result = await db
@@ -14,13 +21,8 @@ export const getActiveCount = async (db: dbClient) => {
 };
 
 export const createInviteLink = async (
-  db: dbClient,
-  args: {
-    workspaceId: number;
-    code: string;
-    expiresAt: Date | null;
-    createdBy: string;
-  },
+  db: Pick<dbClient, "insert">,
+  args: CreateInviteLinkArgs,
 ) => {
   const [result] = await db
     .insert(workspaceInviteLinks)
@@ -42,7 +44,7 @@ export const createInviteLink = async (
 };
 
 export const deactivateAllActiveForWorkspace = async (
-  db: dbClient,
+  db: Pick<dbClient, "update">,
   args: { workspaceId: number; updatedBy: string },
 ) => {
   await db
@@ -58,6 +60,33 @@ export const deactivateAllActiveForWorkspace = async (
         eq(workspaceInviteLinks.status, "active"),
       ),
     );
+};
+
+export const replaceActiveForWorkspace = async (
+  db: dbClient,
+  args: CreateInviteLinkArgs,
+) => {
+  return db.transaction(async (tx) => {
+    // Lock the workspace even when it has no invitations, so simultaneous
+    // replacements cannot both leave an active link behind.
+    const [workspace] = await tx
+      .select({ id: workspaces.id })
+      .from(workspaces)
+      .where(
+        and(eq(workspaces.id, args.workspaceId), isNull(workspaces.deletedAt)),
+      )
+      .for("update");
+
+    if (!workspace) throw new Error("Workspace not found");
+
+    await deactivateAllActiveForWorkspace(tx, {
+      workspaceId: args.workspaceId,
+      updatedBy: args.createdBy,
+    });
+    const inviteLink = await createInviteLink(tx, args);
+    if (!inviteLink) throw new Error("Failed to create invite link");
+    return inviteLink;
+  });
 };
 
 export const getActiveForWorkspace = async (

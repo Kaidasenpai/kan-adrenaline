@@ -15142,5 +15142,33 @@
     "comments": [],
     "origin": [["src/pages/settings/trello/authorize.tsx", 23]],
     "translation": "Connecting to Trello..."
+  },
+  "x7uIlL": {
+    "translation": "Copy invite link",
+    "message": "Copy invite link",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/members/components/InviteMemberForm.tsx",
+        305
+      ],
+      [
+        "src/views/members/components/InviteMemberForm.tsx",
+        400
+      ]
+    ]
+  },
+  "qsqt0w": {
+    "translation": "Invite link",
+    "message": "Invite link",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/members/components/InviteMemberForm.tsx",
+        297
+      ]
+    ]
   }
 }
