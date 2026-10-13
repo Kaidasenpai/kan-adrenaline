@@ -94,7 +94,10 @@ export const getByStripeSubscriptionId = async (
   });
 };
 
-export const getByReferenceId = async (db: dbClient, referenceId: string) => {
+export const getByReferenceId = async (
+  db: Pick<dbClient, "query">,
+  referenceId: string,
+) => {
   return await db.query.subscription.findMany({
     where: eq(subscription.referenceId, referenceId),
   });

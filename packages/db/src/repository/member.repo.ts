@@ -1,8 +1,14 @@
-import { and, count, eq, isNull, ne, or } from "drizzle-orm";
+import { and, asc, count, eq, isNull, ne, or, sql } from "drizzle-orm";
 
 import type { dbClient } from "@kan/db/client";
 import type { MemberRole, MemberStatus } from "@kan/db/schema";
-import { workspaceMembers } from "@kan/db/schema";
+import {
+  users,
+  workspaceInviteLinks,
+  workspaceMembers,
+  workspaceRoles,
+  workspaces,
+} from "@kan/db/schema";
 import { generateUID } from "@kan/shared/utils";
 
 export const getActiveCount = async (db: dbClient) => {
@@ -20,7 +26,7 @@ export const getActiveCount = async (db: dbClient) => {
 };
 
 export const getCountByWorkspaceId = async (
-  db: dbClient,
+  db: Pick<dbClient, "select">,
   workspaceId: number,
 ) => {
   const result = await db
@@ -41,7 +47,7 @@ export const getCountByWorkspaceId = async (
 };
 
 export const create = async (
-  db: dbClient,
+  db: Pick<dbClient, "insert">,
   memberInput: {
     userId: string | null;
     email: string;
@@ -70,6 +76,155 @@ export const create = async (
     });
 
   return result;
+};
+
+type InviteLinkAcceptanceResult =
+  | {
+      status: "accepted";
+      created: boolean;
+      memberPublicId: string;
+      workspacePublicId: string;
+      workspaceSlug: string;
+    }
+  | {
+      status:
+        | "invalid_invite"
+        | "workspace_not_found"
+        | "user_not_found"
+        | "member_unavailable";
+    };
+
+export const acceptInviteLink = async (
+  db: dbClient,
+  args: {
+    inviteCode: string;
+    userId: string;
+    beforeCreate?: (context: {
+      db: Pick<dbClient, "query">;
+      workspacePublicId: string;
+      memberCount: number;
+    }) => Promise<void>;
+  },
+): Promise<InviteLinkAcceptanceResult> => {
+  return db.transaction(async (tx) => {
+    const [candidate] = await tx
+      .select({ workspaceId: workspaceInviteLinks.workspaceId })
+      .from(workspaceInviteLinks)
+      .where(eq(workspaceInviteLinks.code, args.inviteCode));
+    if (!candidate) return { status: "invalid_invite" };
+
+    // Serialize join attempts with invitation replacement, including the first
+    // membership for a user when there is no member row available to lock.
+    const [workspace] = await tx
+      .select({
+        id: workspaces.id,
+        publicId: workspaces.publicId,
+        slug: workspaces.slug,
+      })
+      .from(workspaces)
+      .where(
+        and(
+          eq(workspaces.id, candidate.workspaceId),
+          isNull(workspaces.deletedAt),
+        ),
+      )
+      .for("update");
+    if (!workspace) return { status: "workspace_not_found" };
+
+    // Re-read after acquiring the lock: the administrator may have revoked or
+    // replaced this invitation while this request was waiting.
+    const [invite] = await tx
+      .select()
+      .from(workspaceInviteLinks)
+      .where(eq(workspaceInviteLinks.code, args.inviteCode))
+      .for("update");
+    if (
+      !invite ||
+      invite.workspaceId !== workspace.id ||
+      invite.status !== "active" ||
+      (invite.expiresAt && invite.expiresAt.getTime() <= Date.now())
+    )
+      return { status: "invalid_invite" };
+
+    const [user] = await tx
+      .select({ id: users.id, email: users.email })
+      .from(users)
+      .where(eq(users.id, args.userId));
+    if (!user) return { status: "user_not_found" };
+
+    const [existing] = await tx
+      .select()
+      .from(workspaceMembers)
+      .where(
+        and(
+          eq(workspaceMembers.workspaceId, workspace.id),
+          isNull(workspaceMembers.deletedAt),
+          ne(workspaceMembers.status, "removed"),
+          or(
+            eq(workspaceMembers.userId, user.id),
+            sql`lower(btrim(${workspaceMembers.email})) = lower(btrim(${user.email}))`,
+          ),
+        ),
+      )
+      .orderBy(asc(workspaceMembers.createdAt), asc(workspaceMembers.id))
+      .limit(1)
+      .for("update");
+
+    const accepted = (memberPublicId: string, created: boolean) => ({
+      status: "accepted" as const,
+      created,
+      memberPublicId,
+      workspacePublicId: workspace.publicId,
+      workspaceSlug: workspace.slug,
+    });
+
+    if (existing) {
+      if (existing.userId && existing.userId !== user.id)
+        return { status: "member_unavailable" };
+      if (existing.status === "active" && existing.userId === user.id)
+        return accepted(existing.publicId, false);
+      if (existing.status !== "invited")
+        return { status: "member_unavailable" };
+
+      // Reuse an email invitation, preserving its role and permission overrides.
+      // Invited memberships already count toward seats and were billed on invite.
+      await tx
+        .update(workspaceMembers)
+        .set({ status: "active", userId: user.id, updatedAt: new Date() })
+        .where(eq(workspaceMembers.id, existing.id));
+      return accepted(existing.publicId, false);
+    }
+
+    const [role] = await tx
+      .select({ id: workspaceRoles.id })
+      .from(workspaceRoles)
+      .where(
+        and(
+          eq(workspaceRoles.workspaceId, workspace.id),
+          eq(workspaceRoles.name, "member"),
+        ),
+      );
+
+    // Billing and seat checks run once under the lock, only for a new member.
+    if (args.beforeCreate)
+      await args.beforeCreate({
+        db: tx,
+        workspacePublicId: workspace.publicId,
+        memberCount: await getCountByWorkspaceId(tx, workspace.id),
+      });
+
+    const member = await create(tx, {
+      workspaceId: workspace.id,
+      email: user.email,
+      userId: user.id,
+      createdBy: user.id,
+      role: "member",
+      roleId: role?.id ?? null,
+      status: "active",
+    });
+    if (!member) throw new Error("Failed to create workspace membership");
+    return accepted(member.publicId, true);
+  });
 };
 
 export const getByPublicId = async (db: dbClient, publicId: string) => {

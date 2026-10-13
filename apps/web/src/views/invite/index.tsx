@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { t } from "@lingui/core/macro";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { authClient } from "@kan/auth/client";
 
@@ -17,6 +17,7 @@ export default function InvitePage() {
   const { code } = router.query;
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const acceptanceAttempt = useRef<string | null>(null);
   const { data: session, isPending: isSessionLoading } =
     authClient.useSession();
 
@@ -71,6 +72,9 @@ export default function InvitePage() {
   // Auto accept invite if user is logged in
   useEffect(() => {
     if (session?.user.id && inviteCode && inviteInfo && !error) {
+      const attempt = `${session.user.id}:${inviteCode}`;
+      if (acceptanceAttempt.current === attempt) return;
+      acceptanceAttempt.current = attempt;
       setIsProcessing(true);
       setError(null);
 

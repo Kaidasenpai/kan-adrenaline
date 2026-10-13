@@ -623,151 +623,123 @@ export const memberRouter = createTRPCRouter({
           code: "UNAUTHORIZED",
         });
 
-      const invite = await inviteLinkRepo.getByCode(ctx.db, input.inviteCode);
-
-      if (
-        !invite ||
-        invite.status !== "active" ||
-        (invite.expiresAt && new Date() > invite.expiresAt)
-      )
-        throw new TRPCError({
-          message: `Invalid or expired invite link`,
-          code: "BAD_REQUEST",
-        });
-
-      const workspace = await workspaceRepo.getById(ctx.db, invite.workspaceId);
-
-      if (!workspace)
-        throw new TRPCError({
-          message: `Workspace not found`,
-          code: "NOT_FOUND",
-        });
-
-      const isMember = await workspaceRepo.isUserInWorkspace(
-        ctx.db,
+      const result = await memberRepo.acceptInviteLink(ctx.db, {
+        inviteCode: input.inviteCode,
         userId,
-        invite.workspaceId,
-      );
+        beforeCreate:
+          process.env.NEXT_PUBLIC_KAN_ENV === "cloud"
+            ? async ({ db, workspacePublicId, memberCount }) => {
+                const subscriptions = await subscriptionRepo.getByReferenceId(
+                  db,
+                  workspacePublicId,
+                );
 
-      if (isMember) {
-        throw new TRPCError({
-          message: `User is already a member of this workspace`,
-          code: "CONFLICT",
-        });
-      }
+                // get the active subscriptions
+                const activeTeamSubscription = getSubscriptionByPlan(
+                  subscriptions,
+                  "team",
+                );
+                const activeProSubscription = getSubscriptionByPlan(
+                  subscriptions,
+                  "pro",
+                );
+                const unlimitedSeats = hasUnlimitedSeats(subscriptions);
 
-      const user = await userRepo.getById(ctx.db, userId);
+                if (!activeTeamSubscription && !activeProSubscription) {
+                  throw new TRPCError({
+                    message: `Workspace with public ID ${workspacePublicId} does not have an active subscription`,
+                    code: "NOT_FOUND",
+                  });
+                }
 
-      if (!user)
-        throw new TRPCError({
-          message: `User not found`,
-          code: "NOT_FOUND",
-        });
+                const seatLimit = getSeatLimit(subscriptions);
+                if (seatLimit !== null) {
+                  if (memberCount >= seatLimit) {
+                    throw new TRPCError({
+                      message: `SEAT_LIMIT_REACHED`,
+                      code: "FORBIDDEN",
+                    });
+                  }
+                }
 
-      if (process.env.NEXT_PUBLIC_KAN_ENV === "cloud") {
-        const subscriptions = await subscriptionRepo.getByReferenceId(
-          ctx.db,
-          workspace.publicId,
-        );
-
-        // get the active subscriptions
-        const activeTeamSubscription = getSubscriptionByPlan(
-          subscriptions,
-          "team",
-        );
-        const activeProSubscription = getSubscriptionByPlan(
-          subscriptions,
-          "pro",
-        );
-        const unlimitedSeats = hasUnlimitedSeats(subscriptions);
-
-        if (!activeTeamSubscription && !activeProSubscription) {
-          throw new TRPCError({
-            message: `Workspace with public ID ${workspace.publicId} does not have an active subscription`,
-            code: "NOT_FOUND",
-          });
-        }
-
-        // Update the Stripe subscription
-        if (activeTeamSubscription?.stripeSubscriptionId && !unlimitedSeats) {
-          try {
-            const updatedSubscription = await updateSubscriptionSeats(
-              activeTeamSubscription.stripeSubscriptionId,
-              1,
-            );
-            log.info(
-              {
-                workspacePublicId: workspace.publicId,
-                stripeSubscriptionId:
-                  activeTeamSubscription.stripeSubscriptionId,
-                newQuantity: updatedSubscription.items.data[0]?.quantity,
-              },
-              "Incremented Stripe subscription seats for invite link acceptance",
-            );
-          } catch (error) {
-            log.error(
-              {
-                err: error,
-                workspacePublicId: workspace.publicId,
-                stripeSubscriptionId:
-                  activeTeamSubscription.stripeSubscriptionId,
-              },
-              "Failed to increment Stripe subscription seats",
-            );
-            throw new TRPCError({
-              message: `Failed to update subscription for the new member.`,
-              code: "INTERNAL_SERVER_ERROR",
-            });
-          }
-        } else if (activeTeamSubscription) {
-          log.warn(
-            {
-              workspacePublicId: workspace.publicId,
-              hasStripeSubscriptionId:
-                !!activeTeamSubscription.stripeSubscriptionId,
-              unlimitedSeats,
-            },
-            "Skipped Stripe seat increment for invite link acceptance",
-          );
-        }
-
-        const seatLimit = getSeatLimit(subscriptions);
-        if (seatLimit !== null) {
-          const memberCount = await memberRepo.getCountByWorkspaceId(
-            ctx.db,
-            workspace.id,
-          );
-          if (memberCount >= seatLimit) {
-            throw new TRPCError({
-              message: `SEAT_LIMIT_REACHED`,
-              code: "FORBIDDEN",
-            });
-          }
-        }
-      }
-
-      // Get the workspace role to set roleId
-      const memberRole = await permissionRepo.getRoleByWorkspaceIdAndName(
-        ctx.db,
-        invite.workspaceId,
-        "member",
-      );
-
-      await memberRepo.create(ctx.db, {
-        workspaceId: invite.workspaceId,
-        email: user.email,
-        userId: user.id,
-        createdBy: user.id,
-        role: "member",
-        roleId: memberRole?.id ?? null,
-        status: "active",
+                // Update the Stripe subscription
+                if (
+                  activeTeamSubscription?.stripeSubscriptionId &&
+                  !unlimitedSeats
+                ) {
+                  try {
+                    const updatedSubscription = await updateSubscriptionSeats(
+                      activeTeamSubscription.stripeSubscriptionId,
+                      1,
+                    );
+                    log.info(
+                      {
+                        workspacePublicId,
+                        stripeSubscriptionId:
+                          activeTeamSubscription.stripeSubscriptionId,
+                        newQuantity:
+                          updatedSubscription.items.data[0]?.quantity,
+                      },
+                      "Incremented Stripe subscription seats for invite link acceptance",
+                    );
+                  } catch (error) {
+                    log.error(
+                      {
+                        err: error,
+                        workspacePublicId,
+                        stripeSubscriptionId:
+                          activeTeamSubscription.stripeSubscriptionId,
+                      },
+                      "Failed to increment Stripe subscription seats",
+                    );
+                    throw new TRPCError({
+                      message: `Failed to update subscription for the new member.`,
+                      code: "INTERNAL_SERVER_ERROR",
+                    });
+                  }
+                } else if (activeTeamSubscription) {
+                  log.warn(
+                    {
+                      workspacePublicId,
+                      hasStripeSubscriptionId:
+                        !!activeTeamSubscription.stripeSubscriptionId,
+                      unlimitedSeats,
+                    },
+                    "Skipped Stripe seat increment for invite link acceptance",
+                  );
+                }
+              }
+            : undefined,
       });
 
-      return {
-        success: true,
-        workspacePublicId: workspace.publicId,
-        workspaceSlug: workspace.slug,
-      };
+      switch (result.status) {
+        case "invalid_invite":
+          throw new TRPCError({
+            message: `Invalid or expired invite link`,
+            code: "BAD_REQUEST",
+          });
+        case "workspace_not_found":
+          throw new TRPCError({
+            message: `Workspace not found`,
+            code: "NOT_FOUND",
+          });
+        case "user_not_found":
+          throw new TRPCError({
+            message: `User not found`,
+            code: "NOT_FOUND",
+          });
+        case "member_unavailable":
+          throw new TRPCError({
+            message: `Please contact your workspace administrator to restore your access`,
+            code: "FORBIDDEN",
+          });
+        case "accepted":
+          return {
+            success: true,
+            workspacePublicId: result.workspacePublicId,
+            workspaceSlug: result.workspaceSlug,
+          };
+      }
     }),
   updateRole: protectedProcedure
     .meta({

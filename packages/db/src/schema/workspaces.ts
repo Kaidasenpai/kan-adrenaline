@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   bigint,
   bigserial,
@@ -9,6 +9,7 @@ import {
   pgTable,
   text,
   timestamp,
+  uniqueIndex,
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
@@ -84,29 +85,44 @@ export const workspaceRelations = relations(workspaces, ({ one, many }) => ({
   roles: many(workspaceRoles),
 }));
 
-export const workspaceMembers = pgTable("workspace_members", {
-  id: bigserial("id", { mode: "number" }).primaryKey(),
-  publicId: varchar("publicId", { length: 12 }).notNull().unique(),
-  email: varchar("email", { length: 255 }).notNull(),
-  userId: uuid("userId").references(() => users.id, { onDelete: "set null" }),
-  workspaceId: bigint("workspaceId", { mode: "number" })
-    .notNull()
-    .references(() => workspaces.id, { onDelete: "cascade" }),
-  createdBy: uuid("createdBy").notNull(),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt"),
-  deletedAt: timestamp("deletedAt"),
-  deletedBy: uuid("deletedBy").references(() => users.id, {
-    onDelete: "set null",
-  }),
-  // Legacy role enum
-  role: memberRoleEnum("role").notNull(),
-  roleId: bigint("roleId", { mode: "number" }).references(
-    () => workspaceRoles.id,
-    { onDelete: "restrict" },
-  ),
-  status: memberStatusEnum("status").default("invited").notNull(),
-}).enableRLS();
+export const workspaceMembers = pgTable(
+  "workspace_members",
+  {
+    id: bigserial("id", { mode: "number" }).primaryKey(),
+    publicId: varchar("publicId", { length: 12 }).notNull().unique(),
+    email: varchar("email", { length: 255 }).notNull(),
+    userId: uuid("userId").references(() => users.id, { onDelete: "set null" }),
+    workspaceId: bigint("workspaceId", { mode: "number" })
+      .notNull()
+      .references(() => workspaces.id, { onDelete: "cascade" }),
+    createdBy: uuid("createdBy").notNull(),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt"),
+    deletedAt: timestamp("deletedAt"),
+    deletedBy: uuid("deletedBy").references(() => users.id, {
+      onDelete: "set null",
+    }),
+    // Legacy role enum
+    role: memberRoleEnum("role").notNull(),
+    roleId: bigint("roleId", { mode: "number" }).references(
+      () => workspaceRoles.id,
+      { onDelete: "restrict" },
+    ),
+    status: memberStatusEnum("status").default("invited").notNull(),
+  },
+  (table) => [
+    uniqueIndex("workspace_members_live_user_unique")
+      .on(table.workspaceId, table.userId)
+      .where(
+        sql`${table.deletedAt} IS NULL AND ${table.userId} IS NOT NULL AND ${table.status} IN ('invited', 'active', 'paused')`,
+      ),
+    uniqueIndex("workspace_members_live_email_unique")
+      .on(table.workspaceId, sql`lower(btrim(${table.email}))`)
+      .where(
+        sql`${table.deletedAt} IS NULL AND ${table.status} IN ('invited', 'active', 'paused')`,
+      ),
+  ],
+).enableRLS();
 
 export const workspaceMembersRelations = relations(
   workspaceMembers,

@@ -1,0 +1,2 @@
+CREATE UNIQUE INDEX IF NOT EXISTS "workspace_members_live_user_unique" ON "workspace_members" USING btree ("workspaceId","userId") WHERE "workspace_members"."deletedAt" IS NULL AND "workspace_members"."userId" IS NOT NULL AND "workspace_members"."status" IN ('invited', 'active', 'paused');--> statement-breakpoint
+CREATE UNIQUE INDEX IF NOT EXISTS "workspace_members_live_email_unique" ON "workspace_members" USING btree ("workspaceId",lower(btrim("email"))) WHERE "workspace_members"."deletedAt" IS NULL AND "workspace_members"."status" IN ('invited', 'active', 'paused');
