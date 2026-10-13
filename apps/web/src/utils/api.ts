@@ -59,6 +59,8 @@ export const api = createTRPCNext<AppRouter>({
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
           transformer: superjson,
+          // Keep each request within Workers Free's small CPU budget.
+          maxItems: 1,
         }),
       ],
       queryClient: queryClient,
